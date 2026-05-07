@@ -1,0 +1,128 @@
+<h2>Drei Architektur-Ansätze im Vergleich</h2>
+<p class="subtitle">Basierend auf deinen Antworten — Empfehlung markiert. Klick auf eine Karte zum Auswählen, oder antworte im Terminal.</p>
+
+<div style="background:#fff8e1;padding:16px;border-radius:8px;margin-bottom:24px;border-left:4px solid #f57c00">
+  <strong>Vorab — zur DB-Frage:</strong> Komplett ohne Datenbank geht nicht.
+  Bestellungen <em>müssen</em> persistent gespeichert werden (sonst sind sie weg, wenn der Server neustartet).
+  ABER: Du brauchst keine „große" DB. SQLite oder Supabase-Free-Tier reicht für 1000+ Bestellungen/Monat.
+  Die Speisekarte (200 Items) liegt als JSON im Code — keine DB dafür nötig.
+</div>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)" style="border:2px solid #2e7d32">
+    <div class="card-image" style="background:linear-gradient(135deg,#1e293b,#0f172a);color:white;padding:24px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;opacity:0.7;margin-bottom:8px">★ Empfohlen</div>
+      <div style="font-size:24px;font-weight:bold;margin-bottom:16px">Option A: Next.js + Serverless</div>
+      <div style="font-family:monospace;font-size:12px;line-height:1.7;background:rgba(255,255,255,0.05);padding:12px;border-radius:6px">
+        <div>Browser → Next.js App (Vercel)</div>
+        <div style="padding-left:14px">↓ Speisekarte als JSON</div>
+        <div style="padding-left:14px">↓ Bestellung →</div>
+        <div>Serverless Functions</div>
+        <div style="padding-left:14px">↓ DB: Supabase (Postgres)</div>
+        <div style="padding-left:14px">↓ Stripe / PayPal</div>
+        <div style="padding-left:14px">↓ Bondrucker (CloudPRNT)</div>
+        <div style="padding-left:14px">↓ E-Mail (Resend)</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Was steckt drin</h3>
+      <ul style="font-size:13px;line-height:1.6;margin:8px 0">
+        <li><strong>Frontend</strong>: Next.js App Router + TypeScript + Tailwind</li>
+        <li><strong>Speisekarte</strong>: JSON-Datei im Repo (build-time geladen)</li>
+        <li><strong>i18n</strong>: next-intl (DE/EN)</li>
+        <li><strong>Bilder</strong>: next/image — auto AVIF/WebP, lazy load</li>
+        <li><strong>Orders</strong>: Supabase (Postgres, Free-Tier 500 MB)</li>
+        <li><strong>Payment</strong>: Stripe Elements + PayPal SDK</li>
+        <li><strong>Hosting</strong>: Vercel Free-Tier, custom Domain</li>
+      </ul>
+      <div class="pros-cons" style="margin-top:12px">
+        <div class="pros">
+          <h4 style="font-size:12px">Pro</h4>
+          <ul style="font-size:11px"><li>Modern, performant (Lighthouse 95+)</li><li>Bilder-Optimierung „für lau"</li><li>Free-Tier reicht für deine Größe</li><li>Sehr gute Doku, viele AI-Beispiele</li><li>Skaliert ohne Migration</li></ul>
+        </div>
+        <div class="cons">
+          <h4 style="font-size:12px">Contra</h4>
+          <ul style="font-size:11px"><li>Setup-Aufwand höher als Static</li><li>Eine kleine DB nötig</li><li>Vercel/Supabase als Vendor</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#0f4c5c,#0a2e36);color:white;padding:24px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;opacity:0.7;margin-bottom:8px">Static-first</div>
+      <div style="font-size:24px;font-weight:bold;margin-bottom:16px">Option B: Astro + minimal Backend</div>
+      <div style="font-family:monospace;font-size:12px;line-height:1.7;background:rgba(255,255,255,0.05);padding:12px;border-radius:6px">
+        <div>Browser → Static HTML (Astro)</div>
+        <div style="padding-left:14px">↓ Bestellung →</div>
+        <div>Cloudflare Worker</div>
+        <div style="padding-left:14px">↓ DB: Cloudflare D1 (SQLite)</div>
+        <div style="padding-left:14px">↓ Stripe / PayPal</div>
+        <div style="padding-left:14px">↓ Bondrucker / E-Mail</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Was steckt drin</h3>
+      <ul style="font-size:13px;line-height:1.6;margin:8px 0">
+        <li><strong>Frontend</strong>: Astro (HTML-first, JS nur wo nötig)</li>
+        <li><strong>Speisekarte</strong>: Markdown/JSON, build-time generiert</li>
+        <li><strong>Orders</strong>: Cloudflare Worker + D1 (SQLite, kostenlos)</li>
+        <li><strong>Hosting</strong>: Cloudflare Pages (komplett kostenlos)</li>
+      </ul>
+      <div class="pros-cons" style="margin-top:12px">
+        <div class="pros">
+          <h4 style="font-size:12px">Pro</h4>
+          <ul style="font-size:11px"><li>Maximal performant (statisches HTML)</li><li>Kostet 0 € auf Cloudflare</li><li>Weniger JS-Komplexität</li></ul>
+        </div>
+        <div class="cons">
+          <h4 style="font-size:12px">Contra</h4>
+          <ul style="font-size:11px"><li>Bilder-Pipeline manuell aufbauen</li><li>Cart/Checkout = Eigenbau (mehr Code)</li><li>Cloudflare Workers = JS, andere DX</li><li>Weniger AI-Trainingsdaten</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#5d4037,#3e2723);color:white;padding:24px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;opacity:0.7;margin-bottom:8px">No-Code-Pfad</div>
+      <div style="font-size:24px;font-weight:bold;margin-bottom:16px">Option C: WordPress + WooCommerce</div>
+      <div style="font-family:monospace;font-size:12px;line-height:1.7;background:rgba(255,255,255,0.05);padding:12px;border-radius:6px">
+        <div>Browser → WordPress (PHP)</div>
+        <div style="padding-left:14px">↓ MySQL (alles drin)</div>
+        <div style="padding-left:14px">↓ WooCommerce + Plugins</div>
+        <div style="padding-left:14px">↓ z.B. „Restaurantpress"</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Was steckt drin</h3>
+      <ul style="font-size:13px;line-height:1.6;margin:8px 0">
+        <li><strong>CMS</strong>: WordPress (Admin-Panel)</li>
+        <li><strong>Shop</strong>: WooCommerce + Restaurant-Plugin</li>
+        <li><strong>Hosting</strong>: Hetzner/All-Inkl (~5–10 €/Mon.)</li>
+      </ul>
+      <div class="pros-cons" style="margin-top:12px">
+        <div class="pros">
+          <h4 style="font-size:12px">Pro</h4>
+          <ul style="font-size:11px"><li>Inhaber kann selbst Inhalte ändern</li><li>Fertige Plugins für vieles</li><li>Viele Agenturen kennen es</li></ul>
+        </div>
+        <div class="cons">
+          <h4 style="font-size:12px">Contra</h4>
+          <ul style="font-size:11px"><li>Performance schwächer (Lighthouse ~60)</li><li>Plugin-Hell + Sicherheits-Updates</li><li>200 Items langsam</li><li>DSGVO mit WP/Plugins ein Minenfeld</li><li>Lock-in, schwer zu erweitern</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:32px;padding:20px;background:#e8f5e9;border-radius:8px">
+  <h3 style="margin-top:0">Meine Empfehlung: Option A (Next.js)</h3>
+  <p style="font-size:14px;line-height:1.6">
+    <strong>Warum:</strong> Du sagtest „benutzerfreundlich + performant" + „ich baue es selbst mit AI-Hilfe".
+    Next.js ist genau dafür optimiert: built-in Bilder-Pipeline (kritisch bei 200 Items mit Fotos),
+    sehr viel AI-Trainingsmaterial, free-tier ausreichend, ein einziges Mental-Model (React/JS überall).
+    Eine kleine Postgres-DB für Bestellungen ist <em>nicht</em> „eine große Datenbank" —
+    es ist 5 Tabellen und ein Free-Tier-Account.
+  </p>
+</div>

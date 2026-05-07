@@ -1,0 +1,97 @@
+<h2>Homepage als One-Pager</h2>
+<p class="subtitle">Alles Wichtige auf einer scrollbaren Seite — jeder Abschnitt verlinkt in die Tiefe.</p>
+
+<div style="display:grid;grid-template-columns:280px 1fr;gap:32px">
+
+  <div>
+    <div style="text-align:center;font-size:11px;color:#666;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Mobile-Ansicht</div>
+    <div style="border:8px solid #222;border-radius:24px;background:#fff;overflow:hidden;width:100%;aspect-ratio:9/19;font-size:8px">
+      <div style="height:24px;background:#222"></div>
+
+      <!-- Hero -->
+      <div style="background:linear-gradient(135deg,#d32f2f,#ff6f00);color:white;padding:12px;text-align:center;position:relative;height:130px">
+        <div style="font-weight:bold;font-size:14px">EURO-DÖNER</div>
+        <div style="font-size:10px;opacity:0.9">Pizzeria · Clausthal-Zellerfeld</div>
+        <div style="background:rgba(255,255,255,0.95);color:#1b5e20;padding:3px 8px;border-radius:10px;display:inline-block;font-size:8px;margin-top:8px;font-weight:bold">● Geöffnet bis 23:00</div>
+        <div style="background:white;color:#d32f2f;padding:8px;border-radius:6px;font-weight:bold;font-size:10px;margin-top:10px">🛒 JETZT BESTELLEN</div>
+      </div>
+
+      <!-- Top-Seller -->
+      <div style="padding:6px;border-bottom:1px solid #f0f0f0">
+        <div style="font-weight:bold;margin-bottom:4px">Beliebt bei Stammkunden</div>
+        <div style="display:flex;gap:3px">
+          <div style="flex:1;height:50px;background:#fce4ec;border-radius:4px;display:flex;align-items:flex-end;padding:2px;color:#333;font-size:7px;font-weight:bold">Pizza Margh.</div>
+          <div style="flex:1;height:50px;background:#fff3e0;border-radius:4px;display:flex;align-items:flex-end;padding:2px;color:#333;font-size:7px;font-weight:bold">Döner</div>
+          <div style="flex:1;height:50px;background:#e8eaf6;border-radius:4px;display:flex;align-items:flex-end;padding:2px;color:#333;font-size:7px;font-weight:bold">Dürüm</div>
+        </div>
+        <div style="text-align:center;color:#1976d2;margin-top:4px">Ganze Karte ansehen →</div>
+      </div>
+
+      <!-- Über uns Teaser -->
+      <div style="padding:6px;border-bottom:1px solid #f0f0f0">
+        <div style="font-weight:bold;margin-bottom:2px">Über uns</div>
+        <div style="color:#666;line-height:1.4">Seit 2010 in Clausthal-Zellerfeld. Frische Zutaten, hausgemachter Teig, Familienbetrieb...</div>
+        <div style="color:#1976d2;margin-top:4px">Mehr erfahren →</div>
+      </div>
+
+      <!-- Standort -->
+      <div style="padding:6px;border-bottom:1px solid #f0f0f0">
+        <div style="font-weight:bold;margin-bottom:2px">Standort &amp; Öffnungszeiten</div>
+        <div style="height:40px;background:#e8f5e9;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#1b5e20;font-size:9px">🗺 Karte</div>
+        <div style="margin-top:4px;color:#444">📍 Adolph-Roemer-Str. 7<br/>📞 0 53 23 / 84 02 30<br/>⏰ täglich 11–23 Uhr</div>
+      </div>
+
+      <!-- Galerie -->
+      <div style="padding:6px;border-bottom:1px solid #f0f0f0">
+        <div style="font-weight:bold;margin-bottom:2px">Eindrücke</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px">
+          <div style="height:30px;background:#ffe0b2;border-radius:3px"></div>
+          <div style="height:30px;background:#c5cae9;border-radius:3px"></div>
+          <div style="height:30px;background:#dcedc8;border-radius:3px"></div>
+        </div>
+        <div style="color:#1976d2;margin-top:3px">Galerie →</div>
+      </div>
+
+      <!-- Footer -->
+      <div style="padding:6px;background:#fafafa;color:#666;font-size:7px">
+        <div>Impressum · Datenschutz · AGB · Widerruf</div>
+        <div style="margin-top:2px">© 2026 Euro-Döner Pizzeria</div>
+      </div>
+
+      <!-- Bottom-Tab -->
+      <div style="position:relative;border-top:1px solid #ddd;display:flex;background:#fff;padding:4px 0;font-size:7px;justify-content:space-around">
+        <div style="text-align:center;color:#1976d2;font-weight:bold">🏠<br/>Home</div>
+        <div style="text-align:center;color:#999">📖<br/>Karte</div>
+        <div style="text-align:center;color:#999">🛒<br/>Shop</div>
+        <div style="text-align:center;color:#999">ℹ<br/>Info</div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h3>Sections der Homepage (von oben nach unten)</h3>
+    <ol style="line-height:1.9">
+      <li><strong>Hero</strong> — Logo, Status („Geöffnet bis 23:00"/„Geschlossen"), großer CTA „🛒 Jetzt bestellen" → führt in <code>/shop</code>.</li>
+      <li><strong>Beliebt bei Stammkunden</strong> — 3–4 Top-Seller mit Foto. Klick → ins <code>/shop</code> mit Direkt-Anker.</li>
+      <li><strong>Über uns (Snippet)</strong> — 2–3 Sätze, ein Foto, „Mehr erfahren →" Link auf <code>/ueber-uns</code>.</li>
+      <li><strong>Standort &amp; Öffnungszeiten</strong> — eingebettete Karte (OpenStreetMap, datenschutzfreundlicher als Google), Adresse, Telefon, aktueller Status.</li>
+      <li><strong>Galerie (Teaser)</strong> — 3–6 Fotos in Grid, Klick → <code>/galerie</code> mit allen.</li>
+      <li><strong>Aktuelle Aktion / Pizza-Hour</strong> (optional) — wenn zutreffend, Banner für „Pizza-Hour 21:00–23:00, 9 € große Pizzen".</li>
+      <li><strong>Kontakt-Snippet</strong> — Telefon-Button + Link auf <code>/kontakt</code> mit Form.</li>
+      <li><strong>Footer</strong> — Impressum, Datenschutz, AGB, Widerruf, Kontakt, Social-Links.</li>
+    </ol>
+  </div>
+</div>
+
+<h3 style="margin-top:32px">Was passiert auf den Tiefen-Seiten</h3>
+<ul style="line-height:1.7">
+  <li><code>/speisekarte</code> — komplette Karte zum Stöbern, kategorienweise, Allergene, Beschreibungen, Bilder. <strong>Kein Cart-Button.</strong> Stattdessen oben-rechts „🛒 Bestellen" → <code>/shop</code>.</li>
+  <li><code>/ueber-uns</code> — Geschichte, Team, Werte, Foto-Story.</li>
+  <li><code>/standort</code> — große Karte, Anfahrtsbeschreibung, Parkplätze, Öffnungszeiten, ÖPNV.</li>
+  <li><code>/galerie</code> — alle Fotos in Lightbox.</li>
+  <li><code>/kontakt</code> — Telefon, E-Mail, Kontaktformular.</li>
+</ul>
+
+<p style="margin-top:24px;padding:16px;background:#e8f5e9;border-radius:6px">
+  <strong>Passt die Homepage-Struktur?</strong> Soll noch etwas rein (z. B. Bewertungen/Google-Stars, Lieferzeit-Anzeige, Newsletter)? Oder weiter zu Abschnitt 3: Datenmodell.
+</p>

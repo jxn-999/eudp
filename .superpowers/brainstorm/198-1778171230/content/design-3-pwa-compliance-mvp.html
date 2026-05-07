@@ -1,0 +1,128 @@
+<h2>Letzte Design-Abschnitte</h2>
+<p class="subtitle">PWA &amp; Performance · Compliance (DSGVO/LMIV/Recht) · MVP-Roadmap</p>
+
+<h3>PWA &amp; Performance</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+  <div style="background:#e3f2fd;padding:14px;border-radius:6px">
+    <strong>App-Feel via PWA</strong>
+    <ul style="margin:6px 0 0;padding-left:18px;line-height:1.7;font-size:13px">
+      <li>Web-App-Manifest + Service Worker (<code>next-pwa</code>) — installierbar als Icon</li>
+      <li>Splash-Screen mit Logo, eigenes App-Icon</li>
+      <li>Vollbild-Modus ohne Browser-Chrome nach Install</li>
+      <li>Speisekarte offline-lesbar (cached menu.json + Bilder via SW)</li>
+      <li>Cart bleibt offline — Zahlung braucht aber Online</li>
+      <li>Install-Prompt erscheint nach 2. Besuch (nicht nervig)</li>
+    </ul>
+  </div>
+  <div style="background:#f3e5f5;padding:14px;border-radius:6px">
+    <strong>Performance-Targets</strong>
+    <ul style="margin:6px 0 0;padding-left:18px;line-height:1.7;font-size:13px">
+      <li>Lighthouse-Score ≥ 90 auf allen 4 Achsen</li>
+      <li>LCP &lt; 2,5 s, INP &lt; 200 ms, CLS &lt; 0,1</li>
+      <li>Bilder via <code>next/image</code> — automatisches AVIF/WebP, lazy load, srcset</li>
+      <li>Bildoriginale werden bei Build optimiert (Build-Step)</li>
+      <li>Speisekarten-JSON als statische Asset im CDN, vor-rendered</li>
+      <li>Schriften: <code>next/font</code> mit subsetting (nur DE-Zeichen)</li>
+      <li>Bundle-Size: pro Seite &lt; 100 kB JS (gzip)</li>
+    </ul>
+  </div>
+</div>
+
+<h3 style="margin-top:24px">Compliance — was rechtlich Pflicht ist</h3>
+<div style="background:#fff3e0;padding:14px;border-radius:6px;border-left:4px solid #f57c00">
+  <strong>DSGVO / TDDDG (Telekommunikation-Digitale-Dienste-Datenschutz-Gesetz)</strong>
+  <ul style="margin:6px 0 0;padding-left:18px;line-height:1.7;font-size:13px">
+    <li><strong>Cookie-Banner</strong> mit echter Wahl (Ablehnen mind. so prominent wie Annehmen). Nur essentielle Cookies vor Einwilligung.</li>
+    <li><strong>Datenschutzerklärung</strong> auf <code>/datenschutz</code> — listet alle Verarbeitungen: PayPal, Stripe, Vercel, Supabase, Resend, OpenStreetMap. Mit Auftragsverarbeitungsvertrag (AVV) bei jedem Anbieter.</li>
+    <li><strong>OpenStreetMap statt Google Maps</strong> — datenschutzfreundlicher, keine Cookies, in DE rechtssicher.</li>
+    <li><strong>Speicherdauer der Bestelldaten</strong>: 10 Jahre (HGB §257) für Kassenbelege, danach Löschung. Im Datenmodell anonymisierbar machen (Gast-Daten getrennt von Bestelldaten via FK).</li>
+    <li><strong>Right-to-be-forgotten</strong>: Endpunkt im Admin, der personenbezogene Daten anonymisiert (Bestelldaten bleiben für Buchhaltung, aber ohne Name/Adresse).</li>
+    <li><strong>EU-Hosting</strong>: Vercel Frankfurt, Supabase Frankfurt, Resend EU. Kein US-Anbieter im kritischen Pfad. (Stripe + PayPal sind US, aber rechtskonform per Standardvertragsklauseln + DPA.)</li>
+  </ul>
+</div>
+
+<div style="background:#fff8e1;padding:14px;border-radius:6px;border-left:4px solid #fbc02d;margin-top:12px">
+  <strong>LMIV (Lebensmittelinformations-Verordnung EU 1169/2011)</strong>
+  <ul style="margin:6px 0 0;padding-left:18px;line-height:1.7;font-size:13px">
+    <li>Bei <strong>vorverpackten Lebensmitteln im Online-Verkauf</strong>: Allergene + Zutaten + Nährwerte vor Kauf-Bestätigung sichtbar.</li>
+    <li>Bei <strong>fertig zubereiteten, nicht-vorverpackten Speisen</strong> (Pizza, Döner) gilt der weniger strenge §44 LMIDV: <strong>14 Pflichtallergene</strong> + Zusatzstoffe pro Item müssen angegeben werden.</li>
+    <li>Praktisch: Pro Item-Modal-Box „⚠ Allergene: Gluten, Milch · Zusatzstoffe: 1 (Konservierungsstoff)".</li>
+    <li>Sammel-Liste der Allergene + Zusatzstoffe-Code-Tabelle auf <code>/speisekarte#allergene</code> oder eigene <code>/allergene</code>-Seite.</li>
+  </ul>
+</div>
+
+<div style="background:#fce4ec;padding:14px;border-radius:6px;border-left:4px solid #c2185b;margin-top:12px">
+  <strong>Pflichtseiten</strong>
+  <ul style="margin:6px 0 0;padding-left:18px;line-height:1.7;font-size:13px">
+    <li><code>/impressum</code> — TMG §5: vollständige Anschrift, vertretungsberechtigte Person, Telefon, E-Mail, USt-IdNr., zuständige Behörde, OS-Plattform-Link (EU)</li>
+    <li><code>/datenschutz</code> — DSGVO Art. 13 (siehe oben)</li>
+    <li><code>/agb</code> — Allgemeine Geschäftsbedingungen, Bestellprozess, Lieferung</li>
+    <li><code>/widerrufsrecht</code> — Achtung: <strong>frisch zubereitete Speisen sind vom Widerruf ausgeschlossen</strong> (§312g Abs. 2 Nr. 4 BGB) — das muss klar im Checkout erscheinen</li>
+    <li><strong>Verbraucherinformationen pre-Checkout</strong>: Lieferzeit, Versandkosten, Zahlungsmethoden, Gesamtpreis vor dem „Kostenpflichtig bestellen"-Button (§312j BGB — Button-Lösung)</li>
+  </ul>
+</div>
+
+<h3 style="margin-top:32px">MVP-Roadmap — Phasen</h3>
+<div style="display:grid;grid-template-columns:1fr;gap:10px">
+
+  <div style="background:linear-gradient(90deg,#e8f5e9 0%,#fff 100%);padding:14px;border-radius:6px;border-left:4px solid #2e7d32">
+    <strong>Phase 1 — MVP (1–2 Wochen)</strong>
+    <div style="font-size:13px;margin-top:4px;line-height:1.6">
+      Fokus: <em>Online sein, lesbar, kontaktierbar.</em><br/>
+      ✓ Next.js-Setup + Tailwind + i18n-Grundgerüst<br/>
+      ✓ Statische Webseite: Startseite + /speisekarte (Lese-Version) + Über-uns + Standort + Kontakt + Impressum + Datenschutz<br/>
+      ✓ menu.json mit allen ~200 Items, vorerst ohne Bilder (Platzhalter pro Kategorie)<br/>
+      ✓ OpenStreetMap-Einbettung, Footer, Side-Drawer-Nav<br/>
+      ✓ Deploy auf Vercel mit Custom-Domain<br/>
+      <strong>Ziel:</strong> Restaurant ist gefunden, Speisekarte lesbar, Kontakt klar.
+    </div>
+  </div>
+
+  <div style="background:linear-gradient(90deg,#e3f2fd 0%,#fff 100%);padding:14px;border-radius:6px;border-left:4px solid #1976d2">
+    <strong>Phase 2 — Bilder + Shop-Skelett (2–3 Wochen)</strong>
+    <div style="font-size:13px;margin-top:4px;line-height:1.6">
+      ✓ Bilder-Pipeline: Foto-Shoot organisieren oder per AI generieren, ins Repo, next/image<br/>
+      ✓ /shop-Bereich mit Item-Grid, Item-Modal, Cart (lokal)<br/>
+      ✓ 3-Schritt-Checkout-Skelett ohne Zahlung („Bestellen via Anruf")<br/>
+      ✓ PWA-Manifest + Service Worker<br/>
+      <strong>Ziel:</strong> Shop sieht fertig aus, sammelt Bestellungen via Telefon-Notiz.
+    </div>
+  </div>
+
+  <div style="background:linear-gradient(90deg,#fff3e0 0%,#fff 100%);padding:14px;border-radius:6px;border-left:4px solid #f57c00">
+    <strong>Phase 3 — Echte Zahlung + Backend (2 Wochen)</strong>
+    <div style="font-size:13px;margin-top:4px;line-height:1.6">
+      ✓ Supabase-DB + orders/order_items/print_jobs<br/>
+      ✓ Stripe-Integration (Karten + Apple/Google Pay)<br/>
+      ✓ PayPal-Integration<br/>
+      ✓ Bestellbestätigung per E-Mail (Resend)<br/>
+      ✓ Bestätigungsseite mit Status-Stepper<br/>
+      ✓ Cookie-Banner, vollständige Rechts-Seiten<br/>
+      <strong>Ziel:</strong> Bezahlte Online-Bestellungen funktionieren ende-zu-ende, Restaurant kriegt E-Mails.
+    </div>
+  </div>
+
+  <div style="background:linear-gradient(90deg,#fce4ec 0%,#fff 100%);padding:14px;border-radius:6px;border-left:4px solid #c2185b">
+    <strong>Phase 4 — Bondrucker + Admin-Panel (1–2 Wochen)</strong>
+    <div style="font-size:13px;margin-top:4px;line-height:1.6">
+      ✓ Star/Epson WLAN-Bondrucker einrichten<br/>
+      ✓ CloudPRNT-Endpoint im Server (Drucker-Polling)<br/>
+      ✓ ESC/POS-Bon-Vorlage (Header, Items, Summe, Code, QR)<br/>
+      ✓ Admin-Panel mit Login: Order-Liste, Status setzen, Drucker-Status<br/>
+      ✓ Drucker-Ausfall-Backup (E-Mail/SMS)<br/>
+      <strong>Ziel:</strong> Restaurant-Workflow ohne manuelle Schritte. Bestellung → Bon → fertig.
+    </div>
+  </div>
+
+  <div style="background:linear-gradient(90deg,#f5f5f5 0%,#fff 100%);padding:14px;border-radius:6px;border-left:4px solid #757575">
+    <strong>Phase 5 — Optional / Später</strong>
+    <div style="font-size:13px;margin-top:4px;line-height:1.6">
+      Englische Übersetzung · Galerie-Seite · Pizza-Hour-Banner zeitgesteuert · Tisch-Reservierung · Bewertungen / Google-Reviews-Snippet · A/B-Tests für CTAs · Newsletter
+    </div>
+  </div>
+
+</div>
+
+<p style="margin-top:24px;padding:16px;background:#e8f5e9;border-radius:6px">
+  <strong>Damit ist das Design komplett.</strong> Ich schreibe jetzt die Spec-Datei nach <code>docs/superpowers/specs/2026-05-07-eurodoener-design.md</code>.
+</p>

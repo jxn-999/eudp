@@ -1,0 +1,280 @@
+<h2>Shop-Feinschliff — deine Anpassungen</h2>
+<p class="subtitle">Item-Karten ohne „ab", zentriertes Modal überall, Größenlogik, Cart mit Bildern, Abholung mit Name + Sicherheits-ID.</p>
+
+<h3>1) Item-Karte — Standard-Preis, Foto klickbar</h3>
+<div class="mockup">
+<div class="mockup-header">Vergleich vorher/nachher</div>
+<div class="mockup-body" style="padding:20px;background:#fafafa">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;font-size:11px">
+  <div>
+    <div style="text-align:center;color:#999;text-transform:uppercase;letter-spacing:1px;font-size:10px;margin-bottom:8px">Vorher</div>
+    <div style="background:white;border-radius:8px;border:1px solid #ddd;overflow:hidden;width:200px;margin:0 auto">
+      <div style="height:120px;background:#fce4ec"></div>
+      <div style="padding:10px">
+        <div style="font-weight:bold">Pizza Hawaii</div>
+        <div style="color:#666;font-size:10px">Schinken, Ananas, Käse</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+          <span style="color:#bf360c;font-weight:bold">ab 8,00 €</span>
+          <div style="background:#1976d2;color:white;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-weight:bold">+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="text-align:center;color:#2e7d32;text-transform:uppercase;letter-spacing:1px;font-size:10px;margin-bottom:8px">Nachher</div>
+    <div style="background:white;border-radius:8px;border:1px solid #ddd;overflow:hidden;width:200px;margin:0 auto">
+      <div style="height:120px;background:#fce4ec;position:relative;cursor:zoom-in">
+        <div style="position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,0.5);color:white;width:22px;height:22px;border-radius:50%;text-align:center;line-height:22px;font-size:11px">⤢</div>
+      </div>
+      <div style="padding:10px">
+        <div style="font-weight:bold">Pizza Hawaii</div>
+        <div style="color:#666;font-size:10px">Schinken, Ananas, Käse</div>
+        <div style="color:#999;font-size:9px;margin-top:2px">Standard: Groß 32 cm</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+          <span style="color:#bf360c;font-weight:bold;font-size:14px">10,50 €</span>
+          <div style="background:#1976d2;color:white;width:26px;height:26px;border-radius:50%;text-align:center;line-height:26px;font-weight:bold">+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<p style="margin-top:12px;font-size:13px">
+  <strong>Logik:</strong> Jedes Item hat eine Standard-Variante (Flag <code>default: true</code> in der menu.json). Bei Pizza meist „Groß 32 cm", bei Drinks die einzige Variante (z. B. „0,5 l"). Auf der Karte erscheint genau dieser Preis ohne „ab"-Präfix. Klick auf Foto öffnet Lightbox (Vollbild), Klick auf „+" öffnet das Item-Modal mit allen Optionen.
+</p>
+
+<h3 style="margin-top:32px">2) Item-Modal — zentriertes Pop-up auf beiden Plattformen</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+
+  <!-- Desktop modal -->
+  <div>
+    <div style="text-align:center;font-size:11px;color:#666;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Desktop · Modal</div>
+    <div style="border:2px solid #222;border-radius:8px;background:#fff;overflow:hidden;font-size:9px;position:relative;min-height:320px">
+      <div style="background:rgba(0,0,0,0.5);position:absolute;inset:0"></div>
+      <div style="position:absolute;top:20px;left:50%;transform:translateX(-50%);background:white;border-radius:10px;width:75%;padding:14px;box-shadow:0 12px 32px rgba(0,0,0,0.4);max-height:90%;overflow-y:auto">
+        <div style="display:flex;gap:14px">
+          <div style="width:160px;flex-shrink:0">
+            <div style="width:160px;height:120px;background:#fce4ec;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#880e4f;font-weight:bold">📷 Pizza Hawaii</div>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between"><div style="font-weight:bold;font-size:14px">Pizza Hawaii</div><div style="color:#999;cursor:pointer;font-size:14px">✕</div></div>
+            <div style="color:#666;margin-top:3px">Tomaten, Schinken, Ananas, Käse</div>
+            <div style="background:#fff8e1;padding:5px 8px;border-radius:4px;margin-top:6px;color:#5d4037;font-size:8px">⚠ Allergene: Gluten, Milch · Zusatzstoffe: 1, 2 (Konservierungsstoff)</div>
+
+            <div style="font-weight:bold;margin-top:10px">Größe wählen *</div>
+            <div style="display:flex;gap:5px;margin-top:4px">
+              <div style="border:1px solid #ddd;padding:6px 10px;border-radius:5px;flex:1;text-align:center"><div style="font-weight:bold">Klein</div><div style="font-size:8px;color:#666">26 cm</div><div style="font-weight:bold;color:#bf360c;margin-top:2px">8,00 €</div></div>
+              <div style="border:2px solid #1976d2;background:#e3f2fd;padding:6px 10px;border-radius:5px;flex:1;text-align:center;position:relative"><div style="position:absolute;top:-7px;left:50%;transform:translateX(-50%);background:#1976d2;color:white;font-size:6px;padding:1px 5px;border-radius:6px;letter-spacing:0.5px">STANDARD</div><div style="font-weight:bold">Groß</div><div style="font-size:8px;color:#666">32 cm</div><div style="font-weight:bold;color:#bf360c;margin-top:2px">10,50 €</div></div>
+              <div style="border:1px solid #ddd;padding:6px 10px;border-radius:5px;flex:1;text-align:center"><div style="font-weight:bold">Family</div><div style="font-size:8px;color:#666">40 cm</div><div style="font-weight:bold;color:#bf360c;margin-top:2px">14,50 €</div></div>
+            </div>
+
+            <div style="font-weight:bold;margin-top:10px">Extras (optional)</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:4px">
+              <label style="background:#f5f5f5;padding:5px;border-radius:3px">☐ Extra Käse +1,50 €</label>
+              <label style="background:#f5f5f5;padding:5px;border-radius:3px">☐ Pilze +1,00 €</label>
+              <label style="background:#f5f5f5;padding:5px;border-radius:3px">☐ Salami +1,50 €</label>
+              <label style="background:#f5f5f5;padding:5px;border-radius:3px">☐ Sardellen +1,00 €</label>
+            </div>
+
+            <div style="font-weight:bold;margin-top:10px">Sonderwunsch an die Küche</div>
+            <textarea style="width:100%;padding:6px;border:1px solid #ddd;border-radius:4px;margin-top:3px;font-size:8px;min-height:34px;font-family:inherit" placeholder="z. B. ohne Zwiebeln, gut durchgebacken, Boden dünn..."></textarea>
+
+            <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+              <div style="border:1px solid #ddd;border-radius:5px;display:flex;align-items:center"><span style="padding:6px 10px;font-weight:bold;cursor:pointer">−</span><span style="padding:6px 10px;font-weight:bold">1</span><span style="padding:6px 10px;font-weight:bold;cursor:pointer">+</span></div>
+              <div style="background:#1976d2;color:white;padding:8px;border-radius:5px;text-align:center;font-weight:bold;flex:1">In den Warenkorb · 10,50 €</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile modal -->
+  <div>
+    <div style="text-align:center;font-size:11px;color:#666;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Mobile · zentriertes Pop-up (kein Bottom-Sheet)</div>
+    <div style="border:8px solid #222;border-radius:24px;background:#fff;overflow:hidden;width:280px;aspect-ratio:9/19;font-size:7px;position:relative;margin:0 auto">
+      <div style="height:18px;background:#222"></div>
+      <div style="background:rgba(0,0,0,0.55);position:absolute;top:18px;left:0;right:0;bottom:0"></div>
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border-radius:10px;width:90%;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,0.4);max-height:80%;overflow-y:auto">
+        <div style="display:flex;justify-content:space-between"><div style="font-weight:bold;font-size:9px">Pizza Hawaii</div><div style="color:#999;font-size:10px">✕</div></div>
+        <div style="height:54px;background:#fce4ec;border-radius:5px;margin-top:4px;display:flex;align-items:center;justify-content:center;color:#880e4f;font-weight:bold">📷 Pizza Hawaii</div>
+        <div style="color:#666;margin-top:3px">Tomaten, Schinken, Ananas, Käse</div>
+        <div style="background:#fff8e1;padding:3px;border-radius:3px;margin-top:3px;color:#5d4037">⚠ Gluten, Milch · 1, 2</div>
+        <div style="font-weight:bold;margin-top:5px">Größe</div>
+        <div style="display:flex;gap:2px;margin-top:2px">
+          <div style="border:1px solid #ddd;padding:3px;border-radius:3px;flex:1;text-align:center"><div style="font-weight:bold">Klein</div><div style="color:#666">26cm</div><div style="color:#bf360c;font-weight:bold">8,00€</div></div>
+          <div style="border:2px solid #1976d2;background:#e3f2fd;padding:3px;border-radius:3px;flex:1;text-align:center;position:relative"><div style="position:absolute;top:-5px;left:50%;transform:translateX(-50%);background:#1976d2;color:white;font-size:4px;padding:0 3px;border-radius:3px">STD</div><div style="font-weight:bold">Groß</div><div style="color:#666">32cm</div><div style="color:#bf360c;font-weight:bold">10,50€</div></div>
+          <div style="border:1px solid #ddd;padding:3px;border-radius:3px;flex:1;text-align:center"><div style="font-weight:bold">Fam.</div><div style="color:#666">40cm</div><div style="color:#bf360c;font-weight:bold">14,50€</div></div>
+        </div>
+        <div style="font-weight:bold;margin-top:5px">Extras</div>
+        <div style="margin-top:2px">☐ Extra Käse +1,50€</div>
+        <div>☐ Pilze +1,00€</div>
+        <div style="font-weight:bold;margin-top:5px">Sonderwunsch</div>
+        <textarea style="width:100%;padding:3px;border:1px solid #ddd;border-radius:3px;font-size:6px;font-family:inherit;min-height:20px" placeholder="ohne Zwiebeln..."></textarea>
+        <div style="display:flex;gap:3px;margin-top:5px;align-items:center">
+          <div style="border:1px solid #ddd;border-radius:3px;display:flex"><span style="padding:3px 5px;font-weight:bold">−</span><span style="padding:3px 5px">1</span><span style="padding:3px 5px;font-weight:bold">+</span></div>
+          <div style="background:#1976d2;color:white;padding:5px;border-radius:3px;text-align:center;font-weight:bold;flex:1">In Warenkorb · 10,50€</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<h3 style="margin-top:32px">Logik: Items mit/ohne Größenauswahl</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+  <div style="background:#e8f5e9;padding:12px;border-radius:6px">
+    <strong>Pizza (3 Größen)</strong><br/>
+    <div style="font-size:11px;margin-top:4px">→ Größenauswahl als 3 Buttons. „Groß 32 cm" ist Default.</div>
+  </div>
+  <div style="background:#fff3e0;padding:12px;border-radius:6px">
+    <strong>Burger / Schnitzel (1 Größe)</strong><br/>
+    <div style="font-size:11px;margin-top:4px">→ Kein Größen-Block. Direkt zu Extras + Sonderwunsch + „In Warenkorb".</div>
+  </div>
+  <div style="background:#e3f2fd;padding:12px;border-radius:6px">
+    <strong>Drinks (z. B. 0,33 / 0,5 / 1,0 l)</strong><br/>
+    <div style="font-size:11px;margin-top:4px">→ Größen wie Pizza, aber Label „0,33 l / 0,5 l / 1,0 l". Default „0,5 l".</div>
+  </div>
+</div>
+<p style="font-size:13px;margin-top:12px"><strong>Datenmodell:</strong> Jedes Item hat <code>variants: [...]</code>. Items ohne Auswahl haben genau 1 Variante. Die UI zeigt den Block nur, wenn <code>variants.length &gt; 1</code>.</p>
+
+<h3 style="margin-top:32px">3) Cart — mit Bild-Thumbnails</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+
+  <div>
+    <div style="text-align:center;font-size:11px;color:#666;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Mobile · Cart-Seite</div>
+    <div style="border:8px solid #222;border-radius:24px;background:#fff;overflow:hidden;width:240px;aspect-ratio:9/19;font-size:7px;margin:0 auto">
+      <div style="height:18px;background:#222"></div>
+      <div style="background:#1976d2;color:white;padding:5px 6px;display:flex;align-items:center;gap:5px"><span>←</span><span style="font-weight:bold">Warenkorb (3)</span></div>
+      <div style="padding:5px">
+        <div style="background:#f5f5f5;border-radius:4px;padding:4px;margin-bottom:4px;display:flex;gap:4px">
+          <div style="width:32px;height:32px;background:#fce4ec;border-radius:3px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;font-weight:bold">Pizza Hawaii<span>10,50 €</span></div>
+            <div style="color:#666">Groß 32 cm</div>
+            <div style="color:#666">+ Extra Käse</div>
+            <div style="display:flex;justify-content:space-between;margin-top:2px;align-items:center">
+              <div style="border:1px solid #ddd;border-radius:3px;display:flex;background:white"><span style="padding:1px 4px">−</span><span style="padding:1px 4px">1</span><span style="padding:1px 4px">+</span></div>
+              <span style="color:#d32f2f">entfernen</span>
+            </div>
+          </div>
+        </div>
+        <div style="background:#f5f5f5;border-radius:4px;padding:4px;margin-bottom:4px;display:flex;gap:4px">
+          <div style="width:32px;height:32px;background:#fff3e0;border-radius:3px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;font-weight:bold">Döner<span>6,00 €</span></div>
+            <div style="color:#666">scharf, mit Knoblauch</div>
+            <div style="color:#666;font-style:italic">Notiz: ohne Tomaten</div>
+          </div>
+        </div>
+        <div style="background:#f5f5f5;border-radius:4px;padding:4px;display:flex;gap:4px">
+          <div style="width:32px;height:32px;background:#e3f2fd;border-radius:3px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;font-weight:bold">Cola 0,5 l<span>2,00 €</span></div>
+          </div>
+        </div>
+        <div style="border-top:1px dashed #ddd;margin-top:6px;padding-top:5px">
+          <div style="display:flex;justify-content:space-between"><span>Zwischensumme</span><span>18,50 €</span></div>
+          <div style="display:flex;justify-content:space-between"><span>Lieferung</span><span>1,50 €</span></div>
+          <div style="display:flex;justify-content:space-between;font-weight:bold;margin-top:2px"><span>Gesamt</span><span>20,00 €</span></div>
+        </div>
+        <div style="background:#1976d2;color:white;padding:6px;border-radius:4px;text-align:center;font-weight:bold;margin-top:6px">Weiter zur Bestellung →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2 — Abholung mit Name + ID -->
+  <div>
+    <div style="text-align:center;font-size:11px;color:#666;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Schritt 2 · Abholung (mit Name + ID-Hinweis)</div>
+    <div style="border:8px solid #222;border-radius:24px;background:#fff;overflow:hidden;width:240px;aspect-ratio:9/19;font-size:7px;margin:0 auto">
+      <div style="height:18px;background:#222"></div>
+      <div style="background:#1976d2;color:white;padding:5px 6px;display:flex;gap:5px;align-items:center"><span>←</span><span style="font-weight:bold">Bestellung</span></div>
+      <div style="background:#eee;height:3px"><div style="background:#1976d2;width:66%;height:3px"></div></div>
+      <div style="display:flex;justify-content:space-between;padding:3px 6px;color:#666"><span>✓ Lieferart</span><span style="color:#1976d2;font-weight:bold">2. Deine Daten</span><span>3. Zahlung</span></div>
+      <div style="padding:6px">
+        <div style="background:#fff3e0;padding:4px;border-radius:3px;margin-bottom:5px;color:#bf360c">🛍 Abholung im Restaurant</div>
+        <div style="font-weight:bold;margin-bottom:3px">Wer holt ab?</div>
+        <input style="width:100%;padding:4px;border:1px solid #ddd;border-radius:3px;margin-bottom:3px" placeholder="Vor- und Nachname *"/>
+        <input style="width:100%;padding:4px;border:1px solid #ddd;border-radius:3px;margin-bottom:3px" placeholder="Telefon *"/>
+        <input style="width:100%;padding:4px;border:1px solid #ddd;border-radius:3px;margin-bottom:5px" placeholder="E-Mail (für Bestätigung)"/>
+
+        <div style="background:#e3f2fd;padding:5px;border-radius:3px;margin-top:6px;border-left:2px solid #1976d2">
+          <div style="font-weight:bold;color:#0d47a1">🔒 Sicherheit beim Abholen</div>
+          <div style="color:#1565c0;margin-top:2px">Du bekommst nach Bestellung einen Code:</div>
+          <div style="background:white;padding:3px;border-radius:2px;text-align:center;font-weight:bold;font-size:10px;margin-top:3px;letter-spacing:1px;color:#bf360c">EUR-A4F7</div>
+          <div style="color:#1565c0;margin-top:2px">Zeig den Code beim Abholen — so verwechselt niemand die Bestellung.</div>
+        </div>
+
+        <input style="width:100%;padding:4px;border:1px solid #ddd;border-radius:3px;margin-top:5px" placeholder="Notiz (optional)"/>
+
+        <div style="background:#1976d2;color:white;padding:6px;border-radius:4px;text-align:center;font-weight:bold;margin-top:6px">Weiter →</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<h3 style="margin-top:32px">4) Zahlungsoptionen — kontextabhängig</h3>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+  <div style="background:#e3f2fd;padding:14px;border-radius:6px;border-left:4px solid #1976d2">
+    <strong>Bei Lieferung</strong><br/>
+    <div style="font-size:12px;margin-top:6px;line-height:1.7">
+      ◯ PayPal<br/>
+      ◯ Karte / Apple Pay / Google Pay<br/>
+      ◯ <strong>Bar bei Lieferung</strong>
+    </div>
+  </div>
+  <div style="background:#fff3e0;padding:14px;border-radius:6px;border-left:4px solid #f57c00">
+    <strong>Bei Abholung</strong><br/>
+    <div style="font-size:12px;margin-top:6px;line-height:1.7">
+      ◯ PayPal<br/>
+      ◯ Karte / Apple Pay / Google Pay<br/>
+      ◯ <strong>Bar bei Abholung</strong> (oder EC-Karte vor Ort)
+    </div>
+  </div>
+</div>
+<p style="font-size:13px;margin-top:12px">Das Label wechselt anhand der Lieferart aus Schritt 1. Die <code>order.payment_method</code> bleibt im Backend „cash" (egal ob Lieferung/Abholung), das Label ist nur UI.</p>
+
+<h3 style="margin-top:32px">5) Order-Bestätigungsseite — was du dann siehst</h3>
+<div class="mockup">
+<div class="mockup-header">/shop/bestellung/EUR-A4F7</div>
+<div class="mockup-body" style="padding:20px;background:#fafafa">
+<div style="background:white;border-radius:8px;padding:20px;border:1px solid #eee">
+  <div style="text-align:center;font-size:32px;margin-bottom:8px">✅</div>
+  <div style="text-align:center;font-weight:bold;font-size:18px">Bestellung erhalten — danke!</div>
+  <div style="text-align:center;color:#666;margin-top:4px">Wir haben deine Bestellung gerade bekommen.</div>
+
+  <div style="background:#f5f5f5;padding:14px;border-radius:6px;margin-top:14px;text-align:center">
+    <div style="font-size:11px;color:#666;text-transform:uppercase;letter-spacing:1px">Dein Code</div>
+    <div style="font-size:24px;font-weight:bold;color:#bf360c;letter-spacing:2px;margin-top:4px">EUR-A4F7</div>
+    <div style="font-size:11px;color:#666;margin-top:4px">Bei Abholung diesen Code nennen oder zeigen</div>
+  </div>
+
+  <div style="margin-top:20px">
+    <div style="font-weight:bold;margin-bottom:8px">Status</div>
+    <div style="display:flex;align-items:center;gap:8px;justify-content:space-between;position:relative">
+      <div style="position:absolute;top:14px;left:14px;right:14px;height:2px;background:#ddd;z-index:0"></div>
+      <div style="position:absolute;top:14px;left:14px;width:40%;height:2px;background:#1976d2;z-index:0"></div>
+      <div style="z-index:1;background:white;padding:0 4px;text-align:center"><div style="background:#1976d2;color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto">✓</div><div style="font-size:10px;margin-top:4px;font-weight:bold">Bezahlt</div></div>
+      <div style="z-index:1;background:white;padding:0 4px;text-align:center"><div style="background:#1976d2;color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;animation:pulse 1s infinite">📦</div><div style="font-size:10px;margin-top:4px;font-weight:bold;color:#1976d2">Vorbereitung</div></div>
+      <div style="z-index:1;background:white;padding:0 4px;text-align:center"><div style="border:2px solid #ddd;background:white;color:#999;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto">🚴</div><div style="font-size:10px;margin-top:4px;color:#999">Unterwegs</div></div>
+      <div style="z-index:1;background:white;padding:0 4px;text-align:center"><div style="border:2px solid #ddd;background:white;color:#999;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto">✓</div><div style="font-size:10px;margin-top:4px;color:#999">Geliefert</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;padding:14px;background:#fff8e1;border-radius:6px;color:#5d4037">
+    <strong>⏱ Geschätzte Lieferzeit:</strong> 30–45 Min<br/>
+    <strong>📍 Lieferadresse:</strong> Musterstraße 12, 38678 Clausthal-Zellerfeld<br/>
+    <strong>💳 Bezahlt mit:</strong> PayPal · 20,00 €
+  </div>
+
+  <div style="text-align:center;margin-top:14px;color:#666;font-size:12px">Bei Fragen: <strong>📞 0 53 23 / 84 02 30</strong></div>
+</div>
+</div>
+</div>
+
+<p style="margin-top:24px;padding:16px;background:#e8f5e9;border-radius:6px">
+  <strong>Passt alles?</strong> Wenn ja: jetzt Abschnitt 5 (PWA / Performance / DSGVO/LMIV/Recht) + MVP-Roadmap, dann Spec schreiben.
+</p>

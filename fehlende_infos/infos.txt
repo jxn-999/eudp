@@ -1,0 +1,107 @@
+FEHLENDE INFOS — Euro-Döner Pizzeria Webseite & Shop
+======================================================
+Stand: Mai 2026
+
+Diese Punkte werden vom Restaurant gebraucht, damit die Umsetzung
+in den jeweiligen Phasen starten kann.
+
+
+▌ INHALTE (für Phase 1 + 2)
+────────────────────────────────
+[ ] Logo des Restaurants (PNG mit transparentem Hintergrund oder SVG)
+    Aktuell vorhanden: nur als JPG in der Speisekarte → muss
+    nachgezeichnet oder hochauflösend bereitgestellt werden.
+
+[ ] 5–10 Fotos vom Restaurant
+    Brauchen wir für: Hero-Bild, Bild-Karussell „Unser Restaurant",
+    Galerie-Seite.
+    Ideen: Innenraum-Übersicht, Steinofen, Theke, Sitzbereich,
+    Außenansicht, Team beim Arbeiten.
+
+[ ] Fotos der Speisen (~200 Items, je 1 Foto)
+    Optionen:
+      a) Professioneller Foto-Shoot (beste Qualität, höhere Kosten)
+      b) Eigene Smartphone-Fotos (mittelmäßig, kostenlos)
+      c) Für Phase 1+2: AI-generierte Bilder als Platzhalter,
+         später durch echte Fotos ersetzen.
+
+[ ] Text „Über uns" (2–3 Absätze)
+    Geschichte, Werte, Familie, was das Restaurant besonders macht.
+
+
+▌ OPERATIVE DATEN (für Phase 2 + 3)
+────────────────────────────────────
+[ ] Vollständige Liste der Liefer-Postleitzahlen mit Liefergebühr
+    Beispiel-Format:
+      38678 (Clausthal-Zellerfeld) → 1,50 €
+      38644 (Buntenbock)           → 2,50 €
+      38640 (Goslar)               → 4,00 €
+      ...
+
+[ ] Allergene + Zusatzstoffe pro Gericht
+    Gesetzlich vorgeschrieben nach LMIV (EU-Verordnung 1169/2011).
+    14 Pflichtallergene: Gluten, Krebstiere, Eier, Fisch, Erdnüsse,
+    Soja, Milch, Nüsse, Sellerie, Senf, Sesam, Schwefeldioxid,
+    Lupinen, Weichtiere.
+    Zusatzstoffe-Codes: 1 = Konservierungsstoff, 2 = Farbstoff, ...
+
+[ ] Genauer Bestand der Speisekarte
+    Speisekarte liegt aktuell als Bild (JPG) vor. Inhalt muss in
+    strukturierte JSON-Datei überführt werden — pro Item:
+      - Name
+      - Beschreibung (Zutaten)
+      - Größenoptionen mit cm-Angabe + Preis
+      - Extras-Optionen mit Preis
+      - Allergene + Zusatzstoffe
+      - Standard-Variante (welche Größe wird im Shop als Default angezeigt?)
+
+[ ] Domain-Wunsch
+    Vorschläge: eurodoener.de, eurodoener-clausthal.de,
+    pizzeria-clausthal.de, ...
+
+[ ] E-Mail-Adresse für Bestellbenachrichtigungen
+    z. B. bestellungen@eurodoener.de
+
+[ ] Pflicht-Inhalt für Impressum
+    Vertretungsberechtigte Person, USt-IdNr., zuständige Behörde.
+
+[ ] AGB-Inhalt
+    Lieferzeiten, Stornofristen, Reklamationen, ...
+    Vorlage kann ein Anwalt prüfen oder eine Standard-Vorlage
+    angepasst werden.
+
+
+▌ ANSCHAFFUNGEN (für Phase 4)
+──────────────────────────────
+[ ] WLAN-fähiger Bondrucker
+    Empfehlung: Star mC-Print3 (~ 250–350 €) oder Epson TM-m30
+    Muss CloudPRNT unterstützen (beide tun das).
+
+[ ] Bonrolle / Verbrauchsmaterial
+    Standardrolle 80mm — günstig und überall erhältlich.
+
+
+▌ KONTEN (für Phase 3)
+──────────────────────
+[ ] PayPal-Geschäftskonto
+    Kostenlos, Anmeldung über paypal.de
+    Nötig: Geschäftsdaten, USt-IdNr., Bankkonto.
+
+[ ] Stripe-Konto
+    Kostenlos, Anmeldung über stripe.com/de
+    Nötig: Geschäftsdaten, USt-IdNr., Bankkonto, Identitätsnachweis.
+
+
+▌ OPTIONAL (für Phase 5)
+─────────────────────────
+[ ] Englische Übersetzungen aller Texte
+[ ] Tisch-Reservierungs-Anforderungen
+[ ] Newsletter-Anmeldungen / Mailing-Liste
+[ ] Google-My-Business-Eintrag (für Bewertungen-Snippet)
+
+
+───────────────────────────────────────────────────────
+Nächster Schritt: Konzept-Präsentation halten
+(siehe docs/praesentation/eurodoener-konzept.html),
+nach Freigabe → Demo-Webseite + Demo-Shop bauen
+(zunächst ohne Backend).

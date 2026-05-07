@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Euro-Döner Pizzeria — Aufbau &amp; Features</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1a1a1a;
+    background: #f5f5f7;
+    line-height: 1.6;
+  }
+  .page {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: white;
+    padding: 56px 56px;
+    box-shadow: 0 0 24px rgba(0,0,0,0.05);
+  }
+  .page + .page { margin-top: 32px; }
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none; padding: 28px; max-width: none; page-break-after: always; }
+    .no-print { display: none !important; }
+  }
+  h1 { font-size: 36px; margin: 0 0 8px; line-height: 1.2; }
+  h2 { font-size: 26px; margin: 32px 0 12px; color: #c62828; padding-bottom: 8px; border-bottom: 2px solid #ffe0e0; }
+  h3 { font-size: 18px; margin: 20px 0 8px; color: #2e2e2e; }
+  h4 { margin: 0 0 6px; }
+  p { margin: 6px 0 14px; color: #333; }
+  .lead { font-size: 18px; color: #555; margin: 6px 0 24px; }
+  .accent { color: #c62828; font-weight: 600; }
+  code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+
+  .cover {
+    background: linear-gradient(135deg, #c62828 0%, #ff6f00 100%);
+    color: white;
+    padding: 100px 56px;
+    text-align: center;
+  }
+  .cover h1 { color: white; font-size: 52px; }
+  .cover .lead { color: rgba(255,255,255,0.92); font-size: 22px; }
+  .cover .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 6px 16px; border-radius: 20px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 24px; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+
+  .variant-block { border: 2px solid #e0e0e0; border-radius: 10px; padding: 16px; background: white; height: 100%; }
+  .variant-block.chosen { border-color: #2e7d32; background: linear-gradient(180deg, #f1f8e9 0%, white 30%); position: relative; }
+  .variant-block.chosen::before {
+    content: "✓ Gewählte Variante";
+    position: absolute;
+    top: -12px;
+    left: 16px;
+    background: #2e7d32;
+    color: white;
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+  .variant-block.alt { background: #fafafa; }
+  .variant-block.alt::before {
+    content: "Alternative";
+    position: absolute;
+    top: -12px;
+    left: 16px;
+    background: #757575;
+    color: white;
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+  .variant-block.alt { position: relative; }
+  .variant-block h4 { font-size: 14px; }
+
+  ul { padding-left: 20px; margin: 6px 0; }
+  li { margin: 4px 0; }
+
+  /* Mockups */
+  .mockup-wrapper { display: flex; gap: 20px; align-items: flex-start; justify-content: center; margin: 14px 0; flex-wrap: wrap; }
+  .mockup-label { text-align: center; font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+
+  .desktop-frame {
+    width: 480px;
+    border: 2px solid #222;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    font-size: 9px;
+  }
+  .desktop-frame.tiny { width: 380px; font-size: 8px; }
+  .desktop-frame.medium { width: 540px; font-size: 10px; }
+
+  .phone-frame {
+    width: 200px;
+    border: 7px solid #222;
+    border-radius: 22px;
+    overflow: hidden;
+    background: white;
+    aspect-ratio: 9/19;
+    font-size: 7px;
+  }
+  .phone-frame.bigger { width: 240px; font-size: 8px; }
+  .phone-frame .notch { height: 16px; background: #222; }
+
+  /* Common UI */
+  .topbar { background: white; border-bottom: 1px solid #eee; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; }
+  .logo { font-weight: bold; color: #c62828; font-size: 11px; }
+  .nav { display: flex; gap: 10px; align-items: center; font-size: 9px; color: #444; }
+  .nav .cta { background: #1976d2; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; }
+  .hamburger { background: #222; color: white; width: 14px; height: 14px; border-radius: 3px; text-align: center; line-height: 14px; }
+
+  .hero { background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), linear-gradient(135deg, #bf360c, #e65100); color: white; padding: 36px 12px; text-align: center; }
+  .hero .ttl { font-weight: bold; font-size: 18px; line-height: 1.2; }
+  .hero .sub { font-size: 9px; opacity: 0.9; margin: 4px 0 12px; }
+  .hero-buttons { display: flex; gap: 8px; justify-content: center; }
+  .btn-white { background: white; color: #bf360c; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 10px; }
+  .btn-blue { background: #1976d2; color: white; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 10px; }
+
+  .info-row-3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 6px; padding: 10px; background: #fafafa; }
+  .info-card-mp { background: white; border: 1px solid #eee; border-radius: 4px; overflow: hidden; }
+  .info-card { background: white; padding: 6px; border: 1px solid #eee; border-radius: 4px; font-size: 8px; }
+  .info-card .ttl { font-weight: bold; color: #bf360c; margin-bottom: 4px; }
+  .map-stub { height: 70px; background: linear-gradient(135deg, #c8e6c9, #a5d6a7); display: flex; align-items: center; justify-content: center; color: #1b5e20; font-weight: bold; position: relative; font-size: 9px; }
+  .map-stub .pin { position: absolute; width: 6px; height: 6px; background: #d32f2f; border-radius: 50%; top: 55%; left: 48%; }
+
+  .footer { background: #222; color: #bbb; padding: 8px; font-size: 7px; }
+
+  /* Shop */
+  .shop-bar { background: #1976d2; color: white; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; font-size: 9px; }
+  .cat-pills { background: white; border-bottom: 1px solid #eee; padding: 5px 8px; display: flex; gap: 4px; overflow-x: auto; font-size: 8px; }
+  .cat-pill { padding: 2px 7px; border-radius: 10px; background: #eee; white-space: nowrap; }
+  .cat-pill.active { background: #1976d2; color: white; font-weight: bold; }
+  .item-grid { padding: 6px; background: #fafafa; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  .item-card-mp { background: white; border: 1px solid #eee; border-radius: 4px; overflow: hidden; }
+  .item-card-mp .img { height: 40px; }
+  .item-card-mp .body { padding: 5px; font-size: 8px; }
+  .item-card-mp .body .nm { font-weight: bold; }
+  .item-card-mp .body .desc { color: #666; font-size: 7px; }
+  .item-card-mp .body .price { color: #bf360c; font-weight: bold; }
+  .plus { background: #1976d2; color: white; width: 16px; height: 16px; border-radius: 50%; text-align: center; line-height: 16px; font-weight: bold; font-size: 10px; }
+
+  .item-list-row { display: flex; gap: 6px; padding: 5px; background: white; border-bottom: 1px solid #f0f0f0; align-items: center; font-size: 8px; }
+  .item-list-row .img { width: 28px; height: 28px; border-radius: 3px; flex-shrink: 0; }
+  .item-list-row .body { flex: 1; }
+
+  .quote { font-style: italic; color: #555; border-left: 4px solid #c62828; padding: 8px 16px; margin: 14px 0; background: #fafafa; }
+
+  .toc-link { display: block; padding: 8px 14px; background: #fafafa; border-radius: 6px; margin: 4px 0; text-decoration: none; color: #1a1a1a; font-size: 14px; }
+  .toc-link:hover { background: #f0f0f0; }
+  .toc-link .num { color: #c62828; font-weight: bold; margin-right: 12px; }
+
+  .print-btn { position: fixed; bottom: 24px; right: 24px; background: #c62828; color: white; padding: 12px 20px; border-radius: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.2); cursor: pointer; font-weight: bold; border: none; font-size: 14px; }
+
+  .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 24px; }
+  .feature-list .item { display: flex; gap: 8px; align-items: flex-start; }
+  .feature-list .icon { color: #2e7d32; font-weight: bold; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨 Drucken / als PDF</button>
+
+<!-- Cover -->
+<div class="page cover">
+  <div class="badge">Beratung · Aufbau &amp; Features</div>
+  <h1>Euro-Döner Pizzeria</h1>
+  <div class="lead">Webseite &amp; Online-Shop —<br/>Wie soll das aufgebaut sein?</div>
+  <div style="margin-top:40px;font-size:13px;opacity:0.9">Stand: Mai 2026</div>
+</div>
+
+<!-- TOC -->
+<div class="page">
+  <h1 style="font-size:28px">Inhalt</h1>
+  <p class="lead">Was diese Präsentation zeigt</p>
+  <a href="#konzept" class="toc-link"><span class="num">1.</span> Konzept-Übersicht — zwei Bereiche unter einer Domain</a>
+  <a href="#startseite" class="toc-link"><span class="num">2.</span> Startseite — Aufbau &amp; Alternativen</a>
+  <a href="#nav" class="toc-link"><span class="num">3.</span> Navigation — wie kommt man von A nach B</a>
+  <a href="#tiefenseiten" class="toc-link"><span class="num">4.</span> Tiefen-Seiten der Webseite</a>
+  <a href="#shop-layout" class="toc-link"><span class="num">5.</span> Shop — Item-Übersicht &amp; Alternativen</a>
+  <a href="#shop-detail" class="toc-link"><span class="num">6.</span> Shop — Item-Detail &amp; Alternativen</a>
+  <a href="#cart" class="toc-link"><span class="num">7.</span> Shop — Warenkorb &amp; Alternativen</a>
+  <a href="#checkout" class="toc-link"><span class="num">8.</span> Shop — Checkout (3 Schritte)</a>
+  <a href="#bestaetigung" class="toc-link"><span class="num">9.</span> Bestätigung &amp; Status-Anzeige</a>
+  <a href="#features" class="toc-link"><span class="num">10.</span> Funktionen-Übersicht</a>
+  <a href="#weiteres" class="toc-link"><span class="num">11.</span> Was wir noch besprechen sollten</a>
+</div>
+
+<!-- 1. Konzept -->
+<div class="page" id="konzept">
+  <h2>1. Konzept-Übersicht</h2>
+  <p class="lead">Eine Domain (z. B. <code>eurodoener.de</code>) — zwei klar getrennte Bereiche.</p>
+
+  <div class="grid-2">
+    <div class="variant-block" style="border-color:#f57c00">
+      <h3 style="color:#bf360c;margin-top:0">📖 Bereich „Webseite"</h3>
+      <p style="margin:6px 0 8px"><em>Klassisches Restaurant-Gefühl. Warm, einladend, informativ.</em></p>
+      <ul>
+        <li>Startseite mit allem Wichtigen direkt sichtbar</li>
+        <li>Speisekarte zum Lesen (auch ohne Bestellabsicht)</li>
+        <li>Über uns, Standort, Galerie, Kontakt</li>
+        <li>Klassische Top-Bar + Footer</li>
+      </ul>
+    </div>
+    <div class="variant-block" style="border-color:#1976d2">
+      <h3 style="color:#0d47a1;margin-top:0">🛒 Bereich „Shop"</h3>
+      <p style="margin:6px 0 8px"><em>Eigener Stil. Fokussiert, zügig, fühlt sich an wie eine App.</em></p>
+      <ul>
+        <li>Bestell-Übersicht mit Bildern</li>
+        <li>Item-Auswahl als Pop-up</li>
+        <li>Warenkorb immer sichtbar</li>
+        <li>3-Schritt-Checkout, Online-Vorkasse</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-top:24px">Wie der Wechsel funktioniert</h3>
+  <p>Der „🛒 Jetzt bestellen"-Button auf jeder Webseiten-Seite führt in den Shop-Bereich (URL <code>/shop</code>). Dort sieht es anders aus — eigene Header-Leiste, Cart sichtbar, fokussiertes Layout. Über „←"-Knopf oder Bottom-Tab geht man zurück in die Webseite.</p>
+
+  <p style="font-size:14px;color:#666"><strong>Beide Bereiche teilen eine einzige Speisekarten-Datenquelle</strong> — Items werden nicht doppelt gepflegt.</p>
+</div>
+
+<!-- 2. Startseite -->
+<div class="page" id="startseite">
+  <h2>2. Startseite — Aufbau &amp; Alternativen</h2>
+  <p class="lead">Wie soll der erste Eindruck aussehen?</p>
+
+  <div class="grid-2" style="gap:16px;align-items:flex-start">
+
+    <div class="variant-block chosen">
+      <h4>Kompakte Landing-Page mit 2 Hero-CTAs</h4>
+      <p style="font-size:13px;margin:6px 0">Über dem Fold: 2 große Buttons („Speisekarte" + „Bestellen"). Darunter Karte + Kontakt + Öffnungszeiten + Bilder + Top-Seller. Scrollbar, aber kompakt.</p>
+      <div class="mockup-wrapper">
+        <div class="desktop-frame tiny">
+          <div class="topbar">
+            <div class="logo">EURO-DÖNER</div>
+            <div class="nav"><span>Speisekarte</span><span>Über uns</span><span class="cta">🛒 Bestellen</span></div>
+          </div>
+          <div class="hero">
+            <div class="ttl">Frisch &amp; lecker —<br/>seit über 10 Jahren</div>
+            <div class="sub">Pizza · Döner · Burger · Pasta</div>
+            <div class="hero-buttons">
+              <div class="btn-white">📖 Speisekarte</div>
+              <div class="btn-blue">🛒 Bestellen</div>
+            </div>
+          </div>
+          <div class="info-row-3">
+            <div class="info-card-mp">
+              <div class="map-stub">🗺 Karte<div class="pin"></div></div>
+              <div style="padding:3px 5px;font-size:7px;color:#444">Adolph-Roemer-Str. 7</div>
+            </div>
+            <div class="info-card"><div class="ttl">Kontakt</div><div>📞 0 53 23 / 84 02 30</div></div>
+            <div class="info-card"><div class="ttl">Öffnung</div><div>Mo–So 11–23</div></div>
+          </div>
+          <div class="footer" style="text-align:center">© 2026 Euro-Döner</div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:#666"><strong>Vorteil:</strong> Beide Hauptaktionen direkt sichtbar. Kunde entscheidet selbst — nur stöbern oder gleich bestellen.</p>
+    </div>
+
+    <div class="variant-block alt">
+      <h4>Onepager-Style — alle Sections direkt scrollbar</h4>
+      <p style="font-size:13px;margin:6px 0">Eine lange Seite: Hero → Speisekarte (komplett) → Über uns → Galerie → Standort → Kontakt. Keine Klicks zu Unterseiten.</p>
+      <div class="mockup-wrapper">
+        <div class="desktop-frame tiny">
+          <div class="topbar"><div class="logo">EURO-DÖNER</div></div>
+          <div class="hero" style="padding:18px 12px"><div class="ttl" style="font-size:12px">Hero-Bild</div></div>
+          <div style="padding:6px;background:#fff8e1;border-bottom:1px solid #eee;font-size:8px">▼ Speisekarte (komplett auf der Startseite)</div>
+          <div style="padding:6px;background:#e8f5e9;border-bottom:1px solid #eee;font-size:8px">▼ Über uns</div>
+          <div style="padding:6px;background:#fce4ec;border-bottom:1px solid #eee;font-size:8px">▼ Galerie</div>
+          <div style="padding:6px;background:#e3f2fd;border-bottom:1px solid #eee;font-size:8px">▼ Standort + Karte</div>
+          <div style="padding:6px;background:#f3e5f5;font-size:8px">▼ Kontakt + Footer</div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:#666"><strong>Vorteil:</strong> Alles auf einer Seite, schnell zu überblicken. <strong>Nachteil:</strong> Lang, ggf. unübersichtlich, schlechter strukturiert für SEO.</p>
+    </div>
+
+    <div class="variant-block alt" style="grid-column:span 2">
+      <h4>Hero allein — Splash-Screen mit nur 1 Aktion</h4>
+      <p style="font-size:13px;margin:6px 0">Vollbild-Hero mit nur einem großen Button („Jetzt entdecken" / „Bestellen") — alles andere erst nach Klick. Sehr modern, sehr fokussiert, aber Kunden müssen klicken um Telefonnummer / Adresse / Öffnungszeit zu sehen.</p>
+      <div style="background:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),linear-gradient(135deg,#bf360c,#e65100);color:white;padding:30px;text-align:center;border-radius:6px;margin-top:8px">
+        <div style="font-size:18px;font-weight:bold">EURO-DÖNER PIZZERIA</div>
+        <div style="font-size:11px;opacity:0.9;margin-top:4px">Frisch &amp; lecker</div>
+        <div style="background:white;color:#bf360c;padding:8px 24px;border-radius:6px;font-weight:bold;display:inline-block;margin-top:14px">→ Eintreten</div>
+      </div>
+      <p style="font-size:12px;color:#666;margin-top:8px"><strong>Wenn Marken-Auftritt im Vordergrund stehen soll.</strong> Risiko: Kunden, die schnell die Telefonnummer brauchen, müssen erst klicken.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- 3. Navigation -->
+<div class="page" id="nav">
+  <h2>3. Navigation</h2>
+  <p class="lead">Wie kommt der Kunde zu den Unterseiten?</p>
+
+  <div class="grid-3">
+
+    <div class="variant-block chosen">
+      <h4>Hybrid: Top-Nav (Desktop) + ≡ Drawer (Mobile)</h4>
+      <p style="font-size:12px;margin:4px 0">Auf großem Bildschirm alle Links sichtbar in der Top-Bar. Auf dem Handy klassischer Hamburger-Knopf, der einen seitlichen Drawer öffnet.</p>
+      <div class="mockup-wrapper" style="gap:8px">
+        <div class="desktop-frame tiny" style="width:auto">
+          <div class="topbar"><div class="logo">EURO-DÖNER</div><div class="nav" style="font-size:7px"><span>Karte</span><span>Über uns</span><span>Galerie</span><span>Kontakt</span><span class="cta">🛒</span></div></div>
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div class="topbar"><div class="logo">EURO-DÖNER</div><div class="hamburger">≡</div></div>
+          <div style="padding:6px;font-size:8px;color:#999">Inhalt...</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant-block alt">
+      <h4>Hamburger überall</h4>
+      <p style="font-size:12px;margin:4px 0">Auch auf Desktop nur ein ≡-Knopf (kein dauerhaft sichtbares Menü). Sehr aufgeräumt, aber Kunden müssen klicken um Speisekarte/Über-uns zu finden.</p>
+      <div class="mockup-wrapper" style="gap:8px">
+        <div class="desktop-frame tiny" style="width:auto">
+          <div class="topbar"><div class="logo">EURO-DÖNER</div><div class="hamburger">≡</div></div>
+          <div style="padding:8px;text-align:center;color:#999;font-size:9px">leerer, ruhiger Header</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant-block alt">
+      <h4>Bottom-Tab-Bar überall</h4>
+      <p style="font-size:12px;margin:4px 0">Wie eine App: dauerhafte Tab-Leiste unten mit 4 Buttons (Home, Karte, Bestellen, Info). Auf Desktop ungewohnt, auf Mobile sehr modern.</p>
+      <div class="mockup-wrapper" style="gap:8px">
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div style="padding:8px;font-size:8px;color:#999">Inhalt...</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;border-top:1px solid #ddd;display:flex;background:#fff;padding:4px 0;font-size:6px;justify-content:space-around">
+            <div style="text-align:center;color:#1976d2;font-weight:bold">🏠<br/>Home</div>
+            <div style="text-align:center;color:#999">📖<br/>Karte</div>
+            <div style="text-align:center;color:#999">🛒<br/>Shop</div>
+            <div style="text-align:center;color:#999">ℹ<br/>Info</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3 style="margin-top:24px">Drawer-Inhalt (gewählte Variante)</h3>
+  <p>Bei der gewählten Variante öffnet sich auf Mobile ein seitlicher Drawer mit:</p>
+  <ul>
+    <li><strong>🏠 Startseite</strong></li>
+    <li><strong>📖 Speisekarte</strong></li>
+    <li><strong>ℹ Über uns</strong></li>
+    <li><strong>📍 Standort</strong></li>
+    <li><strong>📷 Galerie</strong></li>
+    <li><strong>✉ Kontakt</strong></li>
+    <li><strong>Großer „🛒 Jetzt bestellen"-Knopf</strong> unten im Drawer</li>
+    <li>Mini-Footer mit Impressum, Datenschutz</li>
+  </ul>
+</div>
+
+<!-- 4. Tiefenseiten -->
+<div class="page" id="tiefenseiten">
+  <h2>4. Tiefen-Seiten der Webseite</h2>
+  <p class="lead">Was wird auf den einzelnen Unterseiten gezeigt?</p>
+
+  <div class="grid-2">
+
+    <div class="variant-block" style="border-color:#90caf9;background:#f3f9ff">
+      <h4>📖 /speisekarte</h4>
+      <p style="font-size:13px;margin:4px 0"><strong>Lese-Version</strong> — komplette Karte zum Stöbern, kategorisiert.</p>
+      <ul style="font-size:13px">
+        <li>Sticky Kategorie-Navigation oben (Pizza, Döner, Burger, …)</li>
+        <li>Pro Item: Name, Beschreibung, Bild, Preis, Allergene</li>
+        <li><strong>Kein „+"-Button</strong> — Bestellung läuft im Shop</li>
+        <li>Oben rechts „🛒 Bestellen"-CTA → führt zum Shop</li>
+        <li>Optional: Filter „nur vegetarisch" / „nur ohne Gluten"</li>
+      </ul>
+    </div>
+
+    <div class="variant-block" style="border-color:#90caf9;background:#f3f9ff">
+      <h4>ℹ /ueber-uns</h4>
+      <p style="font-size:13px;margin:4px 0">Geschichte und Charakter des Restaurants.</p>
+      <ul style="font-size:13px">
+        <li>Wann gegründet, von wem, was uns ausmacht</li>
+        <li>Foto-Story (Theke, Steinofen, Team)</li>
+        <li>Werte: hausgemacht, frisch, …</li>
+      </ul>
+    </div>
+
+    <div class="variant-block" style="border-color:#90caf9;background:#f3f9ff">
+      <h4>📍 /standort</h4>
+      <p style="font-size:13px;margin:4px 0">Wie kommt man hin?</p>
+      <ul style="font-size:13px">
+        <li>Große interaktive Karte (OpenStreetMap)</li>
+        <li>Adresse, Telefon, Öffnungszeiten</li>
+        <li>Anfahrts-Hinweise (Parkplätze, ÖPNV)</li>
+        <li>Liefergebiet (welche PLZ wir beliefern)</li>
+      </ul>
+    </div>
+
+    <div class="variant-block" style="border-color:#90caf9;background:#f3f9ff">
+      <h4>📷 /galerie</h4>
+      <p style="font-size:13px;margin:4px 0">Visuelle Eindrücke.</p>
+      <ul style="font-size:13px">
+        <li>Grid mit allen Restaurant-Fotos</li>
+        <li>Klick öffnet großes Bild („Lightbox")</li>
+        <li>Optional: Foto-Kategorien (Innen, Speisen, Aktion)</li>
+      </ul>
+    </div>
+
+    <div class="variant-block" style="border-color:#90caf9;background:#f3f9ff">
+      <h4>✉ /kontakt</h4>
+      <p style="font-size:13px;margin:4px 0">Direkt erreichen.</p>
+      <ul style="font-size:13px">
+        <li>Telefon-Buttons (klickbar, ruft direkt an)</li>
+        <li>E-Mail-Adresse</li>
+        <li>Optional: Kontakt-Formular</li>
+        <li>Hinweis: für Bestellungen → Shop</li>
+      </ul>
+    </div>
+
+    <div class="variant-block" style="border-color:#bbb;background:#fafafa">
+      <h4>📜 Pflicht-Seiten</h4>
+      <p style="font-size:13px;margin:4px 0">Gesetzlich vorgeschrieben.</p>
+      <ul style="font-size:13px">
+        <li>/impressum</li>
+        <li>/datenschutz</li>
+        <li>/agb</li>
+        <li>/widerrufsrecht</li>
+        <li>Im Footer als unauffällige Links</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- 5. Shop Layout -->
+<div class="page" id="shop-layout">
+  <h2>5. Shop — Item-Übersicht</h2>
+  <p class="lead">Wie werden die Gerichte zum Bestellen präsentiert?</p>
+
+  <div class="grid-2">
+
+    <div class="variant-block chosen">
+      <h4>Grid-Karten mit Foto + „+" Button</h4>
+      <p style="font-size:13px;margin:4px 0">Pro Item: Bild oben, Name + Beschreibung, Preis, „+"-Knopf zum Auswählen. Visuell ansprechend, modern.</p>
+      <div class="mockup-wrapper">
+        <div class="desktop-frame tiny" style="width:auto">
+          <div class="shop-bar"><div>← Bestellen</div><div>🚴 Lieferung</div></div>
+          <div class="cat-pills"><span class="cat-pill active">Pizza</span><span class="cat-pill">Döner</span><span class="cat-pill">Burger</span></div>
+          <div class="item-grid">
+            <div class="item-card-mp"><div class="img" style="background:#fce4ec"></div><div class="body"><div class="nm">Pizza Margh.</div><div class="desc">Tomaten, Käse</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:3px"><span class="price">10,50 €</span><div class="plus">+</div></div></div></div>
+            <div class="item-card-mp"><div class="img" style="background:#ffe0b2"></div><div class="body"><div class="nm">Pizza Salami</div><div class="desc">Salami, Käse</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:3px"><span class="price">11,00 €</span><div class="plus">+</div></div></div></div>
+            <div class="item-card-mp"><div class="img" style="background:#e8eaf6"></div><div class="body"><div class="nm">Hawaii</div><div class="desc">Schinken, Ananas</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:3px"><span class="price">11,50 €</span><div class="plus">+</div></div></div></div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:#666"><strong>Vorteil:</strong> Bilder verkaufen — Kunden sehen sofort, was sie bekommen.</p>
+    </div>
+
+    <div class="variant-block alt">
+      <h4>Listen-Layout (kompakt, mehr Items pro Bildschirm)</h4>
+      <p style="font-size:13px;margin:4px 0">Pro Item: kleines Bild links, Name + Preis + „+"-Knopf rechts. Mehr Items gleichzeitig sichtbar.</p>
+      <div class="mockup-wrapper">
+        <div class="desktop-frame tiny" style="width:auto">
+          <div class="shop-bar"><div>← Bestellen</div></div>
+          <div class="cat-pills"><span class="cat-pill active">Pizza</span><span class="cat-pill">Döner</span></div>
+          <div style="background:white">
+            <div class="item-list-row"><div class="img" style="background:#fce4ec"></div><div class="body"><div style="font-weight:bold">Pizza Margherita</div><div style="color:#666;font-size:7px">Tomaten, Käse, Basilikum</div></div><span class="price" style="color:#bf360c;font-weight:bold">10,50 €</span><div class="plus">+</div></div>
+            <div class="item-list-row"><div class="img" style="background:#ffe0b2"></div><div class="body"><div style="font-weight:bold">Pizza Salami</div><div style="color:#666;font-size:7px">Salami, Käse</div></div><span class="price" style="color:#bf360c;font-weight:bold">11,00 €</span><div class="plus">+</div></div>
+            <div class="item-list-row"><div class="img" style="background:#e8eaf6"></div><div class="body"><div style="font-weight:bold">Pizza Hawaii</div><div style="color:#666;font-size:7px">Schinken, Ananas</div></div><span class="price" style="color:#bf360c;font-weight:bold">11,50 €</span><div class="plus">+</div></div>
+            <div class="item-list-row"><div class="img" style="background:#dcedc8"></div><div class="body"><div style="font-weight:bold">Pizza Vegetariana</div><div style="color:#666;font-size:7px">Pilze, Paprika, Mais</div></div><span class="price" style="color:#bf360c;font-weight:bold">11,00 €</span><div class="plus">+</div></div>
+            <div class="item-list-row"><div class="img" style="background:#f8bbd0"></div><div class="body"><div style="font-weight:bold">Pizza Tonno</div><div style="color:#666;font-size:7px">Thunfisch, Zwiebeln</div></div><span class="price" style="color:#bf360c;font-weight:bold">11,50 €</span><div class="plus">+</div></div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:#666"><strong>Vorteil:</strong> Bei 200 Items schneller scrollen. <strong>Nachteil:</strong> Wirkt mehr wie eine Liste, weniger wie ein Schaufenster.</p>
+    </div>
+
+  </div>
+
+  <p style="margin-top:14px;font-size:13px;color:#666">Beide Varianten können kombiniert werden: Grid als Default + Umschalt-Knopf „Listen-Ansicht" für Schnell-Stöberer.</p>
+</div>
+
+<!-- 6. Item-Detail -->
+<div class="page" id="shop-detail">
+  <h2>6. Shop — Item-Detail</h2>
+  <p class="lead">Wenn man ein Gericht auswählt — wie erscheint die Detail-Ansicht?</p>
+
+  <div class="grid-3" style="align-items:flex-start">
+
+    <div class="variant-block chosen">
+      <h4>Zentriertes Pop-up (auf beiden Plattformen)</h4>
+      <p style="font-size:13px;margin:4px 0">Erscheint mittig auf dem Bildschirm. Hintergrund abgedunkelt. Auf Handy als kleineres Pop-up — nicht festgeklebt unten.</p>
+      <div class="mockup-wrapper">
+        <div class="phone-frame" style="position:relative">
+          <div class="notch"></div>
+          <div style="background:rgba(0,0,0,0.55);position:absolute;top:16px;left:0;right:0;bottom:0"></div>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border-radius:8px;width:88%;padding:6px;font-size:6px">
+            <div style="font-weight:bold">Pizza Hawaii</div>
+            <div style="height:30px;background:#fce4ec;border-radius:3px;margin:3px 0"></div>
+            <div style="color:#666;font-size:5px">Schinken, Ananas, Käse</div>
+            <div style="background:#fff8e1;padding:2px;border-radius:2px;margin-top:2px;font-size:5px">⚠ Gluten, Milch</div>
+            <div style="display:flex;gap:1px;margin-top:3px">
+              <div style="border:1px solid #ddd;padding:2px;border-radius:2px;flex:1;text-align:center;font-size:5px">Klein 8,00€</div>
+              <div style="border:2px solid #1976d2;background:#e3f2fd;padding:2px;border-radius:2px;flex:1;text-align:center;font-size:5px">Groß 10,50€</div>
+              <div style="border:1px solid #ddd;padding:2px;border-radius:2px;flex:1;text-align:center;font-size:5px">Fam. 14,50€</div>
+            </div>
+            <div style="background:#1976d2;color:white;padding:3px;border-radius:2px;text-align:center;font-weight:bold;margin-top:4px;font-size:6px">In Warenkorb · 10,50€</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#666"><strong>Vorteil:</strong> Konsistente Optik PC/Handy.</p>
+    </div>
+
+    <div class="variant-block alt">
+      <h4>Bottom-Sheet auf Mobile</h4>
+      <p style="font-size:13px;margin:4px 0">Schiebt von unten ins Bild, klebt am unteren Rand. Per Wischen nach unten schließbar.</p>
+      <div class="mockup-wrapper">
+        <div class="phone-frame" style="position:relative">
+          <div class="notch"></div>
+          <div style="background:rgba(0,0,0,0.45);position:absolute;top:16px;left:0;right:0;bottom:0"></div>
+          <div style="position:absolute;bottom:0;left:0;right:0;background:white;border-radius:10px 10px 0 0;padding:6px;font-size:6px">
+            <div style="width:24px;height:2px;background:#ddd;border-radius:1px;margin:0 auto 4px"></div>
+            <div style="font-weight:bold">Pizza Hawaii</div>
+            <div style="height:24px;background:#fce4ec;border-radius:3px;margin:3px 0"></div>
+            <div style="display:flex;gap:1px">
+              <div style="border:1px solid #ddd;padding:2px;border-radius:2px;flex:1;text-align:center;font-size:5px">Klein</div>
+              <div style="border:2px solid #1976d2;background:#e3f2fd;padding:2px;border-radius:2px;flex:1;text-align:center;font-size:5px">Groß</div>
+              <div style="border:1px solid #ddd;padding:2px;border-radius:2px;flex:1;text-align:center;font-size:5px">Fam.</div>
+            </div>
+            <div style="background:#1976d2;color:white;padding:3px;border-radius:2px;text-align:center;font-weight:bold;margin-top:3px;font-size:6px">In Warenkorb</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#666"><strong>Vorteil:</strong> Sehr „native App"-Feel. <strong>Anders auf PC:</strong> dort wäre es ein klassisches Modal.</p>
+    </div>
+
+    <div class="variant-block alt">
+      <h4>Eigene Detail-Seite</h4>
+      <p style="font-size:13px;margin:4px 0">Klick führt auf eine eigene URL (<code>/shop/item/pizza-hawaii</code>). Volle Seite, mehr Platz, Bookmark-bar.</p>
+      <div class="mockup-wrapper">
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div style="background:#1976d2;color:white;padding:3px;font-size:6px">← Pizza Hawaii</div>
+          <div style="padding:4px;font-size:6px">
+            <div style="height:50px;background:#fce4ec;border-radius:3px;margin-bottom:4px"></div>
+            <div style="font-weight:bold">Pizza Hawaii</div>
+            <div style="color:#666;font-size:5px">Schinken, Ananas, Käse</div>
+            <div style="background:#fff8e1;padding:2px;border-radius:2px;margin-top:3px;font-size:5px">⚠ Gluten, Milch</div>
+            <div style="display:flex;gap:1px;margin-top:4px">
+              <div style="border:1px solid #ddd;padding:2px;border-radius:2px;flex:1;text-align:center;font-size:5px">Klein</div>
+              <div style="border:2px solid #1976d2;background:#e3f2fd;padding:2px;border-radius:2px;flex:1;text-align:center;font-size:5px">Groß</div>
+            </div>
+            <div style="background:#1976d2;color:white;padding:3px;border-radius:2px;text-align:center;font-weight:bold;margin-top:4px;font-size:6px">In Warenkorb</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#666"><strong>Vorteil:</strong> Auf Google teilbar, mehr Platz. <strong>Nachteil:</strong> Mehr Klicks bis zur Bestellung, weniger schnell.</p>
+    </div>
+
+  </div>
+
+  <h3 style="margin-top:24px">Was im Detail-Bereich enthalten ist (alle Varianten)</h3>
+  <div class="feature-list">
+    <div class="item"><span class="icon">✓</span><span>Großes Bild des Gerichts (Klick = Lightbox-Vergrößerung)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Name &amp; Beschreibung der Zutaten</span></div>
+    <div class="item"><span class="icon">✓</span><span>Allergene &amp; Zusatzstoffe (gesetzlich Pflicht)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Größenauswahl (nur wo sinnvoll — z. B. nicht bei Burgern)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Extras-Optionen (Extra Käse, Pilze, …)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Sonderwunsch-Feld („ohne Zwiebeln, gut durchgebacken")</span></div>
+    <div class="item"><span class="icon">✓</span><span>Mengen-Stepper (1, 2, 3, …)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Großer „In den Warenkorb"-Button mit Live-Preis</span></div>
+  </div>
+</div>
+
+<!-- 7. Cart -->
+<div class="page" id="cart">
+  <h2>7. Shop — Warenkorb</h2>
+  <p class="lead">Wo lebt der Warenkorb? Immer sichtbar oder erst auf Knopfdruck?</p>
+
+  <div class="grid-3" style="align-items:flex-start">
+
+    <div class="variant-block chosen">
+      <h4>Sidebar (Desktop) + Sticky-Bar (Mobile)</h4>
+      <p style="font-size:12px;margin:4px 0">PC: Cart als rechte Spalte dauerhaft sichtbar. Handy: blauer Streifen unten („🛒 3 Items · 17,00 € →").</p>
+      <div class="mockup-wrapper">
+        <div class="desktop-frame tiny" style="width:auto">
+          <div style="display:grid;grid-template-columns:1fr 60px;height:100px">
+            <div style="background:#fafafa;padding:4px;font-size:6px">Items hier...</div>
+            <div style="background:#f5f5f5;border-left:1px solid #eee;padding:4px;font-size:6px">
+              <div style="font-weight:bold">🛒 Cart</div>
+              <div style="background:white;padding:2px;border-radius:2px;margin-top:2px">Margherita 6,50</div>
+              <div style="background:white;padding:2px;border-radius:2px;margin-top:1px">Döner 6,00</div>
+              <div style="background:#1976d2;color:white;padding:2px;text-align:center;font-weight:bold;border-radius:2px;margin-top:3px">Kasse →</div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-frame">
+          <div class="notch"></div>
+          <div style="padding:4px;font-size:6px;color:#999">Items hier...</div>
+          <div style="position:absolute;bottom:0;left:0;right:0;background:#1976d2;color:white;padding:5px;display:flex;justify-content:space-between;font-size:7px;font-weight:bold">
+            <span>🛒 3 Items</span><span>17,00 € →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="variant-block alt">
+      <h4>Cart-Icon mit Badge</h4>
+      <p style="font-size:12px;margin:4px 0">Symbol oben rechts mit Zähler. Klick öffnet einen Drawer von rechts. Cart-Inhalt nicht permanent sichtbar.</p>
+      <div class="mockup-wrapper">
+        <div class="desktop-frame tiny" style="width:auto">
+          <div class="shop-bar" style="justify-content:flex-end">
+            <div style="position:relative;background:white;color:#1976d2;width:18px;height:18px;border-radius:50%;text-align:center;line-height:18px">🛒<div style="position:absolute;top:-3px;right:-3px;background:#d32f2f;color:white;font-size:6px;width:8px;height:8px;border-radius:50%;text-align:center;line-height:8px">3</div></div>
+          </div>
+          <div style="padding:4px;font-size:6px;color:#999;height:60px">Items...</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#666"><strong>Vorteil:</strong> Mehr Platz für Items. <strong>Nachteil:</strong> Kunde sieht Summe nicht permanent.</p>
+    </div>
+
+    <div class="variant-block alt">
+      <h4>Eigene Cart-Seite</h4>
+      <p style="font-size:12px;margin:4px 0">Klassisch: Klick auf Cart-Icon → eigene Seite <code>/warenkorb</code>. Im Shop steht nur ein kleines Cart-Icon.</p>
+      <div class="mockup-wrapper">
+        <div class="desktop-frame tiny" style="width:auto">
+          <div class="shop-bar" style="justify-content:flex-end"><div>🛒 (3)</div></div>
+          <div style="padding:4px;font-size:6px;color:#999;height:60px">Nur Items, kein Cart-Streifen</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#666">Üblicher in „klassischen Shops". Weniger App-Feel.</p>
+    </div>
+
+  </div>
+
+  <h3 style="margin-top:24px">Inhalt des Warenkorbs</h3>
+  <ul>
+    <li>Pro Item: <strong>kleines Bild</strong>, Name, gewählte Größe + Extras, Notiz (falls eingegeben)</li>
+    <li>Mengen-Stepper (− und +) zum Anpassen</li>
+    <li>„Entfernen"-Knopf pro Zeile</li>
+    <li>Zusammenfassung: Zwischensumme, Liefergebühr, Gesamtbetrag</li>
+    <li>Großer „Weiter zur Bestellung →"-Knopf</li>
+  </ul>
+</div>
+
+<!-- 8. Checkout -->
+<div class="page" id="checkout">
+  <h2>8. Shop — Checkout in 3 Schritten</h2>
+  <p class="lead">Klar strukturierter Bestellabschluss mit Fortschritts-Anzeige.</p>
+
+  <div class="grid-3" style="align-items:flex-start">
+
+    <div class="variant-block" style="border-color:#1976d2;background:#f3f9ff">
+      <h4 style="color:#0d47a1">Schritt 1 — Lieferart</h4>
+      <p style="font-size:12px;margin:4px 0">Lieferung oder Abholung? Sofort oder Zeit wählen?</p>
+      <ul style="font-size:12px">
+        <li>🚴 Lieferung (Liefergebühr je nach PLZ)</li>
+        <li>🛍 Abholung (kostenlos)</li>
+        <li>⚡ „Sobald wie möglich"</li>
+        <li>📅 oder bestimmte Uhrzeit wählen</li>
+      </ul>
+    </div>
+
+    <div class="variant-block" style="border-color:#1976d2;background:#f3f9ff">
+      <h4 style="color:#0d47a1">Schritt 2 — Daten</h4>
+      <p style="font-size:12px;margin:4px 0">Wer bist du? Wohin liefern wir?</p>
+      <ul style="font-size:12px">
+        <li>Name, Telefon (Pflicht)</li>
+        <li>E-Mail (für Bestätigung)</li>
+        <li>Bei Lieferung: Adresse + PLZ-Live-Check</li>
+        <li>Bei Abholung: <strong>Sicherheits-Code</strong> wie <code>EUR-A4F7</code> wird vergeben</li>
+        <li>Notiz-Feld (optional, „bitte klingeln 3. Stock")</li>
+      </ul>
+    </div>
+
+    <div class="variant-block" style="border-color:#1976d2;background:#f3f9ff">
+      <h4 style="color:#0d47a1">Schritt 3 — Zahlung</h4>
+      <p style="font-size:12px;margin:4px 0">Online-Vorkasse, dann Bon raus.</p>
+      <ul style="font-size:12px">
+        <li>PayPal</li>
+        <li>Karte (Visa/Mastercard)</li>
+        <li>Apple Pay / Google Pay</li>
+        <li>Letzte Zusammenfassung der Bestellung</li>
+        <li>Großer „Kostenpflichtig bestellen"-Knopf</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <h3 style="margin-top:24px">Optionen zur Diskussion</h3>
+  <div class="grid-2">
+    <div class="variant-block alt">
+      <h4>3 Schritte als getrennte Seiten (gewählt)</h4>
+      <p style="font-size:13px">Jede Etappe füllt den Bildschirm. Klare Fortschrittsleiste oben. „Zurück"-Knopf jederzeit verfügbar.</p>
+    </div>
+    <div class="variant-block alt">
+      <h4>Alle 3 auf einer langen Seite</h4>
+      <p style="font-size:13px">Lange Form mit Ausklapp-Sektionen. Schneller, aber unübersichtlicher auf kleinen Bildschirmen.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:20px">Bewusst <strong>keine</strong> Bar-Zahlung</h3>
+  <p>Bar-Zahlung ist die häufigste Quelle für Fake-Bestellungen (kein Verlust für den Besteller, wenn er nicht erscheint). Online-Vorkasse stellt sicher, dass nur „committete" Kunden bestellen — Restaurant kann sich auf jede Bestellung verlassen.</p>
+</div>
+
+<!-- 9. Bestätigung -->
+<div class="page" id="bestaetigung">
+  <h2>9. Bestätigungsseite &amp; Live-Status</h2>
+  <p class="lead">Was sieht der Kunde nach dem Bezahlen?</p>
+
+  <div class="mockup-wrapper">
+    <div class="desktop-frame medium">
+      <div style="padding:20px;background:white">
+        <div style="text-align:center;font-size:32px;margin-bottom:8px">✅</div>
+        <div style="text-align:center;font-weight:bold;font-size:16px">Bestellung erhalten — danke!</div>
+        <div style="text-align:center;color:#666;margin-top:4px;font-size:11px">Wir bereiten alles für dich vor.</div>
+
+        <div style="background:#f5f5f5;padding:14px;border-radius:6px;margin-top:14px;text-align:center">
+          <div style="font-size:9px;color:#666;text-transform:uppercase;letter-spacing:1px">Dein Code</div>
+          <div style="font-size:22px;font-weight:bold;color:#bf360c;letter-spacing:2px;margin-top:4px">EUR-A4F7</div>
+          <div style="font-size:9px;color:#666;margin-top:4px">Bei Abholung diesen Code zeigen</div>
+        </div>
+
+        <div style="margin-top:18px">
+          <div style="font-weight:bold;margin-bottom:8px;font-size:11px">Status</div>
+          <div style="display:flex;justify-content:space-between;position:relative">
+            <div style="position:absolute;top:11px;left:11px;right:11px;height:2px;background:#ddd"></div>
+            <div style="position:absolute;top:11px;left:11px;width:38%;height:2px;background:#1976d2"></div>
+            <div style="z-index:1;background:white;padding:0 4px;text-align:center"><div style="background:#1976d2;color:white;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:9px">✓</div><div style="font-size:8px;margin-top:4px;font-weight:bold">Bezahlt</div></div>
+            <div style="z-index:1;background:white;padding:0 4px;text-align:center"><div style="background:#1976d2;color:white;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:9px">📦</div><div style="font-size:8px;margin-top:4px;font-weight:bold;color:#1976d2">Vorbereitung</div></div>
+            <div style="z-index:1;background:white;padding:0 4px;text-align:center"><div style="border:2px solid #ddd;background:white;color:#999;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:9px">🚴</div><div style="font-size:8px;margin-top:4px;color:#999">Unterwegs</div></div>
+            <div style="z-index:1;background:white;padding:0 4px;text-align:center"><div style="border:2px solid #ddd;background:white;color:#999;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:9px">✓</div><div style="font-size:8px;margin-top:4px;color:#999">Geliefert</div></div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;padding:10px;background:#fff8e1;border-radius:6px;color:#5d4037;font-size:10px">
+          ⏱ <strong>Geschätzte Lieferzeit:</strong> 30–45 Min<br/>
+          📍 <strong>Lieferadresse:</strong> Musterstraße 12, 38678 Clausthal-Zellerfeld<br/>
+          💳 <strong>Bezahlt mit:</strong> PayPal · 20,00 €
+        </div>
+
+        <div style="text-align:center;margin-top:10px;color:#666;font-size:10px">Bei Fragen: <strong>📞 0 53 23 / 84 02 30</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:24px">Status-Phasen</h3>
+  <p>Die Stepper-Anzeige aktualisiert sich automatisch (Polling alle 15 Sekunden):</p>
+  <ul>
+    <li><strong>Bezahlt</strong> — sobald Stripe/PayPal die Zahlung bestätigt hat</li>
+    <li><strong>Vorbereitung</strong> — Restaurant hat den Bon bestätigt</li>
+    <li><strong>Unterwegs</strong> (nur bei Lieferung) — Fahrer ist los</li>
+    <li><strong>Geliefert</strong> bzw. <strong>Abgeholt</strong> — fertig</li>
+  </ul>
+</div>
+
+<!-- 10. Features -->
+<div class="page" id="features">
+  <h2>10. Funktionen-Übersicht</h2>
+  <p class="lead">Was die Seite alles kann (technisch &amp; für den Nutzer).</p>
+
+  <h3>Webseite-Bereich</h3>
+  <div class="feature-list">
+    <div class="item"><span class="icon">✓</span><span>Mobile-first responsives Design (Handy + Tablet + PC)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Schnelle Ladezeiten (optimierte Bilder, Edge-CDN)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Deutsch und Englisch umschaltbar</span></div>
+    <div class="item"><span class="icon">✓</span><span>Datenschutzfreundliche Karte (OpenStreetMap, kein Google)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Cookie-Banner mit echter Wahl</span></div>
+    <div class="item"><span class="icon">✓</span><span>Auf Google &amp; Bing auffindbar (SEO)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Direkt-Anruf-Knopf auf Mobile</span></div>
+    <div class="item"><span class="icon">✓</span><span>Bild-Karussell mit Auto-Rotation</span></div>
+  </div>
+
+  <h3 style="margin-top:20px">Shop-Bereich</h3>
+  <div class="feature-list">
+    <div class="item"><span class="icon">✓</span><span>Lieferung mit PLZ-Live-Prüfung</span></div>
+    <div class="item"><span class="icon">✓</span><span>Abholung mit Sicherheits-Code</span></div>
+    <div class="item"><span class="icon">✓</span><span>Sofort oder Wunschzeit wählbar</span></div>
+    <div class="item"><span class="icon">✓</span><span>Variante (Größe) + Extras + Sonderwunsch pro Item</span></div>
+    <div class="item"><span class="icon">✓</span><span>Allergene + Zusatzstoffe pro Item (LMIV)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Online-Zahlung (PayPal, Karte, Apple/Google Pay)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Live-Status der Bestellung</span></div>
+    <div class="item"><span class="icon">✓</span><span>Bestellung als E-Mail an Kunde + Restaurant</span></div>
+    <div class="item"><span class="icon">✓</span><span>Browser-Speicher für „letzte Adresse"-Komfort</span></div>
+    <div class="item"><span class="icon">✓</span><span>Nur während Öffnungszeit bestellbar</span></div>
+  </div>
+
+  <h3 style="margin-top:20px">Restaurant-Bereich</h3>
+  <div class="feature-list">
+    <div class="item"><span class="icon">✓</span><span>WLAN-Bondrucker druckt Bestellungen automatisch</span></div>
+    <div class="item"><span class="icon">✓</span><span>Backup-E-Mail wenn Drucker offline</span></div>
+    <div class="item"><span class="icon">✓</span><span>Internes Bestell-Panel mit Status-Knöpfen</span></div>
+    <div class="item"><span class="icon">✓</span><span>Tagesübersicht aller Bestellungen</span></div>
+    <div class="item"><span class="icon">✓</span><span>Speisekarten-Pflege per Datei (selten geändert)</span></div>
+  </div>
+
+  <h3 style="margin-top:20px">App-Gefühl</h3>
+  <div class="feature-list">
+    <div class="item"><span class="icon">✓</span><span>Auf dem Handy als „App" installierbar (PWA)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Eigenes Icon auf dem Home-Screen</span></div>
+    <div class="item"><span class="icon">✓</span><span>Speisekarte auch offline lesbar (nach 1. Besuch)</span></div>
+    <div class="item"><span class="icon">✓</span><span>Smooth Übergänge zwischen Seiten</span></div>
+  </div>
+</div>
+
+<!-- 11. Was wir besprechen sollten -->
+<div class="page" id="weiteres">
+  <h2>11. Was wir noch besprechen sollten</h2>
+  <p class="lead">Punkte, die wir vor dem Bauen entscheiden sollten.</p>
+
+  <h3>Inhaltliches</h3>
+  <ul>
+    <li><strong>Welche Hero-Stimmung?</strong> Lifestyle-Foto vom Steinofen, Pizza-Nahaufnahme, Restaurant-Innenraum, oder neutraler Brand-Look?</li>
+    <li><strong>Wie viele Restaurant-Fotos</strong> haben wir? 3 Bilder fürs Karussell reichen, mehr für die Galerie-Seite.</li>
+    <li><strong>Speisen-Fotos:</strong> Profi-Shoot, eigene Smartphone-Fotos oder AI-Bilder als Start?</li>
+    <li><strong>Über-uns-Text:</strong> wer schreibt das, was steht drin (Geschichte, Familie, Werte)?</li>
+  </ul>
+
+  <h3>Liefergebiet &amp; Preise</h3>
+  <ul>
+    <li>Welche <strong>PLZ</strong> liefern wir an?</li>
+    <li>Welche <strong>Liefergebühr</strong> pro PLZ? Mindestens 1,50 €, dann nach Entfernung gestaffelt?</li>
+    <li>Soll es <strong>Aktionen</strong> geben (Pizza-Hour 21–23 Uhr, Mittagsangebote)?</li>
+    <li>Sollen einzelne Items als <strong>„Beliebt"</strong> markiert werden für die Top-Seller-Reihe?</li>
+  </ul>
+
+  <h3>Speisekarte digitalisieren</h3>
+  <ul>
+    <li>Bei ~200 Items: <strong>welche Größen</strong> hat jedes Item (klein/groß/family für Pizza, …)</li>
+    <li>Welche <strong>Extras</strong> sind pro Kategorie möglich (Pilze nur bei Pizza, Käse-Extra überall)?</li>
+    <li><strong>Allergene + Zusatzstoffe</strong> pro Item — gesetzlich Pflicht. Wer pflegt das ein?</li>
+    <li>Welche Größe ist „Standard" und wird auf der Übersichts-Karte als Preis gezeigt?</li>
+  </ul>
+
+  <h3>Sprachen &amp; Erweiterungen</h3>
+  <ul>
+    <li>Englisch von Anfang an oder später ergänzen?</li>
+    <li>Tisch-Reservierung interessant?</li>
+    <li>Newsletter-Funktion?</li>
+    <li>Bewertungs-Integration (Google-Reviews)?</li>
+  </ul>
+
+  <h3>Domain &amp; Brand</h3>
+  <ul>
+    <li>Welche <strong>Domain</strong>? <code>eurodoener.de</code>, <code>eurodoener-clausthal.de</code>, …</li>
+    <li>Logo: existiert hochauflösend (PNG/SVG) oder muss nachgezeichnet werden?</li>
+    <li>Markenfarben? (Aktuell im Konzept: Rot/Orange wie Speisekarte, Blau für Bestell-Bereich)</li>
+  </ul>
+</div>
+
+<!-- Closing -->
+<div class="page cover" style="padding:80px 56px">
+  <h1 style="font-size:42px;color:white">Was meint ihr?</h1>
+  <div class="lead">Welche Variante passt — wo gibt es noch Wünsche?</div>
+</div>
+
+</body>
+</html>

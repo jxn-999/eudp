@@ -1,0 +1,253 @@
+<h2>Startseite v2 — überarbeitet</h2>
+<p class="subtitle">Mobile orientiert sich an Desktop. Status-Pille raus. Bild-Karussell. Mehr Scroll-Inhalt.</p>
+
+<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:20px">
+
+  <!-- Desktop -->
+  <div>
+    <div style="text-align:center;font-size:11px;color:#666;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Desktop</div>
+    <div style="border:2px solid #222;border-radius:8px;background:#fff;overflow:hidden;font-size:9px">
+
+      <!-- Top bar — clean, no status -->
+      <div style="background:#fff;border-bottom:1px solid #eee;padding:10px 14px;display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:bold;font-size:13px;color:#d32f2f">EURO-DÖNER PIZZERIA</div>
+        <div style="display:flex;gap:14px;align-items:center;font-size:9px;color:#444">
+          <span>Startseite</span>
+          <span>Speisekarte</span>
+          <span>Über uns</span>
+          <span>Galerie</span>
+          <span>Kontakt</span>
+          <span style="background:#1976d2;color:white;padding:5px 12px;border-radius:4px;font-weight:bold">🛒 Bestellen</span>
+        </div>
+      </div>
+
+      <!-- Hero -->
+      <div style="background:linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.55)),linear-gradient(135deg,#bf360c,#e65100);color:white;padding:54px 16px;text-align:center;min-height:200px">
+        <div style="font-size:22px;font-weight:bold;margin-bottom:6px;letter-spacing:0.5px">Frisch &amp; lecker —<br/>seit über 10 Jahren</div>
+        <div style="font-size:10px;opacity:0.9;margin-bottom:18px">Pizza · Döner · Burger · Pasta · Schnitzel</div>
+        <div style="display:flex;gap:10px;justify-content:center">
+          <div style="background:white;color:#bf360c;padding:10px 18px;border-radius:6px;font-weight:bold;font-size:11px">📖 Zur Speisekarte</div>
+          <div style="background:#1976d2;color:white;padding:10px 18px;border-radius:6px;font-weight:bold;font-size:11px;box-shadow:0 4px 12px rgba(25,118,210,0.4)">🛒 Jetzt bestellen</div>
+        </div>
+      </div>
+
+      <!-- Info row: Map + Contact + Hours -->
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;padding:14px;background:#fafafa">
+        <div style="background:white;border-radius:6px;border:1px solid #eee;overflow:hidden">
+          <div style="height:120px;background:linear-gradient(135deg,#c8e6c9,#a5d6a7);display:flex;align-items:center;justify-content:center;color:#1b5e20;font-weight:bold;position:relative">
+            🗺 OpenStreetMap
+            <div style="position:absolute;width:8px;height:8px;background:#d32f2f;border-radius:50%;top:55%;left:48%;box-shadow:0 0 0 4px rgba(211,47,47,0.3)"></div>
+          </div>
+          <div style="padding:6px 8px;font-size:8px;background:white;color:#444">📍 Adolph-Roemer-Str. 7, 38678 Clausthal-Zellerfeld</div>
+        </div>
+        <div style="background:white;padding:10px;border-radius:6px;border:1px solid #eee">
+          <div style="font-weight:bold;color:#bf360c;margin-bottom:6px">Kontakt</div>
+          <div style="color:#444;line-height:1.6">📞 0 53 23 / 84 02 30</div>
+          <div style="color:#444;line-height:1.6">📱 0155 66 75 65 38</div>
+          <div style="color:#444;line-height:1.6;margin-top:6px">✉ info@euro-doener.de</div>
+        </div>
+        <div style="background:white;padding:10px;border-radius:6px;border:1px solid #eee">
+          <div style="font-weight:bold;color:#bf360c;margin-bottom:6px">Öffnungszeiten</div>
+          <div style="color:#444;line-height:1.6">Mo–So: 11–23 Uhr</div>
+          <div style="color:#444;line-height:1.6;margin-top:4px">Lieferung: 11–23 Uhr</div>
+          <div style="color:#444;line-height:1.6">Pizza-Hour: 21–23 Uhr</div>
+        </div>
+      </div>
+
+      <!-- Image carousel — 3 visible -->
+      <div style="padding:14px;background:white">
+        <div style="font-weight:bold;font-size:11px;color:#222;margin-bottom:6px">Unser Restaurant</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;position:relative">
+          <div style="height:90px;background:linear-gradient(45deg,#fff3e0,#ffcc80);border-radius:4px;display:flex;align-items:center;justify-content:center;color:#bf360c;font-size:8px;font-weight:bold">📷 Innenraum 1</div>
+          <div style="height:90px;background:linear-gradient(45deg,#ffe0b2,#ffb74d);border-radius:4px;display:flex;align-items:center;justify-content:center;color:#bf360c;font-size:8px;font-weight:bold">📷 Theke / Steinofen</div>
+          <div style="height:90px;background:linear-gradient(45deg,#fff8e1,#ffd54f);border-radius:4px;display:flex;align-items:center;justify-content:center;color:#bf360c;font-size:8px;font-weight:bold">📷 Sitzbereich</div>
+          <div style="position:absolute;left:-2px;top:50%;transform:translateY(-50%);width:18px;height:18px;background:rgba(0,0,0,0.6);color:white;border-radius:50%;text-align:center;line-height:18px">‹</div>
+          <div style="position:absolute;right:-2px;top:50%;transform:translateY(-50%);width:18px;height:18px;background:rgba(0,0,0,0.6);color:white;border-radius:50%;text-align:center;line-height:18px">›</div>
+        </div>
+        <div style="display:flex;gap:3px;justify-content:center;margin-top:6px">
+          <div style="width:14px;height:3px;background:#d32f2f;border-radius:2px"></div>
+          <div style="width:6px;height:3px;background:#ddd;border-radius:2px"></div>
+          <div style="width:6px;height:3px;background:#ddd;border-radius:2px"></div>
+        </div>
+      </div>
+
+      <!-- Top-Seller -->
+      <div style="padding:14px;background:#fafafa">
+        <div style="font-weight:bold;font-size:11px;color:#222;margin-bottom:6px">Beliebt bei unseren Gästen</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+          <div style="background:white;border-radius:6px;border:1px solid #eee;overflow:hidden">
+            <div style="height:50px;background:#fce4ec"></div>
+            <div style="padding:5px;font-size:8px"><div style="font-weight:bold">Pizza Margherita</div><div style="color:#bf360c;font-weight:bold">ab 6,50 €</div></div>
+          </div>
+          <div style="background:white;border-radius:6px;border:1px solid #eee;overflow:hidden">
+            <div style="height:50px;background:#fff3e0"></div>
+            <div style="padding:5px;font-size:8px"><div style="font-weight:bold">Döner</div><div style="color:#bf360c;font-weight:bold">ab 6,00 €</div></div>
+          </div>
+          <div style="background:white;border-radius:6px;border:1px solid #eee;overflow:hidden">
+            <div style="height:50px;background:#e8eaf6"></div>
+            <div style="padding:5px;font-size:8px"><div style="font-weight:bold">Dürüm</div><div style="color:#bf360c;font-weight:bold">ab 6,50 €</div></div>
+          </div>
+          <div style="background:white;border-radius:6px;border:1px solid #eee;overflow:hidden">
+            <div style="height:50px;background:#e1f5fe"></div>
+            <div style="padding:5px;font-size:8px"><div style="font-weight:bold">Cheeseburger</div><div style="color:#bf360c;font-weight:bold">ab 5,50 €</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Story / Action -->
+      <div style="padding:18px 14px;background:white;display:grid;grid-template-columns:2fr 1fr;gap:14px;align-items:center">
+        <div>
+          <div style="font-weight:bold;font-size:11px;margin-bottom:4px">Hausgemacht. Frisch. Schnell.</div>
+          <div style="color:#555;line-height:1.6;font-size:8px">Unsere Pizzen kommen aus dem Steinofen, der Drehspieß läuft den ganzen Tag, und die Soßen rühren wir selbst. Vor-Ort-Plätze, Lieferung im gesamten Raum Clausthal-Zellerfeld und natürlich Abholung.</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#ffeb3b,#fbc02d);padding:10px;border-radius:6px;text-align:center;color:#5d4037">
+          <div style="font-size:8px;text-transform:uppercase">PIZZA-HOUR</div>
+          <div style="font-size:14px;font-weight:bold">ab 9,00 €</div>
+          <div style="font-size:7px">große Pizzen 21–23 Uhr</div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="background:#222;color:#bbb;padding:12px;font-size:7px">
+        <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:8px">
+          <div>
+            <div style="color:white;font-weight:bold;margin-bottom:4px;font-size:9px">EURO-DÖNER PIZZERIA</div>
+            <div>Adolph-Roemer-Str. 7</div>
+            <div>38678 Clausthal-Zellerfeld</div>
+            <div style="margin-top:4px">📞 0 53 23 / 84 02 30</div>
+          </div>
+          <div>
+            <div style="color:white;font-weight:bold;margin-bottom:4px">Restaurant</div>
+            <div>Über uns</div>
+            <div>Standort</div>
+            <div>Galerie</div>
+          </div>
+          <div>
+            <div style="color:white;font-weight:bold;margin-bottom:4px">Bestellen</div>
+            <div>Speisekarte</div>
+            <div>Shop</div>
+            <div>Allergene</div>
+          </div>
+          <div>
+            <div style="color:white;font-weight:bold;margin-bottom:4px">Rechtliches</div>
+            <div>Impressum</div>
+            <div>Datenschutz</div>
+            <div>AGB · Widerruf</div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:8px;color:#555;border-top:1px solid #333;padding-top:6px">© 2026 Euro-Döner Pizzeria · Alle Rechte vorbehalten</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile — desktop-aligned -->
+  <div>
+    <div style="text-align:center;font-size:11px;color:#666;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Mobile</div>
+    <div style="border:8px solid #222;border-radius:24px;background:#fff;overflow:hidden;width:100%;aspect-ratio:9/19;font-size:7px">
+      <div style="height:18px;background:#222"></div>
+
+      <!-- Top bar (clean) -->
+      <div style="padding:6px 8px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee">
+        <div style="font-weight:bold;color:#d32f2f;font-size:8px">EURO-DÖNER</div>
+        <div style="background:#222;color:white;width:14px;height:14px;border-radius:3px;text-align:center;line-height:14px">≡</div>
+      </div>
+
+      <!-- Hero -->
+      <div style="background:linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.55)),linear-gradient(135deg,#bf360c,#e65100);color:white;padding:14px 6px;text-align:center;min-height:90px">
+        <div style="font-weight:bold;font-size:10px;line-height:1.2">Frisch &amp; lecker —<br/>seit über 10 Jahren</div>
+        <div style="font-size:6px;opacity:0.9;margin:4px 0">Pizza · Döner · Burger · Pasta</div>
+        <div style="display:flex;gap:4px;margin-top:6px">
+          <div style="background:white;color:#bf360c;padding:5px;border-radius:4px;font-weight:bold;flex:1">📖 Speisekarte</div>
+          <div style="background:#1976d2;color:white;padding:5px;border-radius:4px;font-weight:bold;flex:1">🛒 Bestellen</div>
+        </div>
+      </div>
+
+      <!-- Info row: 2 cols, then map full width -->
+      <div style="padding:6px;background:#fafafa">
+        <div style="background:white;border-radius:3px;border:1px solid #eee;overflow:hidden;margin-bottom:4px">
+          <div style="height:50px;background:linear-gradient(135deg,#c8e6c9,#a5d6a7);display:flex;align-items:center;justify-content:center;color:#1b5e20;font-weight:bold;position:relative">
+            🗺 Karte
+            <div style="position:absolute;width:5px;height:5px;background:#d32f2f;border-radius:50%;top:50%;left:48%"></div>
+          </div>
+          <div style="padding:3px 4px;font-size:6px;color:#444">📍 Adolph-Roemer-Str. 7, Clausthal-Zellerfeld</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+          <div style="background:white;padding:4px;border-radius:3px;border:1px solid #eee">
+            <div style="font-weight:bold;color:#bf360c;margin-bottom:2px">Kontakt</div>
+            <div>📞 0 53 23 / 84 02 30</div>
+            <div>✉ info@...</div>
+          </div>
+          <div style="background:white;padding:4px;border-radius:3px;border:1px solid #eee">
+            <div style="font-weight:bold;color:#bf360c;margin-bottom:2px">Öffnungszeit</div>
+            <div>Mo–So 11–23</div>
+            <div>Lieferung 11–23</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image carousel — 1 main + peek -->
+      <div style="padding:6px;background:white">
+        <div style="font-weight:bold;font-size:8px;margin-bottom:3px">Unser Restaurant</div>
+        <div style="display:flex;gap:3px;align-items:stretch;height:60px;overflow:hidden">
+          <div style="width:18%;background:linear-gradient(45deg,#fff3e0,#ffcc80);border-radius:3px;opacity:0.5"></div>
+          <div style="flex:1;background:linear-gradient(45deg,#ffe0b2,#ffb74d);border-radius:3px;display:flex;align-items:center;justify-content:center;color:#bf360c;font-weight:bold;font-size:6px">📷 Theke / Steinofen</div>
+          <div style="width:18%;background:linear-gradient(45deg,#fff8e1,#ffd54f);border-radius:3px;opacity:0.5"></div>
+        </div>
+        <div style="display:flex;gap:2px;justify-content:center;margin-top:3px">
+          <div style="width:8px;height:2px;background:#ddd;border-radius:1px"></div>
+          <div style="width:14px;height:2px;background:#d32f2f;border-radius:1px"></div>
+          <div style="width:8px;height:2px;background:#ddd;border-radius:1px"></div>
+        </div>
+      </div>
+
+      <!-- Top-Seller (2 cols) -->
+      <div style="padding:6px;background:#fafafa">
+        <div style="font-weight:bold;font-size:8px;margin-bottom:3px">Beliebt</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px">
+          <div style="background:white;border-radius:3px;border:1px solid #eee;overflow:hidden">
+            <div style="height:30px;background:#fce4ec"></div>
+            <div style="padding:3px"><div style="font-weight:bold">Margherita</div><div style="color:#bf360c">ab 6,50€</div></div>
+          </div>
+          <div style="background:white;border-radius:3px;border:1px solid #eee;overflow:hidden">
+            <div style="height:30px;background:#fff3e0"></div>
+            <div style="padding:3px"><div style="font-weight:bold">Döner</div><div style="color:#bf360c">ab 6,00€</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="background:#222;color:#bbb;padding:5px;font-size:5px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+          <div>
+            <div style="color:white;font-weight:bold">Restaurant</div>
+            <div>Über uns · Standort · Galerie</div>
+          </div>
+          <div>
+            <div style="color:white;font-weight:bold">Rechtliches</div>
+            <div>Impressum · Datenschutz · AGB</div>
+          </div>
+        </div>
+        <div style="text-align:center;margin-top:3px;color:#555">© 2026 Euro-Döner</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<h3 style="margin-top:32px">Was sich geändert hat</h3>
+<ul style="line-height:1.8">
+  <li><strong>Status-Pille raus</strong> — Top-Bar zeigt nur noch Logo + Nav-Links (Desktop) bzw. ≡ (Mobile). Öffnungszeiten stehen im Info-Block prominent.</li>
+  <li><strong>Mobile-Layout näher am Desktop</strong>: Info-Block ist 2-spaltig (Kontakt + Öffnungszeit nebeneinander), Map oben drüber als breiter Streifen, Top-Seller 2-spaltig statt einspaltig.</li>
+  <li><strong>Bild-Karussell</strong> mit Innenraum-Fotos:
+    <ul>
+      <li>Desktop: 3 Bilder gleichzeitig sichtbar, mit ‹/› Pfeilen + Punkte-Indikator. Auto-Rotation alle 5s, pausiert bei Hover.</li>
+      <li>Mobile: 1 Bild voll sichtbar, links/rechts ~18 % vom Nachbarbild als „Peek" (sichtbar aber abgedunkelt). Wisch-Geste zum Wechseln.</li>
+    </ul>
+  </li>
+  <li><strong>Mehr Scroll-Inhalt</strong>: Top-Seller-Reihe + Story-Block + Pizza-Hour-Aktion + voller Footer = ~2,5 Bildschirmlängen Material auf Desktop, ~3 auf Mobile.</li>
+  <li><strong>Footer 4-spaltig</strong> auf Desktop (Restaurant-Info / Restaurant-Links / Bestell-Links / Rechtliches), 2-spaltig auf Mobile.</li>
+</ul>
+
+<p style="margin-top:24px;padding:16px;background:#e8f5e9;border-radius:6px">
+  <strong>Passt das jetzt?</strong> Direkt im Anschluss zeige ich dir den Shop.
+</p>
