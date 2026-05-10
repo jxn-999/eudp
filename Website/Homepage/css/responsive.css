@@ -1,0 +1,113 @@
+/* ============================================================
+   Responsive — übergreifende Media Queries
+   (Section-spezifische Anpassungen liegen in der jeweiligen
+    Section-Datei — hier nur die Cross-Cutting-Regeln.)
+   ============================================================ */
+
+/* Tablet & kleinere Desktops */
+@media (max-width: 1080px) {
+  .info-head,
+  .sellers-head,
+  .story-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .story-grid { gap: 48px; }
+
+  /* Asymmetrisches Info-Grid auf Tablet zurücksetzen.
+     minmax(0, 1fr) erlaubt den Tracks unter ihre min-content-Breite
+     zu schrumpfen — wichtig damit die Map-Tiles im Standort-Card
+     die Spalten nicht aufblasen. */
+  .info-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
+  .info-grid .card { min-width: 0; }
+
+  .seller-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .slide { flex-basis: calc((100% - 14px) / 2); }
+
+  .foot-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .foot-brand { grid-column: span 2; max-width: none; }
+
+  /* Topbar — Mobile-Drawer übernimmt: Desktop-Nav verbergen,
+     Hamburger zeigen. Telefon-CTA wandert in den Drawer
+     (siehe .nav-tel-mobile in topbar.css). */
+  .top-inner { padding: 14px 24px; gap: 16px; }
+  .nav { display: none; }
+  .menu-btn { display: flex; }
+}
+
+/* Mobile */
+@media (max-width: 680px) {
+  .wrap { padding: 0 20px; }
+
+  /* Info-Grid auf Mobile zurück auf 1-Spalte (überschreibt die
+     1080px-Regel oben, da spätere Media Queries gewinnen). */
+  .info-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
+  .info-grid .card:first-child { grid-column: auto; grid-row: auto; }
+
+  /* Top-Seller in 2-Spalten-Grid auf Mobile */
+  .seller-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+
+  .hero { min-height: 640px; }
+  .hero-inner { padding: 130px 20px 110px; }
+  /* H1 trägt jetzt das SEO-Keyword „Döner & Pizza in Clausthal-Zellerfeld" —
+     etwas kleiner, leicht erhöhte line-height und Worttrennung, damit der
+     lange Ortsname auf 320 px-Mobile nicht überläuft. */
+  .hero h1 {
+    font-size: 36px;
+    line-height: 1.08;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  .hero-sub { font-size: 13px; letter-spacing: .12em; }
+  .hero-meta { padding: 0 20px; font-size: 10px; gap: 14px; bottom: 20px; }
+  .hero-cta { gap: 10px; }
+  .hero-cta .btn { padding: 13px 20px; font-size: 12px; }
+
+  .info,
+  .carousel-section,
+  .sellers,
+  .story-row { padding: 64px 0; }
+
+  /* Section-Heads (Eyebrow + h2 + ggf. Carousel-Buttons) lockerer
+     stapeln, Buttons darunter. Reihenfolge bleibt wie Desktop. */
+  .carousel-head { gap: 18px; }
+  .carousel-nav { align-self: flex-start; }
+
+  .seller-name { font-size: 19px; }
+  .seller-price { font-size: 24px; }
+
+  .slide { flex-basis: 78%; height: 280px; }
+  .slide:not(.is-active) { opacity: .55; }
+
+  .aktion h3 { font-size: 42px; }
+  .aktion-deal .price { font-size: 46px; }
+
+  /* Footer: Brand spannt volle Breite, restliche 3 Spalten als 2-Spalten
+     darunter (statt komplett zu stapeln). Letzte Zelle bleibt leer. */
+  .foot-top {
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 20px;
+  }
+  .foot-brand {
+    grid-column: 1 / -1;
+    max-width: none;
+  }
+  .foot-bottom { gap: 12px; }
+  .foot-bottom .legal { gap: 14px; flex-wrap: wrap; }
+}
+
+/* Animationen reduzieren wenn vom System gewünscht */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

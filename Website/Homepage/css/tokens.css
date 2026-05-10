@@ -1,0 +1,41 @@
+/* ============================================================
+   Design-Tokens — globale CSS-Variablen
+   Farben, Schriften, Schatten
+   ============================================================ */
+:root {
+  /* Ink / Dunkeltöne */
+  --ink:        #0d0a07;
+  --ink-2:      #1a1410;
+  --ink-3:      #2a221a;
+
+  /* Paper / Helltöne */
+  --paper:      #f6efe1;
+  --paper-2:    #ede5d2;
+  --paper-3:    #fffaf0;
+
+  /* Linien & Muted */
+  --line:       #ddd2b8;
+  --line-d:     rgba(246, 239, 225, .14);
+  --muted:      #8a7a5e;
+  --muted-d:    rgba(246, 239, 225, .62);
+
+  /* Marken-Akzente */
+  --tomato:     #c0301e;
+  --tomato-2:   #8d1b0f;
+  --gold:       #d4a52a;
+  --gold-2:     #b48715;
+  --gold-soft:  #e8c66d;
+  --bordeaux:   #3a0e10;
+
+  /* Action-Blau (laut Brief Pflicht für Primary-Aktionen) */
+  --action:     #1976d2;
+  --action-2:   #0d47a1;
+
+  /* Schatten */
+  --shadow-md:  0 22px 48px -22px rgba(0, 0, 0, .55);
+  --shadow-lg:  0 38px 80px -28px rgba(0, 0, 0, .6);
+
+  /* Schrift-Stack */
+  --serif:      "Cormorant Garamond", "Times New Roman", serif;
+  --sans:       "Inter", -apple-system, system-ui, sans-serif;
+}

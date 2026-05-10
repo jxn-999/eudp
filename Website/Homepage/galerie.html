@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d0a07" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <title>Galerie · Euro Döner Pizzeria Clausthal-Zellerfeld</title>
+  <meta name="description" content="Bild-Galerie aus dem Restaurant — folgt in Kürze." />
+  <link rel="canonical" href="https://www.eurodoenerclz.de/galerie.html" />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/topbar.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+
+  <style>
+    main.galerie-soon {
+      background: var(--ink);
+      color: var(--paper);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: calc(74px + env(safe-area-inset-top) + 24px) 5vw 80px;
+    }
+    @media (max-width: 1080px) { main.galerie-soon { padding-top: calc(60px + env(safe-area-inset-top) + 24px); } }
+    @media (max-width: 680px)  { main.galerie-soon { padding-top: calc(54px + env(safe-area-inset-top) + 24px); } }
+
+    .galerie-soon__card {
+      max-width: 580px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .galerie-soon__eyebrow {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: 11px; letter-spacing: .32em; text-transform: uppercase;
+      font-weight: 700; color: var(--gold);
+    }
+    .galerie-soon__eyebrow::before,
+    .galerie-soon__eyebrow::after {
+      content: ""; width: 30px; height: 1px;
+      background: currentColor; opacity: .55;
+    }
+    .galerie-soon__title {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: clamp(44px, 6vw, 76px);
+      line-height: 1.05;
+      letter-spacing: -.015em;
+      color: var(--paper);
+      margin: 0;
+    }
+    .galerie-soon__title em {
+      font-style: italic; font-weight: 500; color: var(--gold-soft);
+    }
+    .galerie-soon__lede {
+      font-family: var(--serif);
+      font-style: italic; font-weight: 500;
+      font-size: 15.5px; line-height: 1.7;
+      color: rgba(246, 239, 225, .78);
+      max-width: 460px; margin: 0;
+    }
+    .galerie-soon__orn {
+      color: rgba(212, 165, 42, .55);
+      font-size: 14px; letter-spacing: 4px;
+      font-family: var(--serif);
+      user-select: none;
+      margin: 4px 0 8px;
+    }
+    .galerie-soon__cta {
+      display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+    }
+    .galerie-soon__cta .btn { padding: 14px 26px; font-size: 13px; }
+    @media (max-width: 680px) {
+      .galerie-soon__cta {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        max-width: 280px;
+      }
+      .galerie-soon__cta .btn { justify-content: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar" id="topbar">
+    <div class="top-inner">
+      <a class="brand" href="index.html">
+        <b>Euro Döner</b>
+        <i>Pizzeria</i>
+      </a>
+
+      <nav class="nav">
+        <a href="speisekarte.html">Speisekarte</a>
+        <a href="index.html#story">Über uns</a>
+        <a href="galerie.html" class="active" aria-current="page">Galerie</a>
+        <a href="standort.html">Kontakt</a>
+        <a href="tel:+495323840230" class="nav-tel-mobile">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          Anrufen · 0 53 23 / 84 02 30
+        </a>
+        <a href="index.html#order" class="nav-bestell-mobile">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.3a2 2 0 0 0 2 1.7h8.7a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
+          Online bestellen
+        </a>
+      </nav>
+
+      <div class="top-cta">
+        <a class="tel" href="tel:+495323840230">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          0 53 23 / 84 02 30
+        </a>
+        <a class="btn btn-bestell" href="index.html#order">
+          <svg class="ic" viewBox="0 0 24 24"><path d="M3 3h2l2.4 12.3a2 2 0 0 0 2 1.7h8.7a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
+          Bestellen
+        </a>
+        <button class="menu-btn" id="menuBtn" aria-label="Menü">
+          <i></i><i></i><i></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="galerie-soon">
+    <div class="galerie-soon__card">
+      <span class="galerie-soon__eyebrow">Galerie</span>
+      <h1 class="galerie-soon__title">Folgt in <em>Kürze.</em></h1>
+      <p class="galerie-soon__lede">
+        Wir bereiten gerade einen Blick in unser Restaurant für Dich vor &mdash;
+        frische Fotos aus der Küche, vom Vor-Ort-Erleben und vom Team.
+        Schau bald nochmal vorbei.
+      </p>
+      <div class="galerie-soon__orn" aria-hidden="true">⸻ &nbsp;⋄&nbsp; ⸻</div>
+      <div class="galerie-soon__cta">
+        <a class="btn btn-bestell" href="index.html">Zur Startseite</a>
+        <a class="btn btn-outline-light" href="speisekarte.html">Speisekarte ansehen</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-top">
+        <div class="foot-brand">
+          <div class="b-name">
+            <b>Euro Döner</b>
+            <i>Pizzeria</i>
+          </div>
+          <div class="addr-block">
+            Adolph-Roemer-Straße 7<br/>
+            38678 Clausthal-Zellerfeld<br/>
+            <a href="tel:+495323840230" style="color: var(--gold)">0 53 23 / 84 02 30</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="foot-cap">Restaurant</div>
+          <ul class="foot-list">
+            <li><a href="index.html#story">Über uns</a></li>
+            <li><a href="galerie.html">Galerie</a></li>
+            <li><a href="standort.html">Kontakt</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="foot-cap">Bestellen</div>
+          <ul class="foot-list">
+            <li><a href="speisekarte.html">Speisekarte</a></li>
+            <li><a href="#" aria-disabled="true" class="link-pending" title="Folgt mit dem Online-Shop">Online-Shop</a></li>
+            <li><a href="speisekarte.html#allergene">Allergene</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="foot-cap">Öffnungszeiten</div>
+          <div class="foot-hours">
+            <div class="row"><span>Restaurant</span><span>11 – 23 Uhr</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="foot-bottom">
+        <div>© 2026 Euro Döner · Alle Rechte vorbehalten</div>
+        <div class="legal">
+          <a href="impressum.html">Impressum</a>
+          <a href="datenschutz.html">Datenschutz</a>
+          <a href="#" aria-disabled="true" class="link-pending" title="Folgt mit der Bestellplattform">AGB</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initTopbar } from './js/topbar.js';
+    import { initMenu }   from './js/menu.js';
+    document.addEventListener('DOMContentLoaded', () => {
+      initTopbar();
+      initMenu();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1007 @@
+/* ============================================================
+   Speisekarte — kompaktes Spalten-Layout im Stil einer
+   gedruckten Karte. Ruhig, typografisch, wenig Dekor.
+
+   Breakpoint-System (synchron zur Homepage):
+     ≥1081px  Desktop      — 2-Spalten-Liste, volle Hero-Skala
+      681–1080 Tablet/Drawer — 2-Spalten-Liste, denser Gap
+      381–680  Mobile       — 1-Spalten-Liste, kompakte Hero
+      ≤380     Fold-Cover   — Sehr enge Phones (Galaxy Z Fold)
+
+   Sticky-Stack-Offsets liegen in CSS-Vars, damit Topbar-
+   Höhen-Änderung an EINER Stelle propagiert.
+   ============================================================ */
+
+:root {
+  --topbar-h: 70px;
+  --menu-nav-h: 50px;
+}
+@media (max-width: 1080px) {
+  :root {
+    --topbar-h: 64px;
+  }
+}
+@media (max-width: 680px) {
+  :root {
+    --topbar-h: 56px;
+    --menu-nav-h: 46px;
+  }
+}
+
+/* ---------- Hero ----------
+   Foto-Hintergrund (Pizza) im Stil der Startseite — editoriales
+   Food-Motiv mit dunklem Lesbarkeits-Overlay. Gleiches Pattern wie
+   `.hero-bg` im Homepage-Hero (linear-gradient + url() + Filter).
+   ------------------------------------------------------------ */
+.menu-hero {
+  position: relative;
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 440px;
+  display: grid;
+  place-items: center;
+}
+.menu-hero .hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    /* Lesbarkeits-Overlay: oben moderat, mittig leicht, unten stärker für sauberen Übergang in die Sticky-Nav */
+    linear-gradient(180deg, rgba(13, 10, 7, .58) 0%, rgba(13, 10, 7, .32) 38%, rgba(13, 10, 7, .9) 100%),
+    /* Warmer Gold-Glow oben — bindet das Bild an die Marke */
+    radial-gradient(880px 540px at 50% 0%, rgba(212, 165, 42, .14), transparent 65%),
+    url("../assets/hero-doener.jpg") center / cover no-repeat,
+    var(--ink);
+  filter: saturate(1.06) contrast(1.04);
+}
+/* Filmkorn-Textur — leichter Vintage-Look, harmoniert mit dem Foto */
+.menu-hero .hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .18;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.menu-hero-inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 96px 32px 80px;
+  max-width: 880px;
+  margin: 0 auto;
+}
+.menu-hero .hero-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+}
+.menu-hero .hero-mark .ln {
+  width: 38px;
+  height: 1px;
+  background: var(--gold);
+}
+.menu-hero h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(56px, 7.4vw, 104px);
+  line-height: 1;
+  letter-spacing: -.022em;
+  color: var(--paper);
+  margin: 18px 0 12px;
+}
+.menu-hero h1 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold-soft);
+}
+.menu-hero .hero-sub {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(16px, 1.7vw, 20px);
+  color: var(--muted-d);
+  letter-spacing: -.005em;
+}
+
+/* ---------- Sticky Kategorien (typografisch, ohne Pillen) ----------
+   Sticky-Position SCHIEBT die Nav unter die Topbar (top: var(--topbar-h))
+   damit der fixe Header sichtbar bleibt — sonst überdeckt die Nav (z 60)
+   die Topbar (z 50) und der Hamburger ist beim Scrollen unerreichbar.
+   ---------------------------------------------------------------- */
+.menu-nav {
+  position: sticky;
+  top: var(--topbar-h);
+  z-index: 40;
+  background: rgba(13, 10, 7, .94);
+  backdrop-filter: saturate(1.4) blur(14px);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  border-top: 1px solid rgba(246, 239, 225, .06);
+  border-bottom: 1px solid rgba(246, 239, 225, .06);
+}
+.menu-nav-inner {
+  display: flex;
+  gap: 28px;
+  justify-content: safe center;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 8px 32px;
+  max-width: 1240px;
+  margin: 0 auto;
+  scroll-behavior: smooth;
+  /* Soft-Fade an den Rändern als Scroll-Affordance — zeigt subtil,
+     dass die Nav horizontal weitergeht, ohne Scrollbar einzublenden. */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 18px, #000 calc(100% - 18px), transparent 100%);
+}
+.menu-nav-inner::-webkit-scrollbar {
+  display: none;
+}
+.menu-nav a {
+  flex-shrink: 0;
+  font-family: var(--serif);
+  font-size: 17px;
+  letter-spacing: -.005em;
+  color: rgba(246, 239, 225, .55);
+  white-space: nowrap;
+  /* 12px vertikal -> ~44px Tap-Höhe (WCAG 2.5.5) */
+  padding: 12px 2px;
+  position: relative;
+  transition: color .15s;
+  /* iOS: kein blauer Tap-Highlight */
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) {
+  .menu-nav a:hover {
+    color: var(--paper);
+  }
+}
+.menu-nav a.is-active {
+  color: var(--gold);
+  font-style: italic;
+}
+.menu-nav a.is-active::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: 6px;
+  height: 1px;
+  background: var(--gold);
+}
+
+/* ---------- Sections ---------- */
+.menu-section {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 76px 0 44px;
+  /* Anker landen sauber UNTER Topbar + Sticky-Nav (kein cut-off des H2). */
+  scroll-margin-top: calc(var(--topbar-h) + var(--menu-nav-h) + 12px);
+}
+.menu-section:nth-of-type(even) {
+  background: var(--ink-2);
+}
+
+.menu-section-head {
+  margin-bottom: 32px;
+  max-width: 720px;
+}
+.menu-section-head h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(36px, 4.4vw, 54px);
+  line-height: 1.05;
+  letter-spacing: -.018em;
+  color: var(--paper);
+  margin-top: 12px;
+}
+.menu-section-head h2 i,
+.menu-section-head h2 em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold-soft);
+}
+.menu-section-head .section-meta {
+  margin-top: 16px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 16.5px;
+  color: rgba(246, 239, 225, .82);
+  letter-spacing: -.005em;
+  max-width: 720px;
+  line-height: 1.55;
+  position: relative;
+  padding-left: 16px;
+}
+.menu-section-head .section-meta::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .55em;
+  bottom: .55em;
+  width: 2px;
+  background: var(--gold);
+}
+.menu-section-head .section-meta b {
+  font-weight: 600;
+  font-style: italic;
+  color: var(--gold-soft);
+  white-space: nowrap;
+}
+
+/* Strukturierte Extras-Liste (z. B. Pizza Extra-Belag-Preise) */
+.section-extras {
+  margin-top: 16px;
+  max-width: 720px;
+  padding-left: 16px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 32px;
+}
+.section-extras::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  background: var(--gold);
+}
+.section-extras dt,
+.section-extras dd {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15.5px;
+  letter-spacing: -.005em;
+  line-height: 1.4;
+  padding: 5px 0;
+}
+.section-extras dt {
+  color: rgba(246, 239, 225, .82);
+}
+.section-extras dd {
+  color: var(--gold-soft);
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Info-Zeile direkt unter einem Subhead */
+.subhead-info {
+  margin: -2px 0 22px;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  letter-spacing: -.005em;
+  color: rgba(246, 239, 225, .8);
+  line-height: 1.5;
+  padding-left: 14px;
+  border-left: 2px solid var(--gold);
+  max-width: 720px;
+}
+.subhead-info b {
+  font-weight: 600;
+  color: var(--gold-soft);
+}
+
+/* Hervorgehobenes „Feature"-Item (z. B. Sauce-Zusatz-Preis) */
+.menu-item.menu-item-feature .num {
+  color: var(--gold);
+  font-style: normal;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  padding-top: 2px;
+}
+.menu-item.menu-item-feature .item-head h3 {
+  color: var(--paper);
+  font-size: 19px;
+}
+.menu-item.menu-item-feature .price {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 18.5px;
+}
+.menu-item.menu-item-feature .item-desc {
+  color: rgba(246, 239, 225, .72);
+  font-size: 13.5px;
+}
+
+/* ---------- Subgruppen (typografisch, ohne Linie) ---------- */
+.menu-subhead {
+  margin: 48px 0 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.menu-subhead:first-of-type {
+  margin-top: 0;
+}
+.menu-subhead h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -.005em;
+  color: var(--paper);
+}
+.menu-subhead h3 i {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold-soft);
+}
+.menu-subhead .subhead-meta {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--muted-d);
+  font-weight: 600;
+}
+
+/* ===========================================================
+   Liste — zwei Spalten wie in einer gedruckten Speisekarte
+   • Desktop ≥1081px: 2 Spalten, 64px Gap
+   • Tablet  681–1080: 2 Spalten, 40px Gap (denser, weniger Whitespace)
+   • Mobile  ≤680px:   1 Spalte
+   =========================================================== */
+.menu-list {
+  list-style: none;
+  column-count: 2;
+  column-gap: 64px;
+}
+@media (max-width: 1080px) {
+  .menu-list {
+    column-gap: 40px;
+  }
+}
+@media (max-width: 680px) {
+  .menu-list {
+    column-count: 1;
+  }
+}
+
+.menu-item {
+  break-inside: avoid;
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 14px;
+  padding: 12px 0 14px;
+  border-bottom: 1px solid rgba(246, 239, 225, .07);
+}
+
+.menu-item .num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 17px;
+  color: var(--gold);
+  text-align: right;
+  padding-top: 1px;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+}
+
+.menu-item .item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.menu-item .item-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: baseline;
+}
+.menu-item .item-head h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1.25;
+  letter-spacing: -.005em;
+  color: var(--paper);
+  /* Reservierter Raum hinter dem Namen für Allergen-Buchstaben */
+  padding-right: 4px;
+}
+
+/* Allergen-Marker — wird später mit Buchstaben befüllt
+   z. B. <sup class="allg">A · G · L</sup>                  */
+.allg {
+  display: inline-block;
+  margin-left: 6px;
+  font-family: var(--sans);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: .14em;
+  color: var(--muted-d);
+  vertical-align: 4px;
+  text-transform: uppercase;
+}
+.allg::before { content: "("; opacity: .5; margin-right: 2px; }
+.allg::after  { content: ")"; opacity: .5; margin-left: 2px; }
+.allg:empty {
+  display: none;
+}
+
+/* Single-Preis (rechts, einzeilig) */
+.menu-item .price {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 17px;
+  color: var(--gold-soft);
+  white-space: nowrap;
+  letter-spacing: -.01em;
+}
+
+/* Mehrere Größen — kompakt unter dem Titel
+   Zwei Layout-Modi:
+   • Wide (≥481px): inline-flex mit Border-Trenner zwischen Größen
+   • Narrow (≤480px): jede Größe eigene Zeile (Label · Wert) ohne
+     Border-Indent — kein Wrap-Versatz mehr beim 3. Eintrag.
+*/
+.menu-item .item-head:has(.prices) {
+  grid-template-columns: 1fr;
+}
+.menu-item .prices {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin-top: 4px;
+}
+.menu-item .prices .price-size {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.menu-item .prices .price-size + .price-size {
+  margin-left: 14px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(246, 239, 225, .14);
+}
+.menu-item .prices .price-label {
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 9.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted-d);
+  font-weight: 600;
+}
+.menu-item .prices .price-value {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--gold-soft);
+  white-space: nowrap;
+  letter-spacing: -.01em;
+}
+
+/* Tablet & Phone (≤1080px): Pizza-Preise je in eigener Zeile.
+   Bei 2-Spalten-Layout auf Tablets ist die Inner-Spaltenbreite zu
+   schmal für 3 horizontale Größen — die alten Border-Trenner
+   erzeugen sonst Wrap-Indents. Stacked + max-content-Label
+   liest sauber wie eine kleine Preistabelle.                  */
+@media (max-width: 1080px) {
+  .menu-item .prices {
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 6px;
+  }
+  .menu-item .prices .price-size {
+    display: grid;
+    grid-template-columns: max-content auto;
+    align-items: baseline;
+    gap: 12px;
+    width: 100%;
+  }
+  .menu-item .prices .price-size + .price-size {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
+  }
+  .menu-item .prices .price-label {
+    text-align: left;
+    white-space: nowrap;
+  }
+}
+
+/* Beschreibung & Notiz */
+.menu-item .item-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(246, 239, 225, .55);
+}
+.menu-item .item-meta {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13px;
+  letter-spacing: -.005em;
+  color: rgba(246, 239, 225, .72);
+  margin-top: 4px;
+  line-height: 1.45;
+}
+.menu-item .item-meta b {
+  font-weight: 600;
+  color: var(--gold-soft);
+  white-space: nowrap;
+}
+
+/* Badges — voll, kantig, klar lesbar */
+.badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 3px 8px 2px;
+  border-radius: 2px;
+  font-family: var(--sans);
+  font-size: 9.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  vertical-align: 3px;
+  line-height: 1;
+}
+.badge.neu {
+  background: var(--tomato);
+  color: #fff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .25);
+}
+.badge.hot {
+  background: var(--tomato);
+  color: #fff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .25);
+  /* Feuriger Verlauf für Schärfe-Marker */
+  background-image: linear-gradient(180deg, #d43922 0%, #a02414 100%);
+}
+.badge.veg {
+  background: transparent;
+  color: #9ad072;
+  border: 1px solid rgba(154, 208, 114, .85);
+}
+
+/* ===========================================================
+   Allergen-Block — am Seitenende, mit Platz für Buchstaben-
+   Legende. Wird vom Inhaber befüllt (z. B. „A — Glutenhaltig").
+   =========================================================== */
+.allergen-block {
+  background: var(--ink);
+  padding: 84px 0 110px;
+  border-top: 1px solid rgba(246, 239, 225, .07);
+}
+.allergen-block .wrap {
+  max-width: 980px;
+}
+.allergen-block .eyebrow {
+  color: var(--gold);
+}
+.allergen-block h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(30px, 3.6vw, 44px);
+  letter-spacing: -.018em;
+  color: var(--paper);
+  margin: 14px 0 18px;
+}
+.allergen-block h2 i {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold-soft);
+}
+.allergen-block p {
+  color: rgba(246, 239, 225, .68);
+  font-size: 14.5px;
+  line-height: 1.7;
+  max-width: 660px;
+  margin-bottom: 12px;
+}
+.allergen-block p a {
+  color: var(--gold);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.allergen-legend {
+  margin-top: 36px;
+  padding: 26px 30px;
+  border-left: 2px solid var(--gold);
+  background: rgba(26, 20, 16, .55);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px 32px;
+}
+.allergen-legend .key {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold);
+  margin-right: 6px;
+  display: inline-block;
+  min-width: 16px;
+}
+.allergen-legend .val {
+  color: rgba(246, 239, 225, .8);
+  font-size: 13.5px;
+}
+.allergen-legend .placeholder {
+  font-style: italic;
+  color: var(--muted-d);
+  font-size: 13.5px;
+  grid-column: 1 / -1;
+  padding: 4px 0;
+}
+
+/* Allergen-Codes neben dem Gerichtsnamen (z. B. „k, l, 1, 4, 5, 8").
+   Pflicht nach LMIV — verweisen auf die Legende am Seitenende. */
+.aller {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 11.5px;
+  letter-spacing: .04em;
+  color: rgba(212, 165, 42, .82);
+  font-family: var(--sans);
+  font-style: italic;
+  font-weight: 500;
+  vertical-align: 2px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.menu-item h3 .aller { font-style: italic; }
+@media (max-width: 680px) {
+  .aller { font-size: 11px; margin-left: 6px; }
+}
+
+/* Neue Allergen-Layout-Klassen — Pflicht-Information nach LMIV.
+   Zwei Spalten: Zusatzstoffe (1–8) links schmal, 14 Hauptallergene
+   (a–n) rechts breit. Beides Cormorant-Serif Headlines + Sans-Body. */
+.allergen-head {
+  margin-bottom: 28px;
+}
+.allergen-head h2 { margin-bottom: 10px; }
+
+.allergen-lede {
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: rgba(246, 239, 225, .7);
+  max-width: 720px;
+}
+.allergen-lede strong { color: var(--paper); font-weight: 600; }
+
+.allergen-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 18px 32px;
+  margin-top: 18px;
+  padding: 32px 36px;
+  background: linear-gradient(180deg, rgba(26, 20, 16, .55), rgba(13, 10, 7, .4));
+  border-left: 2px solid var(--gold);
+  border-radius: 0 4px 4px 0;
+}
+
+.allergen-col h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--gold-soft);
+  letter-spacing: .01em;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(212, 165, 42, .25);
+}
+
+.allergen-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: rgba(246, 239, 225, .8);
+  font-variant-numeric: tabular-nums;
+}
+.allergen-list--alpha { grid-template-columns: 1fr 1fr; gap: 6px 22px; }
+.allergen-list b {
+  color: var(--gold);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  margin-right: 8px;
+  display: inline-block;
+  min-width: 22px;
+}
+
+.allergen-notice {
+  margin-top: 28px;
+  padding: 20px 26px;
+  background: rgba(192, 48, 30, .08);
+  border-left: 2px solid var(--tomato);
+  border-radius: 0 4px 4px 0;
+}
+.allergen-notice p {
+  color: rgba(246, 239, 225, .82);
+  font-size: 13.5px;
+  line-height: 1.7;
+  margin-bottom: 10px;
+  max-width: none;
+}
+.allergen-notice p:last-child { margin-bottom: 0; }
+.allergen-notice strong { color: var(--paper); font-weight: 600; }
+
+@media (max-width: 900px) {
+  .allergen-grid {
+    grid-template-columns: 1fr;
+    padding: 26px 22px;
+  }
+  .allergen-list--alpha { grid-template-columns: 1fr 1fr; gap: 6px 16px; }
+}
+@media (max-width: 540px) {
+  .allergen-list--alpha { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   Responsive — synchron zu Homepage (1080px / 680px)
+   ============================================================ */
+
+/* ---------- Tablet & kleinere Desktops (≤1080px) ----------
+   Nav rückt an den linken Rand, Section-Padding moderat reduziert,
+   Menu-List behält 2 Spalten aber engerer Gap.                */
+@media (max-width: 1080px) {
+  .menu-hero {
+    min-height: 380px;
+  }
+  .menu-hero-inner {
+    padding: 88px 24px 64px;
+  }
+  .menu-section {
+    padding: 64px 0 36px;
+  }
+  .menu-nav-inner {
+    /* Nicht mehr zentriert, sondern linksbündig — wirkt auf
+       Tablets aufgeräumter als gestrandete Mitte. */
+    justify-content: flex-start;
+    padding: 6px 24px;
+    gap: 24px;
+  }
+  .menu-nav a {
+    font-size: 16px;
+  }
+  .allergen-block {
+    padding: 72px 0 96px;
+  }
+}
+
+/* ---------- Mobile (≤680px) ---------- */
+@media (max-width: 680px) {
+  .menu-hero {
+    min-height: 320px;
+  }
+  .menu-hero-inner {
+    padding: 64px 20px 48px;
+  }
+  .menu-hero h1 {
+    font-size: clamp(46px, 14vw, 72px);
+    margin: 12px 0 8px;
+  }
+
+  .menu-section {
+    padding: 48px 0 28px;
+  }
+  .menu-section-head {
+    margin-bottom: 22px;
+  }
+  .menu-section-head h2 {
+    font-size: clamp(30px, 8vw, 44px);
+    margin-top: 6px;
+  }
+  .menu-section-head .section-meta {
+    font-size: 15px;
+    margin-top: 12px;
+  }
+
+  .section-extras {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-left: 14px;
+  }
+  .section-extras dt,
+  .section-extras dd {
+    padding: 4px 0;
+    font-size: 14.5px;
+  }
+  .section-extras dt {
+    padding-top: 8px;
+  }
+  .section-extras dd {
+    text-align: left;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(246, 239, 225, .07);
+  }
+  .section-extras dt:first-of-type {
+    padding-top: 4px;
+  }
+
+  .menu-nav {
+    /* Etwas geringerer Backdrop-Blur — Performance-Win auf Mid-Range */
+    backdrop-filter: saturate(1.3) blur(10px);
+    -webkit-backdrop-filter: saturate(1.3) blur(10px);
+  }
+  .menu-nav-inner {
+    padding: 4px 20px;
+    gap: 20px;
+  }
+  .menu-nav a {
+    font-size: 15.5px;
+    padding: 11px 2px;
+  }
+
+  .menu-subhead {
+    margin: 32px 0 10px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .menu-subhead h3 {
+    font-size: 19px;
+  }
+  .menu-subhead .subhead-meta {
+    font-size: 9.5px;
+    letter-spacing: .2em;
+  }
+  .subhead-info {
+    font-size: 14px;
+    margin: 0 0 18px;
+    padding-left: 12px;
+  }
+
+  .menu-item {
+    grid-template-columns: 30px 1fr;
+    gap: 12px;
+    padding: 11px 0 13px;
+  }
+  .menu-item .num {
+    font-size: 14.5px;
+  }
+  .menu-item .item-head h3 {
+    font-size: 16px;
+    line-height: 1.28;
+  }
+  .menu-item .item-desc {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .menu-item .price,
+  .menu-item .prices .price-value {
+    font-size: 15.5px;
+  }
+  /* Single-Preis-Item: Title und Preis tauschen je nach Länge die
+     Reihenfolge — bei kurzem Title bleibt Preis rechts (default).
+     Bei langem Title (>50% Spalte) wrappt der Preis darunter. */
+  .menu-item .item-head:not(:has(.prices)) {
+    grid-template-columns: 1fr auto;
+    gap: 8px 14px;
+  }
+
+  /* Feature-Item etwas zurücknehmen — sonst zu dominant */
+  .menu-item.menu-item-feature .num {
+    font-size: 19px;
+  }
+  .menu-item.menu-item-feature .item-head h3 {
+    font-size: 17px;
+  }
+
+  .badge {
+    font-size: 9px;
+    padding: 3px 7px 2px;
+    margin-left: 6px;
+    vertical-align: 2px;
+  }
+
+  .allergen-block {
+    padding: 56px 0 72px;
+  }
+  .allergen-block h2 {
+    font-size: clamp(26px, 7vw, 38px);
+  }
+  .allergen-block p {
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .allergen-legend {
+    margin-top: 28px;
+    padding: 18px 20px;
+    grid-template-columns: 1fr;
+    gap: 6px 0;
+  }
+}
+
+/* ---------- Sehr enge Phones / Fold-Cover (≤380px) ----------
+   Galaxy Z Fold 5 Cover (344px) ist die schmalste Vorschau.
+   Hier zählt jedes Pixel — Padding und Schriftgrößen weiter
+   straffen, ohne Lesbarkeit zu verlieren.                     */
+@media (max-width: 380px) {
+  .menu-hero {
+    min-height: 280px;
+  }
+  .menu-hero-inner {
+    padding: 52px 16px 40px;
+  }
+  .menu-hero h1 {
+    font-size: clamp(40px, 13vw, 56px);
+  }
+
+  .menu-section {
+    padding: 40px 0 24px;
+  }
+  .menu-section-head h2 {
+    font-size: clamp(26px, 8.5vw, 34px);
+  }
+
+  .menu-nav-inner {
+    padding: 4px 16px;
+    gap: 18px;
+  }
+  .menu-nav a {
+    font-size: 14.5px;
+  }
+
+  .menu-item {
+    grid-template-columns: 26px 1fr;
+    gap: 10px;
+  }
+  .menu-item .num {
+    font-size: 13.5px;
+  }
+  .menu-item .item-head h3 {
+    font-size: 15.5px;
+  }
+  .menu-item .price,
+  .menu-item .prices .price-value {
+    font-size: 14.5px;
+  }
+  .menu-item .item-desc {
+    font-size: 12.5px;
+  }
+
+  .badge {
+    font-size: 8.5px;
+    padding: 2px 6px 1px;
+    letter-spacing: .12em;
+  }
+
+  /* Pizza-Preis-Stack: minimaler Gap, Label bleibt max-content */
+  .menu-item .prices .price-size {
+    gap: 10px;
+  }
+}
+
+/* ---------- Landscape mit niedriger Höhe ----------
+   Phones im Querformat, Nest Hub (1024×600), Surface Duo
+   liegend. Hero NICHT als Fullscreen-Block — Inhalt soll
+   angerissen sein.                                            */
+@media (orientation: landscape) and (max-height: 600px) {
+  .menu-hero {
+    min-height: 240px;
+  }
+  .menu-hero-inner {
+    padding: 36px 24px 28px;
+  }
+  .menu-hero h1 {
+    font-size: clamp(32px, 6.5vw, 48px);
+    margin: 8px 0 4px;
+  }
+  .menu-section {
+    padding: 36px 0 24px;
+  }
+}

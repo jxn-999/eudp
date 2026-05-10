@@ -1,0 +1,271 @@
+/* ============================================================
+   Bewertungs-Komponente — Editorial Display + Quote-Rotator
+   Wird auf der Startseite (länglich, .standort-rating--wide)
+   und auf der Standort-Seite (kompakt, vertikal) verwendet.
+   ============================================================ */
+
+.standort-rating {
+  background: linear-gradient(180deg, rgba(26, 20, 16, .95) 0%, rgba(13, 10, 7, .95) 100%);
+  border: 1px solid rgba(246, 239, 225, .08);
+  border-radius: 6px;
+  padding: 32px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  color: var(--paper);
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+  position: relative;
+}
+.standort-rating:hover {
+  transform: translateY(-3px);
+  border-color: rgba(212, 165, 42, .35);
+  box-shadow: var(--shadow-md);
+}
+
+.standort-rating__cap {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 11px; letter-spacing: .26em; text-transform: uppercase;
+  font-weight: 700; color: var(--gold);
+}
+.standort-rating__cap::before {
+  content: ""; width: 24px; height: 1px;
+  background: currentColor; opacity: .55;
+}
+
+/* Header: Score + Sterne */
+.standort-rating__head {
+  display: flex;
+  align-items: flex-end;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.standort-rating__num {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(56px, 6vw, 80px);
+  line-height: .85;
+  color: var(--paper);
+  letter-spacing: -.02em;
+}
+.standort-rating__num em {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold);
+  font-size: .48em;
+  vertical-align: middle;
+}
+.standort-rating__head-r {
+  display: flex; flex-direction: column; gap: 5px;
+  padding-bottom: 6px;
+}
+.standort-rating__stars {
+  display: flex; gap: 4px;
+}
+.standort-rating__stars .srs {
+  width: 18px; height: 18px;
+  fill: var(--gold);
+  filter: drop-shadow(0 0 6px rgba(212, 165, 42, .25));
+}
+.standort-rating__stars .srs--half {
+  fill: url(#standort-half-star);
+  filter: none;
+}
+.standort-rating__sublabel {
+  font-size: 12px;
+  color: rgba(246, 239, 225, .55);
+  letter-spacing: .04em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Quote-Rotator-Bereich */
+.standort-rating__quote-wrap {
+  position: relative;
+  border-top: 1px solid rgba(246, 239, 225, .08);
+  padding-top: 20px;
+  overflow: hidden;
+  min-height: 130px;
+}
+.standort-rating__quote-track {
+  display: flex;
+  width: 100%;
+  transition: transform 550ms cubic-bezier(.5, 0, .15, 1);
+  will-change: transform;
+}
+.standort-rating__quote {
+  margin: 0;
+  flex: 0 0 100%;
+  min-width: 0;
+  display: flex; flex-direction: column; gap: 12px;
+  padding-left: 18px;
+  border-left: 2px solid rgba(212, 165, 42, .45);
+}
+
+.standort-rating__quote .srq-text {
+  font-family: var(--serif);
+  font-size: 16.5px;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.5;
+  color: rgba(246, 239, 225, .88);
+  display: block;
+  position: relative;
+}
+.standort-rating__quote .srq-text::before { content: "\201E"; color: var(--gold); margin-right: 1px; }
+.standort-rating__quote .srq-text::after  { content: "\201C"; color: var(--gold); margin-left: 1px; }
+
+.standort-rating__quote .srq-author {
+  display: inline-flex;
+  font-size: 12px;
+  font-style: normal;
+  letter-spacing: .04em;
+  color: rgba(246, 239, 225, .55);
+  font-family: var(--sans);
+}
+
+/* Pagination-Dots */
+.standort-rating__dots {
+  display: flex; gap: 8px;
+  align-self: flex-start;
+}
+.standort-rating__dots .srd {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(246, 239, 225, .2);
+  cursor: pointer;
+  padding: 0;
+  border: 0;
+  transition: background .2s, transform .2s, width .2s;
+}
+.standort-rating__dots .srd:hover { background: rgba(246, 239, 225, .4); }
+.standort-rating__dots .srd.is-active {
+  background: var(--gold);
+  width: 22px;
+  border-radius: 99px;
+}
+
+/* Footer: Google-Logo + CTA */
+.standort-rating__foot {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(246, 239, 225, .08);
+  margin-top: auto;
+}
+.standort-rating__google {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; color: rgba(246, 239, 225, .55);
+  letter-spacing: .04em;
+}
+.standort-rating__google svg { width: 16px; height: 16px; }
+.standort-rating__google-text {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: .04em;
+}
+.standort-rating__cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  font-weight: 700; color: var(--gold);
+  transition: color .15s;
+  white-space: nowrap;
+}
+.standort-rating__cta:hover { color: var(--gold-soft); }
+.standort-rating__cta svg { width: 12px; height: 12px; stroke: currentColor; }
+
+@media (max-width: 1080px) {
+  .standort-rating__google-text { display: none; }
+}
+
+@media (max-width: 720px) {
+  .standort-rating { padding: 26px 22px 20px; }
+  .standort-rating__head { gap: 16px; }
+  .standort-rating__quote .srq-text { font-size: 15px; }
+}
+
+/* ============================================================
+   Modifier: --wide
+   Längliches horizontales Layout für die Startseite —
+   Score links, Quote-Rotator mittig, Google-Footer rechts.
+   ============================================================ */
+.standort-rating--wide {
+  padding: 32px 36px;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(0, 2fr) minmax(180px, auto);
+  grid-template-areas:
+    "cap   cap   cap"
+    "head  quote foot";
+  gap: 24px 36px;
+  align-items: stretch;
+}
+.standort-rating--wide .standort-rating__cap {
+  grid-area: cap;
+}
+.standort-rating--wide .standort-rating__head {
+  grid-area: head;
+  align-content: center;
+  align-self: center;
+}
+.standort-rating--wide .standort-rating__quote-wrap {
+  grid-area: quote;
+  border-top: 0;
+  border-left: 1px solid rgba(246, 239, 225, .08);
+  padding: 0 0 0 28px;
+  min-height: 110px;
+  /* min-width: 0 → wichtig damit der Quote-Track nicht über die
+     Grid-Cell hinausläuft (klassischer Flex/Grid-Overflow-Bug). */
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.standort-rating--wide .standort-rating__dots {
+  margin-top: 14px;
+}
+.standort-rating--wide .standort-rating__foot {
+  grid-area: foot;
+  border-top: 0;
+  border-left: 1px solid rgba(246, 239, 225, .08);
+  padding: 0 0 0 24px;
+  margin-top: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 14px;
+}
+
+@media (max-width: 1080px) {
+  .standort-rating--wide {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "cap   cap"
+      "head  quote"
+      "foot  foot";
+    gap: 18px 28px;
+  }
+  .standort-rating--wide .standort-rating__foot {
+    border-left: 0;
+    border-top: 1px solid rgba(246, 239, 225, .08);
+    padding: 16px 0 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 720px) {
+  .standort-rating--wide {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "cap"
+      "head"
+      "quote"
+      "foot";
+    gap: 18px;
+    padding: 26px 22px;
+  }
+  .standort-rating--wide .standort-rating__quote-wrap {
+    border-left: 0;
+    border-top: 1px solid rgba(246, 239, 225, .08);
+    padding: 18px 0 0;
+  }
+}

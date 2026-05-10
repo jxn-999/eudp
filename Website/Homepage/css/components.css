@@ -1,0 +1,141 @@
+/* ============================================================
+   Components — wiederverwendbare Bausteine
+   .wrap, Buttons, Section-Title, Card-Basis
+   ============================================================ */
+
+/* Container */
+.wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* Section-Titel (Serif, groß) */
+.section-title {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(38px, 4.6vw, 60px);
+  letter-spacing: -.015em;
+  line-height: 1.05;
+  margin-top: 18px;
+  color: var(--paper);
+}
+.section-title i,
+.section-title em {
+  font-style: italic; font-weight: 500;
+  color: var(--gold-soft);
+}
+
+.section-lede {
+  color: rgba(246, 239, 225, .7);
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 440px;
+  padding-bottom: 6px;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 13px 22px;
+  border-radius: 6px;
+  font-weight: 600; font-size: 13px; letter-spacing: .04em;
+  transition: transform .15s, background .15s, color .15s, border-color .15s;
+}
+
+.btn-primary {
+  background: var(--action); color: #fff;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, .4);
+}
+.btn-primary:hover {
+  background: var(--action-2);
+  transform: translateY(-1px);
+}
+
+.btn-light { background: var(--paper); color: var(--ink); }
+.btn-light:hover { background: var(--gold); transform: translateY(-1px); }
+
+.btn-outline-light {
+  border: 1px solid rgba(246, 239, 225, .4);
+  color: var(--paper);
+}
+.btn-outline-light:hover {
+  background: var(--paper); color: var(--ink);
+  border-color: var(--paper);
+}
+
+.btn-outline-dark {
+  border: 1px solid rgba(246, 239, 225, .28);
+  color: var(--paper);
+}
+.btn-outline-dark:hover {
+  background: var(--gold); color: var(--ink);
+  border-color: var(--gold);
+}
+
+.btn-tomato { background: var(--tomato); color: #fff; }
+.btn-tomato:hover { background: var(--tomato-2); transform: translateY(-1px); }
+
+/* Bestell-CTA — strukturell identisch zu .btn-outline-light (Hero-Pendant rechts):
+   transparenter Inhalt, 1 px-Border. Nur in Gold statt Paper, plus weicher
+   Gold-Halo als „Glanz". Innenraum bleibt transparent — nichts wird gelb. */
+.btn-bestell {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  box-shadow:
+    0 0 0 3px rgba(212, 165, 42, .1),     /* dezenter Gold-Halo direkt um die Border */
+    0 0 24px rgba(212, 165, 42, .32);     /* weiches warmes Leuchten */
+}
+.btn-bestell:hover {
+  background: rgba(212, 165, 42, .08);    /* dezenter Gold-Tint erst beim Hover */
+  color: var(--gold-soft);
+  border-color: var(--gold-soft);
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 4px rgba(212, 165, 42, .16),
+    0 0 32px rgba(212, 165, 42, .5);
+}
+
+/* Mobile-Menu-Button (Hamburger) */
+.menu-btn {
+  display: none;
+  width: 42px; height: 42px;
+  border-radius: 6px;
+  border: 1px solid rgba(246, 239, 225, .25);
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 4px;
+}
+.menu-btn i {
+  display: block; width: 14px; height: 1.5px;
+  background: currentColor;
+}
+
+/* Card-Basis (für Info-Block-Karten) */
+.card {
+  background: linear-gradient(180deg, rgba(26, 20, 16, .95) 0%, rgba(13, 10, 7, .95) 100%);
+  border: 1px solid rgba(246, 239, 225, .08);
+  border-radius: 6px;
+  padding: 28px;
+  display: flex; flex-direction: column; gap: 18px;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+  position: relative;
+  color: var(--paper);
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(212, 165, 42, .45);
+}
+
+.card-cap {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 11px; letter-spacing: .26em; text-transform: uppercase;
+  font-weight: 700; color: var(--gold);
+}
+.card-cap-ic {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--gold); color: var(--ink);
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}

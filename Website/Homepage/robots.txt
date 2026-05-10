@@ -1,0 +1,7 @@
+# robots.txt — Euro Döner
+# TODO: Sitemap-URL bei finalem Domain-Setup verifizieren
+
+User-agent: *
+Allow: /
+
+Sitemap: https://www.eurodoenerclz.de/sitemap.xml

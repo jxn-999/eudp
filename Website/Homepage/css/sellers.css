@@ -1,0 +1,226 @@
+/* ============================================================
+   Top-Seller — beliebteste Gerichte
+   Bewusst HELLE Section („Showroom auf Pergament") als Bruch
+   im sonst dunklen Layout. Die einzelnen Karten bleiben dunkel
+   und stechen damit besonders hervor. Wirkt premium und
+   gibt der Seite Atemraum, ohne den Luxe-Charakter zu opfern.
+   ============================================================ */
+
+.sellers {
+  padding: 104px 0 104px;
+  background: var(--paper-2);
+  color: var(--ink);
+  position: relative;
+}
+.sellers::before {
+  content: ""; position: absolute; inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(13, 10, 7, .12) 50%, transparent 100%);
+}
+/* ::after-Trenner am unteren Rand entfernt — der diagonale
+   Sellers→Story-Übergang ist die saubere Bändchen-Naht jetzt. */
+
+/* In dieser hellen Section greifen wir auf dunkle Tinten-Töne zurück */
+.sellers .eyebrow { color: var(--gold-2); }
+.sellers .section-title { color: var(--ink); }
+.sellers .section-title i,
+.sellers .section-title em { color: var(--gold-2); }
+.sellers .section-lede { color: rgba(13, 10, 7, .65); }
+.sellers .section-lede b { color: var(--ink); font-weight: 600; }
+
+.sellers-head {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 40px;
+}
+
+.seller-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+/* Seller-Karten — bleiben DUNKEL.
+   Kontrast zum hellen Section-Background macht sie zu „Schaufenster-Objekten". */
+.seller {
+  background: linear-gradient(180deg, var(--ink-2) 0%, var(--ink) 100%);
+  border: 1px solid rgba(13, 10, 7, .08);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+  color: var(--paper);
+  /* Subtiler dunkler Schatten auf hellem Untergrund */
+  box-shadow: 0 12px 28px -16px rgba(13, 10, 7, .35);
+}
+.seller:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 24px 48px -22px rgba(13, 10, 7, .55),
+    0 0 0 1px rgba(212, 165, 42, .4);
+  border-color: rgba(212, 165, 42, .5);
+}
+
+/* Foto-Bereich — echtes <img> liegt darunter, Pseudo-Layer geben
+   den Editorial-Glanz/Schatten obendrauf. */
+.seller-photo {
+  aspect-ratio: 5/4;
+  position: relative;
+  overflow: hidden;
+}
+.seller-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 0;
+}
+.seller-photo::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(ellipse at 30% 25%, rgba(255, 255, 255, .12), transparent 55%);
+}
+.seller-photo::after {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, .4) 100%);
+}
+
+/* Pro-Item-Foto-Hintergründe */
+.seller-1 .seller-photo { background: radial-gradient(ellipse 70% 65% at 50% 45%, #e25c33 0%, #a82d10 45%, #4d1004 100%); }
+.seller-2 .seller-photo { background: radial-gradient(ellipse 70% 65% at 50% 45%, #d99347 0%, #82511e 45%, #2e1908 100%); }
+.seller-3 .seller-photo { background: radial-gradient(ellipse 70% 65% at 50% 45%, #e8c156 0%, #966f12 50%, #382806 100%); }
+.seller-4 .seller-photo { background: radial-gradient(ellipse 70% 65% at 50% 45%, #6f4022 0%, #3f2110 60%, #1a0d06 100%); }
+
+/* Badge oben links */
+.seller-badge {
+  position: absolute;
+  left: 14px; top: 14px;
+  z-index: 2;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(13, 10, 7, .85);
+  color: var(--gold);
+  backdrop-filter: blur(6px);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  border: 1px solid rgba(212, 165, 42, .4);
+}
+.seller-badge.alt {
+  background: var(--gold);
+  color: var(--ink);
+  border-color: var(--gold);
+}
+.seller-badge.new {
+  background: rgba(13, 10, 7, .85);
+  color: #a8c576;
+  border-color: rgba(168, 197, 118, .5);
+}
+
+/* Body */
+.seller-body {
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+.seller-name {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 23px;
+  letter-spacing: -.005em;
+  line-height: 1.15;
+  color: var(--paper);
+}
+.seller-desc {
+  font-size: 13px;
+  color: rgba(246, 239, 225, .6);
+  line-height: 1.55;
+  margin-top: 4px;
+}
+.seller-foot {
+  margin-top: auto;
+  padding-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(246, 239, 225, .08);
+}
+.seller-price {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1;
+  color: var(--gold);
+  letter-spacing: -.005em;
+}
+.seller-price small {
+  font-size: 13px;
+  color: rgba(246, 239, 225, .5);
+  margin-left: 2px;
+  font-family: var(--sans);
+  font-weight: 500;
+}
+.seller-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(246, 239, 225, .45);
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: color .2s, transform .2s;
+}
+.seller:hover .seller-arrow {
+  color: var(--gold);
+  transform: translateX(4px);
+}
+
+/* Section-Foot — auf hellem Hintergrund dunkler Text */
+.sellers-foot {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  color: rgba(13, 10, 7, .6);
+  font-size: 13.5px;
+}
+.sellers-foot b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* btn-outline-dark im hellen Sellers-Kontext: dunkle Border statt heller */
+.sellers .btn-outline-dark {
+  border-color: rgba(13, 10, 7, .28);
+  color: var(--ink);
+}
+.sellers .btn-outline-dark:hover {
+  background: var(--gold);
+  color: var(--ink);
+  border-color: var(--gold);
+}
+
+/* Mobile: Top-Seller in 2-Spalten-Grid (2x2). Vertikales Scrollen. */
+@media (max-width: 680px) {
+  .seller-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .sellers-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .sellers-foot .btn { width: 100%; justify-content: center; }
+}

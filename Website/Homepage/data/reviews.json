@@ -1,0 +1,26 @@
+{
+  "_comment": "Manuell gepflegte, statische Kopie öffentlicher Google-Bewertungen. DSGVO-konform: keine Profil-Bilder, keine Zeitangaben, Nachnamen auf Initial gekürzt. Quelle wird in der UI als Link auf das Google-Profil gesetzt.",
+  "rating": 4.5,
+  "scoreOutOf": 5,
+  "googleProfileUrl": "https://www.google.com/maps/place/Euro+D%C3%B6ner/@51.8055007,10.3340628,18.17z/data=!4m8!3m7!1s0x47a53bedcdfe8461:0x497853adf7ef78f1!8m2!3d51.8049764!4d10.3338243!9m1!1b1!16s%2Fg%2F1tsynsxn",
+  "reviews": [
+    {
+      "id": "matthias-s",
+      "author": "Matthias S.",
+      "stars": 5,
+      "quote": "Bei Schneefall durch Zufall reingestolpert. Ob Pizza oder Giros — sehr lecker. Für einen Imbiss wirklich gut."
+    },
+    {
+      "id": "fares-m",
+      "author": "Fares M.",
+      "stars": 5,
+      "quote": "Das Essen war köstlich, die Portionen großzügig. Personal sehr freundlich, Atmosphäre gemütlich und einladend — ich komme auf jeden Fall wieder."
+    },
+    {
+      "id": "fabi-s",
+      "author": "Fabi S.",
+      "stars": 5,
+      "quote": "Die Pizza ist super! Alle Zutaten frisch, der Teig fantastisch, Preis-Leistung top. Klare Empfehlung."
+    }
+  ]
+}

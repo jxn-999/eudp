@@ -1,0 +1,110 @@
+/* ============================================================
+   Legal-Pages — gemeinsames Styling für Impressum, Datenschutz,
+   AGB, Widerruf. Bewusst minimal, nüchtern, gut lesbar.
+   ============================================================ */
+
+body.legal {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.legal main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 96px 32px 64px;
+}
+
+.legal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 32px;
+  transition: color .15s;
+}
+.legal-back:hover { color: var(--ink); }
+
+.legal h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: clamp(34px, 4.4vw, 52px);
+  line-height: 1.1;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+
+.legal .updated {
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+.legal h2 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 24px;
+  margin-top: 40px;
+  margin-bottom: 12px;
+  color: var(--ink);
+}
+
+.legal h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 6px;
+}
+
+.legal p,
+.legal ul,
+.legal ol {
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: var(--ink-2);
+  margin-bottom: 14px;
+}
+
+.legal ul,
+.legal ol {
+  padding-left: 24px;
+}
+
+.legal a {
+  color: var(--tomato);
+  text-decoration: underline;
+  text-decoration-color: rgba(192, 48, 30, .35);
+  text-underline-offset: 3px;
+}
+.legal a:hover { text-decoration-color: var(--tomato); }
+
+.legal strong { font-weight: 600; }
+
+.legal .notice {
+  background: var(--paper-2);
+  border-left: 3px solid var(--gold);
+  padding: 16px 20px;
+  margin: 24px 0;
+  font-size: 14px;
+  color: var(--ink-2);
+  border-radius: 4px;
+}
+
+.legal .footer-mini {
+  margin-top: 64px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.legal .footer-mini a { color: var(--muted); text-decoration: none; }
+.legal .footer-mini a:hover { color: var(--ink); }

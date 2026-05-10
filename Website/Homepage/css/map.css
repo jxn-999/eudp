@@ -1,0 +1,121 @@
+/* ============================================================
+   Map — statisches OpenStreetMap-Bild aus 9 Tiles, -45° gedreht
+   Klick öffnet die echte Karte in neuem Tab.
+
+   Geo-Center: 51.8049868 N, 10.3337994 E (laut Nominatim das
+   eingetragene „Euro Döner" auf Adolph-Roemer-Straße 7).
+   Tile-Quelle: tile.openstreetmap.org (Standard-OSM-Stil,
+   international wiedererkennbar, mit Parkplatz-Symbolen).
+   Tile-Bereich (Zoom 18): x=138595–138597, y=86819–86821.
+   Marker-Pixel im 768×768-Grid: (472, 326) — exakt an dieser
+   Stelle wird gedreht, damit der Pin zentriert bleibt.
+   (Berechnet via Standard-Slippy-Map-Formel mit Python.)
+   ============================================================ */
+
+.map {
+  position: relative;
+  display: block;
+  height: 230px;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid rgba(246, 239, 225, .08);
+  background: var(--ink-2);
+  cursor: pointer;
+  text-decoration: none;
+  isolation: isolate;
+}
+
+/* Tile-Grid: 3 × 3 Tiles à 256 px = 768 × 768 px Gesamtbild.
+   Position so gewählt, dass der Marker-Pixel (472, 326) auf
+   dem Center der .map liegt. Rotation pivotiert um diesen Punkt. */
+.map-tiles {
+  position: absolute;
+  width: 768px;
+  height: 768px;
+  left: calc(50% - 472px);
+  top:  calc(50% - 326px);
+  display: grid;
+  grid-template-columns: repeat(3, 256px);
+  grid-template-rows:    repeat(3, 256px);
+  transform-origin: 472px 326px;
+  transform: rotate(-45deg);
+  user-select: none;
+  z-index: 1;
+}
+.map-tiles img {
+  display: block;
+  width: 256px;
+  height: 256px;
+  pointer-events: none;
+  user-select: none;
+  /* Leichte Sättigung damit Karte nicht zu blass wirkt */
+  filter: saturate(1.05);
+}
+
+/* Marker — bleibt aufrecht (außerhalb des rotierten Containers).
+   translate(-50%, -100%) setzt die Pin-Spitze (Bottom des SVG) exakt
+   auf den geographischen Punkt im Bild-Zentrum. */
+.map-marker {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26px;
+  height: 38px;
+  transform: translate(-50%, -100%);
+  z-index: 3;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .55));
+  pointer-events: none;
+}
+
+/* Attribution unten rechts — ODbL-Pflicht.
+   Bewusst zurückhaltend: klein, dezenter Kontrast,
+   für den Blick ohne Aufmerksamkeit nicht störend,
+   aber lesbar und anklickbar. */
+.map-attr {
+  position: absolute;
+  right: 3px;
+  bottom: 2px;
+  z-index: 4;
+  font-size: 8.5px;
+  line-height: 1;
+  color: rgba(255, 255, 255, .7);
+  background: rgba(0, 0, 0, .35);
+  padding: 1px 4px;
+  border-radius: 2px;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+/* Hover-Hint oben rechts — „Karte öffnen ↗" */
+.map-link-hint {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 4;
+  font-size: 10.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--paper);
+  background: rgba(13, 10, 7, .82);
+  padding: 5px 10px;
+  border-radius: 3px;
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity .2s, transform .2s;
+  pointer-events: none;
+}
+.map:hover .map-link-hint,
+.map:focus-visible .map-link-hint {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.map:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Reduced-Motion: Rotation unverändert (statisch), keine Animation
+   nötig — bei Wunsch hier abschalten. */

@@ -1,0 +1,204 @@
+/* ============================================================
+   Topbar — sticky, dunkel, mit Backdrop-Blur
+   ============================================================ */
+
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  background: rgba(13, 10, 7, .86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--paper);
+  border-bottom: 1px solid rgba(246, 239, 225, .06);
+  transition: background .25s, border-color .25s;
+  /* iOS Safe-Area: Topbar zieht ihren Hintergrund bis unter die
+     Dynamic Island, der Inhalt bleibt aber darunter sichtbar. */
+  padding-top: env(safe-area-inset-top);
+}
+.topbar.scrolled {
+  background: rgba(13, 10, 7, .96);
+  border-bottom-color: rgba(246, 239, 225, .1);
+}
+
+.top-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 18px 32px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(16px, 2vw, 32px);
+}
+
+/* Brand-Logo (Schriftzug) */
+.brand {
+  display: flex; flex-direction: column;
+  line-height: 1; gap: 4px;
+  white-space: nowrap;
+}
+.brand b {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+.brand i {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: .06em;
+  color: var(--gold);
+  margin-left: 1px;
+}
+
+/* Desktop-Nav */
+.nav {
+  display: flex; align-items: center; justify-content: center;
+  gap: clamp(18px, 2.4vw, 36px);
+  font-size: 12.5px; font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase;
+}
+.nav a {
+  position: relative; padding: 6px 0;
+  color: var(--paper); opacity: .78;
+  white-space: nowrap;
+  transition: opacity .15s;
+}
+.nav a:hover,
+.nav a.active,
+.nav a[aria-current="page"] { opacity: 1; }
+.nav a::after {
+  content: ""; position: absolute;
+  bottom: -2px; left: 50%; transform: translateX(-50%);
+  width: 0; height: 1px;
+  background: var(--gold);
+  transition: width .2s;
+}
+.nav a:hover::after,
+.nav a.active::after,
+.nav a[aria-current="page"]::after { width: 24px; }
+
+/* CTA-Bereich rechts */
+.top-cta {
+  display: flex; align-items: center; gap: 14px;
+}
+
+/* Bestellen-Button in der Topbar — kompaktere Variante des
+   .btn-bestell ohne den Hero-Glow, mit Nav-Link-Tipografie
+   (Uppercase + Letter-Spacing) damit er sich harmonisch
+   neben den Nav-Links einfügt. */
+.topbar .btn-bestell {
+  padding: 9px 18px;
+  font-size: 12px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-color: rgba(212, 165, 42, .5);
+  box-shadow: none;
+}
+.topbar .btn-bestell:hover {
+  background: rgba(212, 165, 42, .1);
+  color: var(--gold-soft);
+  border-color: var(--gold);
+  box-shadow: none;
+  transform: none;
+}
+.topbar .btn-bestell .ic {
+  width: 14px;
+  height: 14px;
+}
+
+.tel {
+  display: none;
+  align-items: center; gap: 8px;
+  font-size: 13px;
+  color: rgba(246, 239, 225, .78);
+  letter-spacing: .04em;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.tel:hover { color: var(--paper); }
+
+/* Desktop-Telefonnummer ab voller Topbar-Breite (über Mobile-Drawer-Schwelle) */
+@media (min-width: 1081px) {
+  .tel { display: inline-flex; }
+}
+
+/* Schmalere Topbar zwischen 1081–1280px:
+   Telefon wird ausgeblendet, damit Nav + Bestellen-Button atmen können.
+   Anrufen-Button bleibt im Hero und im Footer. */
+@media (max-width: 1280px) and (min-width: 1081px) {
+  .tel { display: none; }
+}
+
+/* Nav-Tel-Mobile + Nav-Bestell-Mobile: CTAs im aufgeklappten
+   Mobile-Drawer. Auf Desktop versteckt (dort gibt's bereits .tel
+   und .btn-bestell in der Topbar-CTA). */
+.nav-tel-mobile,
+.nav-bestell-mobile {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .nav-tel-mobile,
+  .nav-bestell-mobile {
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: .04em;
+    text-transform: none;
+    transition: background .15s, color .15s, border-color .15s;
+    min-height: 48px;
+    justify-content: center;
+  }
+
+  /* Anrufen-CTA: dezent, nur Border + Tint */
+  .nav-tel-mobile {
+    display: inline-flex;
+    margin-top: 10px;
+    background: rgba(212, 165, 42, .12);
+    border: 1px solid rgba(212, 165, 42, .35);
+    color: var(--gold) !important;
+  }
+  .nav-tel-mobile:hover {
+    background: rgba(212, 165, 42, .2);
+    color: var(--gold-soft) !important;
+    border-color: rgba(212, 165, 42, .55);
+  }
+
+  /* Bestellen-CTA: prominenter, voller Gold-Hintergrund */
+  .nav-bestell-mobile {
+    display: inline-flex;
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    color: var(--ink) !important;
+  }
+  .nav-bestell-mobile:hover {
+    background: var(--gold-soft);
+    border-color: var(--gold-soft);
+  }
+
+  .nav-tel-mobile::after,
+  .nav-bestell-mobile::after { display: none; }
+}
+
+/* Sobald die Nav im Mobile-Drawer steckt: CTA-Bereich (Hamburger) nach
+   rechts in die Ecke schieben — sonst sitzt der Button mittig in der
+   1fr-Spalte des Topbar-Grids. */
+@media (max-width: 1080px) {
+  .top-cta { justify-content: flex-end; }
+}
+
+/* Mobile-Header: nur Brand + Hamburger, Bestellen-Button aus Topbar
+   raus (er ist im Drawer als prominenter CTA). */
+@media (max-width: 680px) {
+  .topbar .btn-bestell { display: none; }
+  .top-inner { padding: 12px 18px; }
+  .brand b { font-size: 18px; letter-spacing: .16em; }
+  .brand i { font-size: 12px; }
+}

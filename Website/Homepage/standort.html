@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <meta name="theme-color" content="#0d0a07" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <title>Standort &amp; Anfahrt – Euro Döner | Adolph-Roemer-Str. 7, Clausthal-Zellerfeld</title>
+  <meta name="description" content="Euro Döner findest Du in der Adolph-Roemer-Straße 7, 38678 Clausthal-Zellerfeld. Täglich 11 – 23 Uhr geöffnet. Karte, Route, Telefon &amp; Anfahrt." />
+  <link rel="canonical" href="https://www.eurodoenerclz.de/standort" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+
+  <meta property="og:title" content="Standort &amp; Anfahrt – Euro Döner Clausthal-Zellerfeld" />
+  <meta property="og:description" content="Adolph-Roemer-Str. 7, 38678 Clausthal-Zellerfeld. Täglich 11–23 Uhr." />
+  <meta property="og:image" content="https://www.eurodoenerclz.de/assets/restaurant-aussen.jpg" />
+  <meta property="og:url" content="https://www.eurodoenerclz.de/standort" />
+  <meta property="og:type" content="restaurant.restaurant" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:site_name" content="Euro Döner" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "@id": "https://www.eurodoenerclz.de/#restaurant",
+    "name": "Euro Döner",
+    "alternateName": "Euro Döner Pizzeria",
+    "description": "Drehspieß, Pizza, Burger, Pasta & Salate seit 2012 in Clausthal-Zellerfeld.",
+    "url": "https://www.eurodoenerclz.de/",
+    "image": "https://www.eurodoenerclz.de/assets/Speisekarte/Doener.jpg",
+    "telephone": "+495323840230",
+    "priceRange": "€",
+    "servesCuisine": ["Turkish", "Pizza", "Mediterranean", "German"],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Adolph-Roemer-Straße 7",
+      "postalCode": "38678",
+      "addressLocality": "Clausthal-Zellerfeld",
+      "addressRegion": "NI",
+      "addressCountry": "DE"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 51.8049868,
+      "longitude": 10.3337994
+    },
+    "openingHoursSpecification": [{
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+      "opens": "11:00",
+      "closes": "23:00"
+    }],
+    "acceptsReservations": "False",
+    "hasMap": "https://www.openstreetmap.org/?mlat=51.8049868&mlon=10.3337994#map=19/51.8049868/10.3337994"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Startseite", "item": "https://www.eurodoenerclz.de/" },
+      { "@type": "ListItem", "position": 2, "name": "Kontakt",    "item": "https://www.eurodoenerclz.de/standort" }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/topbar.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+  <link rel="stylesheet" href="css/rating.css" />
+  <link rel="stylesheet" href="css/standort.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/reveal.css" />
+</head>
+
+<body data-screen-label="03 Standort">
+
+  <header class="topbar" id="topbar">
+    <div class="top-inner">
+      <a class="brand" href="index.html">
+        <b>Euro Döner</b>
+        <i>Pizzeria</i>
+      </a>
+
+      <nav class="nav">
+        <a href="speisekarte.html">Speisekarte</a>
+        <a href="index.html#story">Über uns</a>
+        <a href="galerie.html">Galerie</a>
+        <a href="standort.html" class="active" aria-current="page">Kontakt</a>
+        <a href="tel:+495323840230" class="nav-tel-mobile">
+          <svg class="ic" viewBox="0 0 24 24">
+            <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
+          </svg>
+          Anrufen · 0 53 23 / 84 02 30
+        </a>
+        <a href="index.html#order" class="nav-bestell-mobile">
+          <svg class="ic" viewBox="0 0 24 24">
+            <path d="M3 3h2l2.4 12.3a2 2 0 0 0 2 1.7h8.7a2 2 0 0 0 2-1.6L22 8H6"/>
+            <circle cx="9" cy="20" r="1.5"/>
+            <circle cx="18" cy="20" r="1.5"/>
+          </svg>
+          Online bestellen
+        </a>
+      </nav>
+
+      <div class="top-cta">
+        <a class="tel" href="tel:+495323840230">
+          <svg class="ic" viewBox="0 0 24 24">
+            <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
+          </svg>
+          0 53 23 / 84 02 30
+        </a>
+        <a class="btn btn-bestell" href="index.html#order">
+          <svg class="ic" viewBox="0 0 24 24">
+            <path d="M3 3h2l2.4 12.3a2 2 0 0 0 2 1.7h8.7a2 2 0 0 0 2-1.6L22 8H6"/>
+            <circle cx="9" cy="20" r="1.5"/>
+            <circle cx="18" cy="20" r="1.5"/>
+          </svg>
+          Bestellen
+        </a>
+        <button class="menu-btn" id="menuBtn" aria-label="Menü">
+          <i></i><i></i><i></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="standort-page">
+
+    <section class="standort-map" aria-label="Standort von Euro Döner auf der Karte">
+      <div
+        id="standort-leaflet"
+        class="standort-map__canvas"
+        role="application"
+        aria-label="Interaktive Karte: Adolph-Roemer-Straße 7, Clausthal-Zellerfeld"
+      ></div>
+
+      <a
+        id="standort-route"
+        class="standort-map__route"
+        href="https://www.openstreetmap.org/directions?to=51.8049868%2C10.3337994"
+        target="_blank"
+        rel="noopener"
+      >
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 12l9-9 9 9-9 9-9-9z"/>
+          <line x1="12" y1="3" x2="12" y2="13"/>
+          <polyline points="9 13 12 16 15 13"/>
+        </svg>
+        Route planen
+      </a>
+
+      <span class="standort-map__attr">
+        © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap-Mitwirkende</a>
+      </span>
+
+      <noscript>
+        <a class="standort-map__noscript" href="https://www.openstreetmap.org/?mlat=51.8049868&amp;mlon=10.3337994#map=18/51.8049868/10.3337994" target="_blank" rel="noopener">
+          Karte auf OpenStreetMap öffnen ↗
+        </a>
+      </noscript>
+    </section>
+
+    <section class="standort-info">
+      <div class="wrap">
+        <div class="standort-info__grid" data-reveal-stagger="100">
+
+          <article class="standort-info__card" data-reveal="up">
+            <span class="card-cap">
+              <span class="card-cap-ic">
+                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </span>
+              Adresse
+            </span>
+            <div class="addr">
+              <b>Adolph-Roemer-Straße 7</b>
+              38678 Clausthal-Zellerfeld
+            </div>
+            <a class="phone-big" href="tel:+495323840230" aria-label="Euro Döner anrufen">
+              0 53 23 / 84 02 30
+            </a>
+          </article>
+
+          <article class="standort-info__card" data-reveal="up">
+            <span class="card-cap">
+              <span class="card-cap-ic">
+                <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9"/>
+                  <path d="M12 7v5l3 2"/>
+                </svg>
+              </span>
+              Öffnungszeiten
+            </span>
+            <div class="hours-row"><b>Montag – Sonntag</b><span>11 – 23 Uhr</span></div>
+            <p class="standort-info__note">Auch an Feiertagen für Dich da. Letzte Bestellung 22:30 Uhr.</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="standort-trust">
+      <div class="wrap">
+        <div class="standort-trust__grid" data-reveal-stagger="120">
+
+          <figure class="standort-trust__photo" data-reveal="up">
+
+            <img
+              src="assets/restaurant-aussen.jpg"
+              alt="Euro Döner Restaurant in der Adolph-Roemer-Straße in Clausthal-Zellerfeld"
+              width="1280" height="960"
+              loading="lazy"
+              onerror="this.classList.add('is-missing')"
+            />
+            <figcaption class="standort-trust__photo-cap">Unser Restaurant von außen</figcaption>
+          </figure>
+
+          <article class="standort-rating" data-reveal="up" aria-labelledby="rating-cap">
+
+            <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+              <defs>
+                <linearGradient id="standort-half-star" x1="0" x2="1" y1="0" y2="0">
+                  <stop offset="50%" stop-color="#d4a52a"/>
+                  <stop offset="50%" stop-color="rgba(212,165,42,.25)"/>
+                </linearGradient>
+              </defs>
+            </svg>
+
+            <span class="standort-rating__cap" id="rating-cap">Bewertung</span>
+
+            <div class="standort-rating__head">
+              <div class="standort-rating__num" aria-label="4,5 von 5">
+                4,5<em>/5</em>
+              </div>
+              <div class="standort-rating__head-r">
+                <div class="standort-rating__stars">
+                  <svg class="srs" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+                  <svg class="srs" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+                  <svg class="srs" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+                  <svg class="srs" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+                  <svg class="srs srs--half" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg>
+                </div>
+                <div class="standort-rating__sublabel">Bewertungen auf Google</div>
+              </div>
+            </div>
+
+            <div class="standort-rating__quote-wrap" id="standort-quote">
+              <div class="standort-rating__quote-track" data-rotate-track>
+                <blockquote class="standort-rating__quote">
+                  <span class="srq-text">Bei Schneefall durch Zufall reingestolpert. Ob Pizza oder Giros — sehr lecker. Für einen Imbiss wirklich gut.</span>
+                  <cite class="srq-author">— Matthias S.</cite>
+                </blockquote>
+                <blockquote class="standort-rating__quote">
+                  <span class="srq-text">Das Essen war köstlich, die Portionen großzügig. Personal sehr freundlich, Atmosphäre gemütlich und einladend — ich komme auf jeden Fall wieder.</span>
+                  <cite class="srq-author">— Fares M.</cite>
+                </blockquote>
+                <blockquote class="standort-rating__quote">
+                  <span class="srq-text">Die Pizza ist super! Alle Zutaten frisch, der Teig fantastisch, Preis-Leistung top. Klare Empfehlung.</span>
+                  <cite class="srq-author">— Fabi S.</cite>
+                </blockquote>
+              </div>
+            </div>
+
+            <div class="standort-rating__dots" role="tablist" aria-label="Bewertungen wechseln">
+              <button type="button" class="srd is-active" data-rotate-dot data-index="0" aria-label="Bewertung 1 anzeigen"></button>
+              <button type="button" class="srd"           data-rotate-dot data-index="1" aria-label="Bewertung 2 anzeigen"></button>
+              <button type="button" class="srd"           data-rotate-dot data-index="2" aria-label="Bewertung 3 anzeigen"></button>
+            </div>
+
+            <div class="standort-rating__foot">
+              <span class="standort-rating__google" aria-label="Quelle: Google">
+                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.99.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                <span class="standort-rating__google-text">Quelle Google</span>
+              </span>
+              <a class="standort-rating__cta"
+                 href="https://www.google.com/maps/place/Euro+D%C3%B6ner/@51.8055007,10.3340628,18.17z/data=!4m8!3m7!1s0x47a53bedcdfe8461:0x497853adf7ef78f1!8m2!3d51.8049764!4d10.3338243!9m1!1b1!16s%2Fg%2F1tsynsxn"
+                 target="_blank" rel="noopener">
+                Bewertungen ansehen
+                <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <article class="standort-svc" data-reveal="up">
+            <span class="standort-svc__cap">Vor Ort &amp; Service</span>
+            <ul class="standort-svc__list">
+              <li class="standort-svc__row">
+                <span class="standort-svc__icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="6" r="3"/>
+                    <path d="M5 22v-4a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v4"/>
+                  </svg>
+                </span>
+                <span class="standort-svc__name">Sitzplätze</span>
+                <svg class="standort-svc__check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </li>
+              <li class="standort-svc__row">
+                <span class="standort-svc__icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 8h14l-1 12H6z"/>
+                    <path d="M9 8V5a3 3 0 0 1 6 0v3"/>
+                  </svg>
+                </span>
+                <span class="standort-svc__name">Take-away</span>
+                <svg class="standort-svc__check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </li>
+              <li class="standort-svc__row">
+                <span class="standort-svc__icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="8" width="13" height="8" rx="1"/>
+                    <path d="M15 11h4l3 3v2h-7"/>
+                    <circle cx="6" cy="18" r="2"/>
+                    <circle cx="18" cy="18" r="2"/>
+                  </svg>
+                </span>
+                <span class="standort-svc__name">Lieferung</span>
+                <svg class="standort-svc__check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+              </li>
+              <li class="standort-svc__row">
+                <span class="standort-svc__icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12a10 10 0 0 1 14 0"/>
+                    <path d="M8.5 15.5a5 5 0 0 1 7 0"/>
+                    <circle cx="12" cy="19" r="1"/>
+                  </svg>
+                </span>
+                <span class="standort-svc__name">Gäste-WLAN</span>
+                <span class="standort-svc__meta">kostenlos</span>
+              </li>
+              <li class="standort-svc__row">
+                <span class="standort-svc__icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="6" width="20" height="13" rx="2"/>
+                    <line x1="2" y1="11" x2="22" y2="11"/>
+                  </svg>
+                </span>
+                <span class="standort-svc__name">Kartenzahlung</span>
+                <span class="standort-svc__meta">ab 10 €</span>
+              </li>
+            </ul>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="standort-cta" id="order">
+      <div class="standort-cta__bg" aria-hidden="true"></div>
+
+      <div class="wrap">
+        <div class="standort-cta__inner" data-reveal="up">
+          <span class="eyebrow">Hunger?</span>
+          <h2 class="section-title">Jetzt bestellen oder<br><i>vorbeikommen.</i></h2>
+          <p class="standort-cta__lede">
+            Pizza, Döner, Burger, Pasta &mdash; frisch zubereitet.
+            Lieferung oder Abholung, ganz wie Du willst.
+          </p>
+          <div class="standort-cta__buttons">
+            <a class="btn btn-light" href="index.html#order">
+              <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 3h2l2.4 12.3a2 2 0 0 0 2 1.7h8.7a2 2 0 0 0 2-1.6L22 8H6"/>
+                <circle cx="9" cy="20" r="1.5"/>
+                <circle cx="18" cy="20" r="1.5"/>
+              </svg>
+              Online bestellen
+            </a>
+            <a class="btn btn-outline-light" href="tel:+495323840230">
+              <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>
+              </svg>
+              0 53 23 / 84 02 30
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-top" data-reveal-stagger="100">
+        <div class="foot-brand" data-reveal="up">
+          <div class="b-name">
+            <b>Euro Döner</b>
+            <i>Pizzeria</i>
+          </div>
+          <div class="addr-block">
+            Adolph-Roemer-Straße 7<br/>
+            38678 Clausthal-Zellerfeld<br/>
+            <a href="tel:+495323840230" style="color: var(--gold)">0 53 23 / 84 02 30</a>
+          </div>
+        </div>
+
+        <div data-reveal="up">
+          <div class="foot-cap">Restaurant</div>
+          <ul class="foot-list">
+            <li><a href="index.html#story">Über uns</a></li>
+            <li><a href="galerie.html">Galerie</a></li>
+            <li><a href="standort.html">Kontakt</a></li>
+          </ul>
+        </div>
+
+        <div data-reveal="up">
+          <div class="foot-cap">Bestellen</div>
+          <ul class="foot-list">
+            <li><a href="speisekarte.html">Speisekarte</a></li>
+            <li><a href="#" aria-disabled="true" class="link-pending" title="Folgt mit dem Online-Shop">Online-Shop</a></li>
+            <li><a href="speisekarte.html#allergene">Allergene</a></li>
+          </ul>
+        </div>
+
+        <div data-reveal="up">
+          <div class="foot-cap">Öffnungszeiten</div>
+          <div class="foot-hours">
+            <div class="row"><span>Restaurant</span><span>11 – 23 Uhr</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="foot-bottom">
+        <div>© 2026 Euro Döner · Alle Rechte vorbehalten</div>
+        <div class="legal">
+          <a href="impressum.html">Impressum</a>
+          <a href="datenschutz.html">Datenschutz</a>
+          <a href="#" aria-disabled="true" class="link-pending" title="Folgt mit der Bestellplattform">AGB</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="vendor/leaflet/leaflet.js" defer></script>
+  <script type="module" src="js/standort.js"></script>
+</body>
+</html>

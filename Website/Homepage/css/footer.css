@@ -1,0 +1,126 @@
+/* ============================================================
+   Footer — vier Spalten, dunkel
+   ============================================================ */
+
+footer {
+  background: var(--ink);
+  color: rgba(246, 239, 225, .62);
+  padding: 72px 0 0;
+  position: relative;
+  overflow: hidden;
+}
+footer::before {
+  content: ""; position: absolute; inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 30%, var(--gold) 70%, transparent 100%);
+  opacity: .4;
+}
+
+.foot-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.2fr;
+  gap: 36px;
+  padding-bottom: 48px;
+}
+
+/* Marken-Spalte (breit) */
+.foot-brand { max-width: 340px; }
+.foot-brand .b-name {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  gap: 5px;
+  margin-bottom: 18px;
+}
+.foot-brand .b-name b {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+.foot-brand .b-name i {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--gold);
+  letter-spacing: .06em;
+}
+.foot-brand p {
+  font-size: 13.5px;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+.foot-brand .addr-block {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--paper);
+  opacity: .85;
+}
+
+/* Spalten-Header */
+.foot-cap {
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+
+/* Link-Listen */
+.foot-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+.foot-list a {
+  font-size: 13.5px;
+  transition: color .15s;
+}
+.foot-list a:hover { color: var(--paper); }
+
+/* Heute-geöffnet-Block */
+.foot-hours .row {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(246, 239, 225, .08);
+  font-size: 13px;
+}
+.foot-hours .row span:last-child {
+  color: var(--paper);
+  font-weight: 600;
+}
+
+/* Bottom-Bar (Copyright + Legal) */
+.foot-bottom {
+  border-top: 1px solid rgba(246, 239, 225, .08);
+  /* iOS Safe-Area: Home-Indicator am unteren Rand soll nicht über
+     den Bottom-Text hängen. */
+  padding: 24px 0 calc(24px + env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: rgba(246, 239, 225, .4);
+}
+.foot-bottom .legal {
+  display: flex;
+  gap: 20px;
+}
+.foot-bottom .legal a:hover { color: var(--paper); }
+
+/* Noch nicht aktive Footer-Links (folgen mit dem Online-Shop) —
+   visuell zurückgenommen, damit User sie nicht für tot halten. */
+.link-pending {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.link-pending:hover {
+  text-decoration: none;
+}

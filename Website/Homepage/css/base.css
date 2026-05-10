@@ -1,0 +1,54 @@
+/* ============================================================
+   Base — Reset, Typografie, generische Utilities
+   ============================================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  /* Dunkle Hintergrundfarbe für die Overscroll-/Rubber-Band-Zonen
+     auf iOS Safari (oben über der Topbar bei Dynamic Island und
+     unten unter dem Footer). Die Section-Backgrounds überlagern
+     diesen Wert im normalen Layout. */
+  background: var(--ink);
+}
+
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--ink);
+  line-height: 1.6;
+  font-size: 15.5px;
+  -webkit-font-smoothing: antialiased;
+  /* Schutz gegen versehentliches horizontales Scrollen — falls eine
+     Sektion (z. B. Marquee oder Story-Bleed) breiter rendert als
+     der Viewport, soll das Dokument nicht insgesamt nach rechts
+     scrollbar werden. */
+  overflow-x: clip;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; background: none; color: inherit; border: 0; }
+img, svg { display: block; max-width: 100%; }
+
+/* Eyebrow — kleines Label über Section-Titles */
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 11px; letter-spacing: .32em; text-transform: uppercase;
+  font-weight: 600; color: var(--gold);
+}
+.eyebrow::before {
+  content: ""; width: 28px; height: 1px;
+  background: currentColor; opacity: .7;
+}
+
+/* Serif-Helper */
+.serif { font-family: var(--serif); font-weight: 600; letter-spacing: -.005em; }
+.it    { font-style: italic; font-weight: 500; }
+
+/* Icon-Klasse für inline SVGs */
+.ic {
+  width: 18px; height: 18px; flex-shrink: 0;
+  stroke-width: 1.6; stroke: currentColor; fill: none;
+  stroke-linecap: round; stroke-linejoin: round;
+}

@@ -1,0 +1,293 @@
+/* ============================================================
+   Info — Standort / Kontakt / Öffnungszeiten (3-Spalten-Block)
+   ============================================================ */
+
+.info {
+  padding: 104px 0 96px;
+  background: var(--ink);
+  color: var(--paper);
+  position: relative;
+}
+.info::before {
+  content: ""; position: absolute; inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(212, 165, 42, .4) 30%, rgba(212, 165, 42, .4) 70%, transparent 100%);
+}
+
+.info-head {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 48px;
+  align-items: end;
+  margin-bottom: 48px;
+}
+
+/* 2-Spalten-Grid auf Höhe einer Reihe: Standort-Karte links, Kontakt +
+   Öffnungszeiten rechts gestapelt in einer Karte. Bewertungs-Block
+   liegt darunter über die volle Breite (siehe rating.css --wide).
+   align-items: start → Cards fitten ihren Inhalt, statt sich gegenseitig
+   auf gleiche Höhe zu strecken (Map-Mosaik wäre sonst zu klein). */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+/* Wide-Rating direkt unter dem Grid — etwas Abstand zum Grid */
+.info-grid + .standort-rating--wide {
+  margin-top: 18px;
+}
+
+/* Card-Stack: Kontakt + Öffnungszeiten in einer Karte gestapelt */
+.card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  justify-content: space-between;
+}
+.card-stack__section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 0;
+}
+.card-stack__section + .card-stack__section {
+  border-top: 1px solid rgba(246, 239, 225, .08);
+  padding-top: 22px;
+  margin-top: 22px;
+}
+
+/* Map-Container: feste Höhe, damit das gerenderte 768×768-Tile-Mosaik
+   (mit -45°-Rotation aus map.css) den Container vollständig abdeckt.
+   Bei größerer Höhe würden in den Ecken graue Lücken entstehen.
+   Höhere Specificity (.info .map) damit map.css (später geladen)
+   die Höhe nicht überschreibt. */
+.info .map {
+  height: 320px;
+  flex: 0 0 auto;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  background: var(--ink-2);
+  border: 1px solid rgba(246, 239, 225, .06);
+}
+
+/* Adress-Block */
+.addr {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: rgba(246, 239, 225, .78);
+}
+.addr b {
+  display: block;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--paper);
+  margin-bottom: 2px;
+  font-family: var(--serif);
+  letter-spacing: .01em;
+}
+.addr-sub {
+  color: rgba(246, 239, 225, .5);
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+/* Telefon — Sans-Serif mit Tabellen-Ziffern (alle Zahlen gleich
+   breit) und moderater Größe, damit es sich zur kv-Liste darunter
+   bündig einfügt statt als „Display-Element" hervorzustechen. */
+.phone-big {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--gold);
+  letter-spacing: 0;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  transition: color .15s;
+}
+.phone-big:hover { color: var(--gold-soft); }
+
+/* Key-Value-Liste */
+.kv {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 11px 20px;
+  font-size: 13.5px;
+  color: rgba(246, 239, 225, .78);
+}
+.kv span {
+  color: rgba(246, 239, 225, .45);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+  font-weight: 600;
+}
+.kv b {
+  color: var(--paper);
+  font-weight: 500;
+}
+
+/* Öffnungszeiten-Reihen */
+.hours-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(246, 239, 225, .06);
+  font-size: 14px;
+  color: rgba(246, 239, 225, .78);
+}
+.hours-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.hours-row b { font-weight: 500; color: var(--paper); }
+.hours-row span { color: rgba(246, 239, 225, .62); }
+.hours-row.today {
+  margin: 0 -10px;
+  padding: 11px 12px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, rgba(212, 165, 42, .16) 0%, rgba(212, 165, 42, .06) 100%);
+  border-bottom: 0;
+  border-left: 2px solid var(--gold);
+}
+.hours-row.today b { color: var(--gold); }
+.hours-row.today span { color: var(--paper); }
+
+.hours-tag {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 7px 12px;
+  background: rgba(212, 165, 42, .12);
+  color: var(--gold);
+  font-size: 10.5px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 999px;
+  border: 1px solid rgba(212, 165, 42, .3);
+}
+
+/* ============================================================
+   Card-Split — Kontakt-Karte mit zwei Sektionen nebeneinander
+   (Telefon links · Google-Bewertung rechts)
+   ============================================================ */
+.card.card-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  /* Card-Default-Padding bleibt; gap wird durch internen Divider
+     ersetzt damit die Sektionen optisch klarer getrennt sind. */
+}
+
+.split-section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+/* Vertikale Trennlinie zwischen den zwei Sektionen */
+.card.card-split .split-section + .split-section {
+  border-left: 1px solid rgba(246, 239, 225, .08);
+  padding-left: 24px;
+  margin-left: 24px;
+}
+
+/* Auf schmaleren Karten / Mobile: untereinander stapeln */
+@media (max-width: 720px) {
+  .card.card-split {
+    grid-template-columns: 1fr;
+  }
+  .card.card-split .split-section + .split-section {
+    border-left: 0;
+    padding-left: 0;
+    margin-left: 0;
+    border-top: 1px solid rgba(246, 239, 225, .08);
+    padding-top: 18px;
+    margin-top: 4px;
+  }
+}
+
+/* Solides Card-Cap-Icon-Variante (Stern-Icon füllt voll, kein
+   Stroke) — wird für die Bewertungs-Sektion benutzt. */
+.card-cap-ic-solid {
+  background: var(--gold);
+  color: var(--ink);
+}
+.card-cap-ic-solid svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  display: block;
+}
+
+/* ============================================================
+   Rating-Stars — 4 volle + 1 halber Stern in Gold
+   ============================================================ */
+.rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.rating-stars .star {
+  width: 22px;
+  height: 22px;
+  fill: var(--gold);
+  flex-shrink: 0;
+}
+
+/* Halber Stern — zwei SVGs übereinander: leere Outline + halb
+   beschnittene goldene Füllung. */
+.star-half {
+  position: relative;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+.star-half .star {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.star-half .empty { fill: rgba(212, 165, 42, .25); }
+.star-half .fill  { fill: var(--gold); clip-path: inset(0 50% 0 0); }
+
+.rating-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13.5px;
+  color: rgba(246, 239, 225, .62);
+  letter-spacing: .02em;
+}
+.rating-meta b {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-size: 28px;
+  color: var(--paper);
+  letter-spacing: -.01em;
+  line-height: 1;
+}
+.rating-meta span {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  font-weight: 600;
+}
+
+/* Mobile: Info-Karten vertikal gestapelt (kein horizontaler Scroll).
+   Reihenfolge bleibt Standort → Kontakt → Öffnungszeiten. */
+@media (max-width: 680px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 14px;
+  }
+  .info-grid > .card,
+  .info-grid > .card:first-child {
+    grid-row: auto;
+    grid-column: auto;
+  }
+  .info-grid .map { min-height: 220px; }
+}

@@ -1,0 +1,75 @@
+/* ============================================================
+   Marquee — Trenner-Streifen mit zentriertem Speisekarten-Auszug
+   Statisch zentriert (keine Animation mehr).
+   Goldene Punkte links und rechts vom Text.
+   ============================================================ */
+
+.marquee {
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+  padding: 18px 0;
+  white-space: nowrap;
+  text-align: center;
+  border-top: 1px solid rgba(246, 239, 225, .08);
+  border-bottom: 1px solid rgba(246, 239, 225, .08);
+}
+
+.marquee-track {
+  display: block;
+}
+
+.marquee-track > span {
+  display: inline-block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: .08em;
+  color: var(--paper);
+  vertical-align: middle;
+}
+
+/* Wir brauchen nur eine Kopie — die zweite war für den Loop. */
+.marquee-track > span:nth-child(2) {
+  display: none;
+}
+
+/* Goldene Punkte vor und nach dem Text — als Inline-Pseudoelemente
+   Teil des zentrierten Span-Inhalts, sodass beim Resize alles
+   gemeinsam in der Mitte bleibt. */
+.marquee-track > span::before,
+.marquee-track > span::after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  position: relative;
+  top: -2px;
+}
+.marquee-track > span::before { margin-right: 36px; }
+.marquee-track > span::after  { margin-left: 36px; }
+
+/* Mobile: kompakter und mit per-vw skalierender Schriftgröße,
+   damit die Liste auch auf 320 px in einer Zeile bleibt. */
+@media (max-width: 680px) {
+  .marquee {
+    padding: 14px 8px;
+  }
+  .marquee-track > span {
+    font-size: clamp(8.5px, 3vw, 14px);
+    letter-spacing: 0;
+    line-height: 1.4;
+    max-width: 100%;
+  }
+  .marquee-track > span::before { margin-right: 8px; }
+  .marquee-track > span::after  { margin-left: 8px; }
+  .marquee-track > span::before,
+  .marquee-track > span::after {
+    width: 5px;
+    height: 5px;
+  }
+}

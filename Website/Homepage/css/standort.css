@@ -1,0 +1,530 @@
+/* ============================================================
+   Standort-Seite — eigenes Layout für /standort
+   Module-Grenzen klar geschnitten:
+     1 · standort-map   → Leaflet-Hero
+     2 · standort-info  → Adresse + Öffnungszeiten
+     3 · standort-trust → Foto + Bewertung + Service-Pills
+     4 · standort-cta   → Bestellen + Anrufen
+   ============================================================ */
+
+/* Page-Wrapper: schiebt den Inhalt unter die fixed Topbar.
+   Werte spiegeln die Topbar-Höhe der responsive.css-Breakpoints. */
+.standort-page {
+  background: var(--ink);
+  color: var(--paper);
+  padding-top: 74px;
+  /* iOS-Safe-Area: zusätzlicher Abstand wenn das Display eine
+     Notch / Dynamic Island hat (Topbar trägt selbst safe-area-padding,
+     unten zieht dann ihre eigene Hintergrundfläche) */
+  padding-top: calc(74px + env(safe-area-inset-top));
+}
+@media (max-width: 1080px) { .standort-page { padding-top: calc(60px + env(safe-area-inset-top)); } }
+@media (max-width: 680px)  { .standort-page { padding-top: calc(54px + env(safe-area-inset-top)); } }
+
+/* ============================================================
+   1 · Karten-Hero
+   ============================================================ */
+.standort-map {
+  position: relative;
+  height: 65vh;
+  min-height: 480px;
+  width: 100%;
+  background: var(--ink-2);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.standort-map__canvas {
+  position: absolute;
+  inset: 0;
+  /* Leaflet selbst setzt Background, hier nur Fallback bevor Tiles laden */
+  background: var(--ink-2);
+}
+
+/* „Route planen" — schwebende Pill unten links.
+   Dunkler Halbtransparent-Background damit sie auf hellen Tile-Bereichen
+   genauso gut lesbar bleibt wie auf dunklen. */
+.standort-map__route {
+  position: absolute;
+  left: clamp(16px, 3vw, 32px);
+  bottom: clamp(16px, 3vw, 32px);
+  z-index: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: rgba(13, 10, 7, .82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(212, 165, 42, .55);
+  color: var(--paper);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  box-shadow:
+    0 0 0 3px rgba(212, 165, 42, .08),
+    0 8px 24px rgba(0, 0, 0, .5);
+  transition: transform .15s, background .15s, border-color .15s;
+}
+.standort-map__route:hover {
+  background: rgba(13, 10, 7, .92);
+  border-color: var(--gold);
+  color: var(--gold-soft);
+  transform: translateY(-1px);
+}
+.standort-map__route .ic { width: 16px; height: 16px; }
+
+/* Attribution — ODbL-Pflicht. Klein, dezent, lesbar.
+   Höher als Leafleff-eigene Attribution, weil wir die per JS deaktivieren. */
+.standort-map__attr {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  z-index: 500;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, .82);
+  background: rgba(0, 0, 0, .42);
+  padding: 3px 7px;
+  border-radius: 3px;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+.standort-map__attr a { color: inherit; text-decoration: underline; }
+.standort-map__attr a:hover { color: var(--gold-soft); }
+
+/* NoScript-Fallback — nur sichtbar wenn JS aus.
+   Großer Klick-Bereich mittig, damit User die Karte trotzdem
+   in einem neuen Tab öffnen kann. */
+.standort-map__noscript {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--ink-2), var(--ink-3));
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: clamp(20px, 3vw, 32px);
+  letter-spacing: .02em;
+  font-weight: 600;
+}
+
+/* Leaflet-internes Attribution-Control verstecken — wir rendern
+   unsere eigene Attribution oben drüber. (Wird per JS auch
+   serverseitig auf attribution-control: false gesetzt, das hier
+   ist Fallback falls die Option ignoriert wird.) */
+.standort-map .leaflet-control-attribution { display: none; }
+
+/* Custom Marker — orangefarbener Pin in Markenfarbe statt
+   blauer Default-Pin von Leaflet. Wird über DivIcon erzeugt
+   (siehe standort.js), Style-Hooks hier. */
+.standort-marker {
+  width: 32px;
+  height: 42px;
+  background: transparent;
+  border: 0;
+}
+.standort-marker__pin {
+  width: 32px;
+  height: 42px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .55));
+}
+
+/* ============================================================
+   Map-Popup — überschreibt Leaflets Default-Weiß durch
+   den warmen Dark-Theme der Site.  Pfeil-Tip wird mit
+   ::before/::after im Popup-Container nachgebaut, weil
+   Leaflet das Tip-Image hartcodiert.
+   ============================================================ */
+.standort-popup-wrap .leaflet-popup-content-wrapper {
+  background: linear-gradient(180deg, rgba(26, 20, 16, .98) 0%, rgba(13, 10, 7, .98) 100%);
+  color: var(--paper);
+  border-radius: 8px;
+  border: 1px solid rgba(212, 165, 42, .35);
+  box-shadow:
+    0 0 0 3px rgba(212, 165, 42, .08),
+    0 14px 32px rgba(0, 0, 0, .55);
+  padding: 0;
+}
+.standort-popup-wrap .leaflet-popup-content {
+  margin: 12px 14px;
+  font-family: var(--sans);
+  line-height: 1.45;
+}
+.standort-popup-wrap .leaflet-popup-tip {
+  background: rgba(13, 10, 7, .98);
+  border: 1px solid rgba(212, 165, 42, .35);
+  border-top: 0;
+  border-left: 0;
+  box-shadow: none;
+}
+
+/* Popup-Layout: Foto links (klein, 56 px square), Text rechts.
+   Kompakte Infobox — nur Name + Adresse, nichts weiter. */
+.standort-popup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.standort-popup__media {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(212, 165, 42, .25);
+}
+.standort-popup__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.standort-popup__body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.standort-popup__name {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: .03em;
+  color: var(--paper);
+  line-height: 1.15;
+}
+.standort-popup__addr {
+  font-size: 12px;
+  color: rgba(246, 239, 225, .68);
+  line-height: 1.4;
+}
+
+/* Mobile: Karte etwas niedriger, damit auf 16:9-Phones der
+   Trust-Block über den Fold rutscht. */
+@media (max-width: 680px) {
+  .standort-map { height: 58vh; min-height: 360px; }
+  .standort-map__route {
+    padding: 10px 16px;
+    font-size: 12px;
+    left: 12px;
+    bottom: 12px;
+  }
+}
+
+/* ============================================================
+   2 · Info-Bar (Adresse + Öffnungszeiten)
+   ============================================================ */
+.standort-info {
+  padding: 80px 0 72px;
+  background: var(--ink);
+}
+
+.standort-info__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 18px;
+}
+
+.standort-info__card {
+  background: linear-gradient(180deg, rgba(26, 20, 16, .95) 0%, rgba(13, 10, 7, .95) 100%);
+  border: 1px solid rgba(246, 239, 225, .08);
+  border-radius: 6px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+  color: var(--paper);
+}
+.standort-info__card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(212, 165, 42, .35);
+  box-shadow: var(--shadow-md);
+}
+
+.standort-info__note {
+  font-size: 13px;
+  color: rgba(246, 239, 225, .55);
+  line-height: 1.55;
+  margin-top: 4px;
+}
+
+@media (max-width: 720px) {
+  .standort-info { padding: 56px 0 48px; }
+  .standort-info__grid { grid-template-columns: 1fr; gap: 14px; }
+  .standort-info__card { padding: 24px; }
+}
+
+/* ============================================================
+   3 · Trust-Block (Außenfoto · Bewertung · Service-Pills)
+   ============================================================ */
+.standort-trust {
+  padding: 0 0 80px;
+  background: var(--ink);
+}
+
+.standort-trust__grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1.2fr;
+  gap: 18px;
+  align-items: stretch;
+}
+
+/* Foto */
+.standort-trust__photo {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid rgba(246, 239, 225, .08);
+  /* Fallback-Hintergrund — wird sichtbar wenn das Bild fehlt
+     (img.is-missing) oder die Quelle 404 zurückgibt. */
+  background:
+    linear-gradient(135deg, rgba(58, 14, 16, .6), rgba(13, 10, 7, .9)),
+    radial-gradient(circle at 25% 80%, rgba(212, 165, 42, .25), transparent 50%);
+  background-color: var(--bordeaux);
+  min-height: 280px;
+}
+.standort-trust__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  transition: transform .6s ease;
+}
+.standort-trust__photo:hover img { transform: scale(1.03); }
+
+.standort-trust__photo img.is-missing {
+  /* Bild fehlt: ausblenden, Caption übernimmt die Erklärung. */
+  display: none;
+}
+.standort-trust__photo img.is-missing + .standort-trust__photo-cap::before {
+  content: "Foto folgt — ";
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.standort-trust__photo-cap {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 14px 18px;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, .72));
+  color: var(--paper);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: .02em;
+  font-family: var(--serif);
+  font-style: italic;
+}
+
+/* ============================================================
+   Bewertung — Editorial-Display-Karte mit Quote-Rotator.
+   Header: große Cormorant-Serif-Zahl + Sterne-Strip
+   Body:   eine von 3 Bewertungen, JS rotiert (siehe standort.js)
+   Foot:   Google-Logo + „Auf Google ansehen"-Link
+   ============================================================ */
+/* Bewertungs-Komponente liegt in css/rating.css — wird hier nicht mehr definiert. */
+
+/* ============================================================
+   Service-Block — Highlight-Reihen mit Kreis-Icons + Detail-Spalte
+   ============================================================ */
+.standort-svc {
+  background: linear-gradient(180deg, rgba(26, 20, 16, .95) 0%, rgba(13, 10, 7, .95) 100%);
+  border: 1px solid rgba(246, 239, 225, .08);
+  border-radius: 6px;
+  padding: 26px 26px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  color: var(--paper);
+  transition: transform .25s, border-color .25s, box-shadow .25s;
+}
+.standort-svc:hover {
+  transform: translateY(-3px);
+  border-color: rgba(212, 165, 42, .35);
+  box-shadow: var(--shadow-md);
+}
+
+.standort-svc__cap {
+  display: inline-flex; align-items: center; gap: 12px;
+  font-size: 11px; letter-spacing: .26em; text-transform: uppercase;
+  font-weight: 700; color: var(--gold);
+}
+.standort-svc__cap::before {
+  content: ""; width: 24px; height: 1px;
+  background: currentColor; opacity: .55;
+}
+
+.standort-svc__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.standort-svc__row {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(246, 239, 225, .06);
+}
+.standort-svc__row:last-child { border-bottom: 0; }
+
+.standort-svc__icon {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(212, 165, 42, .1);
+  display: grid; place-items: center;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.standort-svc__icon svg { display: block; }
+
+.standort-svc__name {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: rgba(246, 239, 225, .92);
+  letter-spacing: .005em;
+}
+
+.standort-svc__check {
+  color: var(--gold);
+  opacity: .82;
+  display: block;
+}
+
+/* Detail-Text rechts neben dem Service-Namen — bewusst KEIN Pill/Badge:
+   schlichter, dezent gefärbter Text.  Pills/Boxes nur für echte
+   kategorische Marker, nicht für reine Detail-Hinweise. */
+.standort-svc__meta {
+  font-size: 12px;
+  color: rgba(246, 239, 225, .55);
+  letter-spacing: .04em;
+  font-weight: 500;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 720px) {
+  .standort-svc { padding: 22px 22px 14px; }
+  .standort-svc__row { padding: 11px 0; gap: 12px; }
+  .standort-svc__icon { width: 32px; height: 32px; }
+  .standort-svc__name { font-size: 13.5px; }
+}
+
+/* Mobile-Stack */
+@media (max-width: 1080px) {
+  .standort-trust__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .standort-trust__photo { grid-column: 1 / -1; }
+}
+@media (max-width: 720px) {
+  .standort-trust { padding: 0 0 56px; }
+  .standort-trust__grid { grid-template-columns: 1fr; }
+  .standort-trust__photo { min-height: 220px; }
+  .standort-trust__rating,
+  .standort-trust__services { padding: 22px; }
+  .standort-pill { font-size: 11px; padding: 6px 11px; }
+}
+
+/* ============================================================
+   4 · CTA-Block — Foto-Hero mit Gradient-Overlay
+   Pizza-Foto im Hintergrund, dunkler Diagonal-Gradient drüber,
+   Headline + Subtext + Buttons mittig zentriert.
+   ============================================================ */
+.standort-cta {
+  position: relative;
+  padding: 120px 0 140px;
+  isolation: isolate;
+  border-top: 1px solid rgba(246, 239, 225, .06);
+  overflow: hidden;
+  color: var(--paper);
+}
+.standort-cta::before {
+  /* Gold-Gradient-Linie oben — bleibt als sanfter Abschluss zur
+     vorherigen Sektion, sitzt über dem Bg. */
+  content: ""; position: absolute; inset: 0 0 auto 0;
+  height: 1px;
+  z-index: 1;
+  background: linear-gradient(90deg, transparent 0%, rgba(212, 165, 42, .35) 30%, rgba(212, 165, 42, .35) 70%, transparent 100%);
+}
+
+/* Hintergrund-Layer: Pizza-Foto + dunkler Diagonal-Gradient drüber.
+   Ken-Burns-artiges leichtes Scale damit das Foto „lebt", ohne
+   abzulenken — nur einmaliges, langes Easing. */
+.standort-cta__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(135deg, rgba(13, 10, 7, .9) 0%, rgba(13, 10, 7, .55) 55%, rgba(13, 10, 7, .9) 100%),
+    url('../assets/pizza.jpg');
+  background-size: cover;
+  background-position: center;
+  animation: cta-bg-pan 22s ease-out both;
+}
+@keyframes cta-bg-pan {
+  from { transform: scale(1.06); }
+  to   { transform: scale(1);    }
+}
+
+.standort-cta__inner {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.standort-cta__inner .eyebrow {
+  color: var(--gold);
+  /* Vor dem dunklen-Foto-Hintergrund braucht's etwas mehr Kontrast
+     als bei dunkler-flat-Section — daher Gold statt Tomato. */
+}
+.standort-cta__inner .section-title {
+  font-size: clamp(36px, 5vw, 60px);
+  margin-top: 8px;
+  /* Subtle Text-Shadow für Lesbarkeit auf bewegtem Foto */
+  text-shadow: 0 2px 24px rgba(0, 0, 0, .4);
+}
+
+.standort-cta__lede {
+  font-size: 15px;
+  color: rgba(246, 239, 225, .82);
+  line-height: 1.6;
+  max-width: 460px;
+  margin-top: 4px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, .35);
+}
+
+.standort-cta__buttons {
+  margin-top: 14px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.standort-cta__buttons .btn { padding: 16px 28px; font-size: 14px; }
+.standort-cta__buttons .btn-light {
+  box-shadow: 0 4px 18px rgba(0, 0, 0, .35);
+}
+.standort-cta__buttons .btn-light:hover {
+  box-shadow: 0 6px 22px rgba(0, 0, 0, .45);
+}
+
+@media (max-width: 680px) {
+  .standort-cta { padding: 80px 0 96px; }
+  .standort-cta__buttons { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; }
+  .standort-cta__buttons .btn { justify-content: center; }
+}
+
+/* Reduced-Motion: Hintergrund nicht panen */
+@media (prefers-reduced-motion: reduce) {
+  .standort-cta__bg { animation: none; transform: none; }
+}

@@ -1,0 +1,184 @@
+/* ============================================================
+   Hero — dunkler, kinematischer Hintergrund mit Foto-Overlay
+   ============================================================ */
+
+.hero {
+  position: relative;
+  min-height: 780px;
+  padding: 0;
+  display: grid; place-items: center;
+  overflow: hidden;
+  background: #0a0703;
+  color: var(--paper);
+}
+
+/* Foto-Hintergrund (warmes Food-Motiv) */
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    /* Etwas leichter als zuvor, damit das Foto mehr durchatmet —
+       trotzdem genug Verdunkelung für Lesbarkeit der Headline */
+    linear-gradient(180deg, rgba(10, 7, 3, .4) 0%, rgba(10, 7, 3, .3) 40%, rgba(10, 7, 3, .58) 100%),
+    url("../assets/Speisekarte/Doener.jpg") center / cover no-repeat;
+  filter: saturate(1.08) contrast(1.05);
+}
+
+/* Bokeh-Punkte (warme hängende Lichter, dekorativ) */
+.hero-bg::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle 90px at 12% 28%, rgba(255, 189, 89, .34), transparent 70%),
+    radial-gradient(circle 70px at 28% 18%, rgba(255, 167, 73, .28), transparent 70%),
+    radial-gradient(circle 110px at 88% 32%, rgba(255, 189, 89, .32), transparent 70%),
+    radial-gradient(circle 60px at 70% 22%, rgba(255, 160, 80, .26), transparent 70%),
+    radial-gradient(circle 80px at 50% 14%, rgba(255, 189, 89, .18), transparent 70%);
+  filter: blur(2px);
+}
+
+/* Filmkorn-Textur */
+.hero-bg::after {
+  content: ""; position: absolute; inset: 0;
+  opacity: .22; mix-blend-mode: overlay; pointer-events: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Vignette für Lesbarkeit — bewusst dezenter gehalten,
+   sodass das Hero-Foto mehr Charakter zeigt */
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background:
+    radial-gradient(ellipse at 50% 55%, rgba(0, 0, 0, .0) 0%, rgba(0, 0, 0, .32) 60%, rgba(0, 0, 0, .55) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, .4) 0%, rgba(0, 0, 0, .12) 32%, rgba(0, 0, 0, .35) 100%);
+}
+
+.hero-inner {
+  position: relative; z-index: 2;
+  text-align: center;
+  padding: 160px 32px 110px;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-mark {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; letter-spacing: .34em; text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 32px;
+}
+.hero-mark .ln {
+  width: 22px; height: 1px;
+  background: currentColor; opacity: .7;
+  margin-right: -2px;
+}
+.hero-mark .crest {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  display: grid; place-items: center;
+  font-family: var(--serif);
+  font-style: italic; font-size: 18px;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1;
+  padding-bottom: 2px;
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-weight: 600;
+  /* clamp Untergrenze gegenüber dem alten Wert leicht reduziert,
+     damit der jetzt längere SEO-H1 („Döner & Pizza in Clausthal-Zellerfeld …")
+     auf mittleren Viewports nicht zu eng wird. */
+  font-size: clamp(44px, 6.4vw, 96px);
+  line-height: 1.05;
+  letter-spacing: -.015em;
+  color: var(--paper);
+  text-shadow: 0 2px 30px rgba(0, 0, 0, .4);
+}
+.hero h1 i {
+  font-style: italic; font-weight: 500;
+  color: var(--gold-soft);
+  display: block;
+}
+.hero h1 em {
+  font-style: italic; font-weight: 500;
+  color: var(--gold-soft);
+  font-family: var(--serif);
+}
+
+.hero-sub {
+  margin-top: 26px;
+  font-size: 15px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(246, 239, 225, .78);
+  font-weight: 500;
+}
+.hero-sub b { color: var(--paper); font-weight: 600; }
+.hero-sub .dot { color: var(--gold); margin: 0 12px; }
+
+.hero-cta {
+  display: flex; gap: 16px;
+  justify-content: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.hero-cta .btn {
+  padding: 16px 30px;
+  font-size: 13.5px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.hero-meta {
+  position: absolute; bottom: 32px; left: 0; right: 0; z-index: 3;
+  display: flex; justify-content: space-between;
+  gap: 28px; flex-wrap: wrap;
+  padding: 0 48px;
+  font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(246, 239, 225, .62);
+  font-weight: 500;
+}
+.hero-meta span {
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.hero-meta .live {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #7cce85;
+  box-shadow: 0 0 0 0 rgba(124, 206, 133, .5);
+  animation: pulse 2.4s infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(124, 206, 133, .5); }
+  70%  { box-shadow: 0 0 0 8px rgba(124, 206, 133, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(124, 206, 133, 0); }
+}
+.hero-meta b { color: var(--paper); font-weight: 600; letter-spacing: .18em; }
+.hero-meta a { color: var(--gold); transition: color .15s; }
+.hero-meta a:hover { color: var(--gold-soft); }
+
+/* Seitliche Ornamente — weiche Lichtblobs (dekorativ) */
+.hero-orn {
+  position: absolute; z-index: 1;
+  border-radius: 50%;
+  filter: blur(.3px);
+  pointer-events: none;
+}
+.hero-orn-1 {
+  top: 8%; left: 6%; width: 140px; height: 140px;
+  background: radial-gradient(circle at 35% 30%, #ffbd59 0%, #c87a1d 35%, #4a2208 75%, transparent 90%);
+  box-shadow: 0 0 80px 12px rgba(255, 167, 73, .25);
+}
+.hero-orn-2 {
+  top: 14%; right: 8%; width: 180px; height: 180px;
+  background: radial-gradient(circle at 30% 28%, #ffbd59 0%, #b4661a 38%, #3a1908 78%, transparent 92%);
+  box-shadow: 0 0 100px 14px rgba(255, 167, 73, .22);
+}
+.hero-orn-3 {
+  top: 4%; left: 38%; width: 90px; height: 90px;
+  background: radial-gradient(circle at 30% 25%, #ffd07a 0%, #c8801c 40%, #3a1f08 80%, transparent 92%);
+  opacity: .7;
+}
